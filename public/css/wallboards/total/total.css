@@ -1,0 +1,38 @@
+	#DTH{
+		color:#6E52A3;
+		font-family:'Azo Sans Woso';
+		font-size:20px;
+		font-weight:bold;
+	}
+	#FTTH{
+		color:#4AA3EF;
+		font-family:'Azo Sans Woso';
+		font-size:20px;
+		font-weight:bold;
+	}
+	#HFC{
+		color:#66B830;
+		font-family:'Azo Sans Woso';
+		font-size:20px;
+		font-weight: bold;
+	}
+	#DST{
+		color:#D65B49;
+		font-family:'Azo Sans Woso';
+		font-size:20px;
+		font-weight:bold;
+	}
+	#Total{
+		color:#91ADc5;
+		font-family:'Azo Sans Woso';
+		font-size:20px;
+		font-weight:bold;
+	}
+.panel-default>.panel-heading p {
+	
+	color:#c2c1c7;
+	font-family:'Azo Sans Woso';
+	font-size:14px;
+	font-weight: bold
+
+}

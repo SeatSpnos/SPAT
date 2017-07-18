@@ -1,0 +1,112 @@
+ #timediv {
+    background: #fff;
+    text-align: center;
+    width: 170px;
+    color: #000;
+    border: 1px #ccc groove;
+    position: relative;
+    top: -60px;
+    right: -208px;
+    font-size: 15px;
+  }
+  .body_time{
+    background: #17c8e8;
+    padding: 100px;
+    width: 58px;
+    border-radius: 50%;
+    margin: 15% auto;
+
+  }
+
+  .table > tbody > tr > td {
+    
+    vertical-align: middle;
+    background-color: #dbdbdb;
+    border-top: 1px solid #fff;
+  }
+
+
+  body {
+    background-color: #dbdbdb;
+  }
+  table tbody tr td p {
+
+    font-size: 11px;
+    color:#5C5B5A;
+    font-family:'Azo Sans Woso';
+    font-weight: bold;
+    vertical-align: middle;
+    padding-top: 10px;
+    padding-left: 6px;
+
+  }
+   table tbody tr td i {
+
+    padding-top: 10px;
+
+  }
+
+  .container-fluid {
+
+    padding-left: 50px;
+    padding-right: 50px;
+
+  }
+
+  table thead th {
+
+    background-color: #333333;
+    color: white;
+
+  }
+
+  .relatorio {
+
+    background-color: white;
+
+  }
+
+
+  [name*="Incumprimento"]{
+    background-color: #444444;
+  }
+  [name*="execucao"]{
+    background-color: rgb(0,0,150);
+  }
+  [name*="realizada"]{
+    background-color: rgb(0,150,0);
+  }
+  [name*="cancelada"]{
+    background-color: rgb(150,0,0);
+  }
+
+  [name*="Incumprimento"] p,
+  [name*="execucao"] p,
+  [name*="realizada"] p,
+  [name*="cancelada"] p{
+    color: white;
+  }
+
+  .blink_text {
+
+  animation:1.5s blinker linear infinite;
+  -webkit-animation:1.5s blinker linear infinite;
+  -moz-animation:1.5s blinker linear infinite;
+  }
+
+  @-moz-keyframes blinker {  
+   0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
+   }
+
+  @-webkit-keyframes blinker {  
+   0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+   100% { opacity: 1.0; }
+   }
+
+  @keyframes blinker {  
+   0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+   100% { opacity: 1.0; }

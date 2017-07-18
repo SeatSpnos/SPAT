@@ -1,0 +1,91 @@
+.blink_text {
+
+		animation:2s blinker linear infinite;
+		-webkit-animation:2s blinker linear infinite;
+		-moz-animation:2s blinker linear infinite;
+
+		 color: red;
+		}
+
+		@-moz-keyframes blinker {  
+		 0% { opacity: 1.0; }
+		 50% { opacity: 0.0; }
+		 100% { opacity: 1.0; }
+		 }
+
+		@-webkit-keyframes blinker {  
+		 0% { opacity: 1.0; }
+		 50% { opacity: 0.0; }
+		 100% { opacity: 1.0; }
+		 }
+
+		@keyframes blinker {  
+		 0% { opacity: 1.0; }
+		 50% { opacity: 0.0; }
+		 100% { opacity: 1.0; }
+		 }
+
+		 #red {
+		 	color:#D65B49;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px; 
+		 	font-weight:bold 
+		 }
+
+		 #orange {
+		 	color:#DB932D ;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px; 
+		 	font-weight:bold
+		 }
+
+		 #yellow {
+		 	color:#E9EF4A;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px; 
+		 	font-weight:bold
+		 }
+
+		 #white {
+		 	color:#898B8E ;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px;
+		 	font-weight:bold
+		 }
+
+		 #whiteSmall {
+		 	color:#898B8E;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px;
+		 	font-weight:bold
+		 }
+
+		 #state1{
+		 	color:#898B8E;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px; 
+		 	font-weight:bold
+		 }
+
+		 #state2{
+		 	color:#4AA3EF;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px; 
+		 	font-weight:bold
+		 }
+
+		 #state3{
+		 	color:#66B830;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px; 
+		 	font-weight:bold
+		 }
+
+		.table-borderless tbody tr td,
+		.table-borderless tbody tr th,
+		.table-borderless thead tr th,
+		.table-borderless thead tr td,
+		.table-borderless tfoot tr th,
+		.table-borderless tfoot tr td {
+		    border: none;
+		}

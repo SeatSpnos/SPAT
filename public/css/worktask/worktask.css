@@ -1,0 +1,205 @@
+.btn-info{
+	background-color: #5296B9
+	border-color:#5C5B5A;
+}
+[name*="Lisboa"] {
+  background-color: #4AA3EF
+}
+
+[name*="Porto"] {
+  background-color: #FF9900
+}
+
+.panel .panel-heading[name*="Lisboa"] {
+  background-color: #4AA3EF
+}
+
+.panel .panel-heading[name*="Porto"] {
+  background-color: #FF9900
+}
+
+body { word-wrap:break-word;background: #dbdbdb ;}
+
+h5 {
+	background-color: orange;
+	color:black;
+	font-family:'Azo Sans Woso';
+	font-size:18px;
+	font-weight: bold;
+	}
+
+span {		
+	color:#333333;
+	font-family:'Azo Sans Woso';
+	font-size:16px;
+	font-weight: bold;
+	}
+label{
+	color:#5C5B5A;
+	font-family:'Azo Sans Woso';
+	font-size:12px;
+	font-weight:bold;
+
+	}
+
+td{
+	font-family:'Azo Sans Woso';
+	font-size:12px;
+	font-weight:bold;
+  }
+
+th{
+	font-family:'Azo Sans Woso';
+	font-size:14px;
+	font-weight:bold;
+  }
+
+  .table thead {
+    background-color: 
+  }
+
+  [name*="SPEC"]{
+  	background-color: #FFC000
+  }
+  [name*="SOHO"]{
+  	background-color: #538DD5
+  }
+  [name*="EVENTO"]{
+  	background-color: #7030A0
+  }
+  [name*="FTTH"]{
+  	background-color: #C4BD97
+  }
+  [name*="OFFICE"]{
+  	background-color: #B1A0C7
+  }
+  [name*="ED.NOS"]{
+  	background-color: #4F81BD
+  }
+  [name*="SC - Entrega"]{
+  	background-color: #E6B8B7
+  }
+  [name*="SC - Suporte"]{
+  	background-color: #C0504D
+  }
+  [name*="CENTRAL INTELIGENTE"]{
+  	background-color: #538DD5
+  }
+  [name*="FAMILIA E AMIGOS"]{
+  	background-color: #FFC000
+  }
+  [name*="GI Alt Serviço"]{
+  	background-color: #DCE6F1
+  }
+  [name*="GI Instalação"]{
+  	background-color: #8064A2
+  }
+  [name*="GI Manutenção"]{
+  	background-color: #C4D79B
+  }
+  [name~="Prevenção"]{
+  	background-color: #92CDDC
+  }
+
+     
+  #timediv {
+    background: #fff;
+    text-align: center;
+    width: 148px;
+    color: #000;
+    border: 1px #ccc groove;
+    position: fixed; 
+    right: 30px;
+    top: 30px;
+    font-size: 15px;
+  }
+  .body_time{
+    background: #17c8e8;
+    padding: 100px;
+    width: 58px;
+    border-radius: 50%;
+    margin: 15% auto;
+
+  }
+
+  .material-switch > input[type="checkbox"] {
+      display: none;   
+  }
+
+  .material-switch > label {
+      cursor: pointer;
+      height: 0px;
+      position: relative; 
+      width: 40px;  
+  }
+
+  .material-switch > label::before {
+      background: rgb(0, 0, 0);
+      box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      content: '';
+      height: 16px;
+      margin-top: -8px;
+      position:absolute;
+      opacity: 0.3;
+      transition: all 0.4s ease-in-out;
+      width: 40px;
+  }
+  .material-switch > label::after {
+      background: rgb(255, 255, 255);
+      border-radius: 16px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+      content: '';
+      height: 24px;
+      left: -4px;
+      margin-top: -8px;
+      position: absolute;
+      top: -4px;
+      transition: all 0.3s ease-in-out;
+      width: 24px;
+  }
+  .material-switch > input[type="checkbox"]:checked + label::before {
+      background: inherit;
+      opacity: 0.5;
+  }
+  .material-switch > input[type="checkbox"]:checked + label::after {
+      background: inherit;
+      left: 20px;
+  }
+
+  .scroll-top-wrapper {
+      position: fixed;
+      opacity: 0;
+      visibility: hidden;
+    overflow: hidden;
+    text-align: center;
+    z-index: 99999999;
+      background-color: #888888;
+    color: #eeeeee;
+    width: 50px;
+    height: 48px;
+    line-height: 48px;
+    right: 30px;
+    bottom: 30px;
+    padding-top: 2px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+  }
+  .scroll-top-wrapper:hover {
+    background-color: #888888;
+  }
+  .scroll-top-wrapper.show {
+      visibility:visible;
+      cursor:pointer;
+    opacity: 1.0;
+  }
+  .scroll-top-wrapper i.fa {
+    line-height: inherit;
+  }

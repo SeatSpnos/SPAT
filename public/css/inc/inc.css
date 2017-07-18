@@ -1,0 +1,29 @@
+	
+h5 {
+	background-color: #4b60a6;
+	color:#fff;
+	font-family:'consolas';
+	font-size:18px;
+	font-weight: bold;
+	}
+
+	h3 {
+		font-family:'consolas';
+		font-size:18px;
+		font-style: bold;
+	}
+p {		
+	color: #c2c1c7;
+	font-family:'consolas';
+	font-size:15px;
+	font-weight: bold;
+}
+.container-fluid{      
+  margin-right: 100px;
+  margin-left: 100px;
+  background: transparent;
+  border-style: solid;
+  border-width: medium;
+  border-color: #4b60a6;
+  border-radius: 15px;
+  }

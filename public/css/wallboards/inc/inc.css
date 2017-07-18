@@ -1,0 +1,75 @@
+
+		
+		 [name=Novo]{
+		 	color:#898B8E;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px;
+		 	font-weight:bold
+		 }
+		 [name=SlaExpire]{
+		 	color:#DB932D ;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px;
+		 	font-weight:bold
+		 }
+		 [name=Expired]{
+		 	color:#D65B49;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px;
+		 	font-weight:bold
+		 }
+		 [name=Closed]{
+		 	color:#4AA3EF;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px;
+		 	font-weight:bold
+		 }
+		 [name=SVN]{
+		 	color:#6E52A3;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:12px;
+		 	font-weight:bold
+		 }
+		 [name=NovoBig]{
+		 	color:#898B8E ;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px;
+		 	font-weight:bold
+		 }
+		 [name=SlaExpireBig]{
+		 	color:#DB932D ;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px;
+		 	font-weight:bold
+		 }
+		 [name=ExpiredBig]{
+		 	color:#D65B49;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px;
+		 	font-weight:bold
+		 }
+		 [name=ClosedBig]{
+		 	color:#4AA3EF;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px;
+		 	font-weight:bold
+		 }
+		 [name=SVNBig]{
+		 	color:#6E52A3;
+		 	font-family:'Azo Sans Woso';
+		 	font-size:25px;
+		 	font-weight:bold
+		 }
+
+		.table-borderless tbody tr td,
+		.table-borderless tbody tr th,
+		.table-borderless thead tr th,
+		.table-borderless thead tr td,
+		.table-borderless tfoot tr th,
+		.table-borderless tfoot tr td {
+		    border: none;
+		}
+
+		.table {
+			padding: 25px;
+		}

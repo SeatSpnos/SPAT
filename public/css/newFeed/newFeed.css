@@ -1,0 +1,73 @@
+	.ql-toolbar {
+			background: white;
+		}
+
+	.ql-snow{
+
+			background: white;
+		}
+
+	.btn:focus, .upload-btn:focus{
+  	outline: 0 !important;
+	}
+
+	.upload-btn {
+ 		color: #ffffff;
+  	background-color: #F89406;
+  	border: none;
+	}
+
+	.upload-btn:hover,
+	.upload-btn:focus,
+	.upload-btn:active,
+	.upload-btn.active {
+	  color: #ffffff;
+	  background-color: #FA8900;
+	  border: none;
+	}
+
+	#upload-input {
+	  display: none;
+	}
+
+	@media (min-width: 768px) {
+	  .main-container {
+	    width: 100%;
+	  }
+	}
+
+	@media (min-width: 992px) {
+	  .container {
+	    width: 450px;
+	  }
+	}
+
+
+h5 {
+	background-color: #4b60a6;
+	color:#fff;
+	font-family:'Azo Sans Woso';
+	font-size:18px;
+	font-weight: bold;
+	}
+
+	h3 {
+		font-family:'Azo Sans Woso';
+		font-size:18px;
+		font-style: bold;
+	}
+p {		
+	color: #c2c1c7;
+	font-family:'Azo Sans Woso';
+	font-size:15px;
+	font-weight: bold;
+}
+.main{      
+  margin-right: 100px;
+  margin-left: 100px;
+  background: transparent;
+  border-style: solid;
+  border-width: medium;
+  border-color: #4b60a6;
+  border-radius: 15px;
+  }

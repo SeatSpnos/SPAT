@@ -1,0 +1,45 @@
+
+[name=blueS]{
+ 	color:#4AA3EF;
+ 	font-family:'Azo Sans Woso';
+ 	font-size:12px;
+ 	font-weight:bold
+}
+[name=novoS]{
+ 	color:#898B8E;
+ 	font-family:'Azo Sans Woso';
+ 	font-size:12px;
+ 	font-weight:bold
+}
+[name=expireS]{
+ 	color:#D65B49 ;
+ 	font-family:'Azo Sans Woso';
+ 	font-size:12px;
+ 	font-weight:bold
+}
+[name=blue]{
+ 	color:#4AA3EF;
+ 	font-family:'Azo Sans Woso';
+ 	font-size:25px;
+ 	font-weight:bold
+}
+[name=novo]{
+ 	color:#898B8E ;
+ 	font-family:'Azo Sans Woso';
+ 	font-size:25px;
+ 	font-weight:bold
+}
+[name=expire]{
+ 	color:#D65B49 ;
+ 	font-family:'Azo Sans Woso';
+ 	font-size:25px;
+ 	font-weight:bold
+}
+.table-borderless tbody tr td,
+.table-borderless tbody tr th,
+.table-borderless thead tr th,
+.table-borderless thead tr td,
+.table-borderless tfoot tr th,
+.table-borderless tfoot tr td {
+    border: none;
+}
