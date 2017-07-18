@@ -1,0 +1,323 @@
+<div class="contairner-fluid">
+
+  <div id= "modal" class= "modal fade" role="dialog">
+
+    <div class= "modal-dialog">
+
+      <div class = "modal-content">
+
+        <div class = "modal-header">
+
+          <button type= "button" class="close" data-dismiss="modal">&times;</button>
+
+          <h4 class="modal-title text-center">Adicionar</h4>
+
+        </div>
+
+       	<div class="modal-body">
+
+          <form method="post" action="km_contact_add" class="insert">
+
+            <h4 class="text-center title">Categoria</h4>
+
+            <div class="row">         
+
+              <div class="col-sm-2">
+
+                <label class="text-center">Nome</label>
+
+              </div>
+
+              <div class="col-sm-10">
+
+                <select class="demo-default categorySelect" data-placeholder="Nome" name="categoryName">
+
+                  <% for( let z in category ) { %>
+
+                    <option value="<%= category[z].name %>"><%= category[z].name %></option>
+
+                  <% } %>   
+
+                </select>
+
+              </div>  
+
+            </div>
+
+            <br>
+
+            <h4 class="text-center title">Sub Categoria</h4>
+
+            <% for( let z in category ) { %>
+
+              <div class="row subCategoryAdd s<%=category[z].name%>Add" hidden>
+
+                <div class="col-sm-2">
+
+                  <label class="text-center">Zona</label>
+
+                </div>
+
+                <div class="col-sm-10">
+                
+                  <select class="demo-default subCategoryZoneSelect subCategory<%=category[z].name%>Select" data-placeholder="Zona"  name="sCategoryZona">
+
+                    <% for( let sz in subcategory ) { %>
+
+                      <% if( subcategory[sz].pai ==  category[z].name ) { %>
+
+                        <option value="<%= subcategory[sz].zona %>"><%=subcategory[sz].zona%></option>
+                        
+                      <% } %>  
+
+                    <% } %>   
+
+                  </select>
+
+                </div>  
+
+              </div>
+
+            <% } %>
+
+            <% for( let z in category ) { %>
+
+              <div class="row subCategoryAdd s<%=category[z].name%>Add" hidden >
+
+                <div class="col-sm-2">
+
+                  <label class="text-center">Nome</label>
+
+                </div>
+
+                <div class="col-sm-10">
+
+                  <select class="demo-default subCategorySelect subCategory<%=category[z].name%>Select" data-placeholder="Nome" name="sCategoryName">
+
+                    <% for( let sz in subcategory ) { %>
+
+                      <% if( subcategory[sz].pai ==  category[z].name ) { %>
+
+                        <option value="<%= subcategory[sz].name %>"><%=subcategory[sz].name%></option>
+
+                      <% } %>  
+
+                    <% } %>   
+
+                  </select>
+
+                </div>
+
+              </div>
+
+            <% } %>
+
+            <div class="row subCategoryAdd sNewAdd" hidden>
+
+              <div class="col-sm-2">
+
+                <label class="text-center">Zona</label>
+
+              </div>
+
+              <div class="col-sm-10">
+                
+                <select class="demo-default subCategoryZoneSelect subCategoryNewSelect" data-placeholder="Zona"  name="sCategoryZona">
+
+                </select>
+
+              </div>
+
+            </div> 
+
+             <div class="row subCategoryAdd sNewAdd" hidden>
+
+              <div class="col-sm-2">
+
+                  <label class="text-center">Nome</label>
+
+              </div>
+
+              <div class="col-sm-10">
+                
+                <select class="demo-default subCategorySelect subCategoryNewSelect" data-placeholder="Nome"  name="sCategoryName">
+
+                </select>
+
+              </div>  
+
+            </div> 
+
+            <br>
+
+            <h4 class="text-center title">3rd Categoria</h4>
+
+            <% for( let z in subcategory ) { %>
+
+              <div class="row functionAdd f<%=subcategory[z].name%>Add" hidden>
+
+                <div class="col-sm-2">
+
+                  <label class="text-center">Nome</label>
+
+                </div>
+
+                <div class="col-sm-10">
+                
+                  <select class="demo-default functionSelect function<%=subcategory[z].name%>Select" data-placeholder="Nome" name="tCategoryName">
+
+                    <% for( let sz in functions ) { %>
+
+                      <% if( functions[sz].pai ==  subcategory[z].name ) { %>
+
+                        <option value="<%= functions[sz].name %>" data-type="functionOption" data-info="<%= functions[sz].pai %>Option"><%= functions[sz].name %></option>
+                        
+                      <% } %>  
+
+                    <% } %>   
+
+                  </select>
+
+                </div>  
+
+              </div>
+
+            <% } %>
+
+            <div class="row functionAdd fNewAdd" hidden>
+
+              <div class="col-sm-2">
+
+                <label class="text-center">Nome</label>
+
+              </div>
+
+              <div class="col-sm-10">
+                
+                <select class="demo-default functionSelect functionNewSelect" data-placeholder="Nome" name="tCategoryName">
+
+                </select>
+
+              </div>
+
+            </div>  
+
+            <br>
+
+            <div class="row">
+              
+              <div class="col-sm-5">
+
+                <input type="hidden" name="contacts">
+                
+                <button type="submit" class="btn btn-red">Submeter</button>
+
+              </div>
+
+            </div>
+
+          </form>
+
+      	</div>
+
+    	</div>
+
+  	</div>
+
+  </div>
+
+</div>
+
+<script src="/lib/selectize.js-master/dist/js/standalone/selectize.min.js"></script>
+<link href="/lib/selectize.js-master/dist/css/selectize.default.css" rel="stylesheet">
+
+<script type="text/javascript">
+
+
+$( 'select.categorySelect' ).selectize({
+
+  create : true,
+  sortField : 'text',
+
+  onChange: function( value ) {
+    
+    $('.subCategoryAdd').hide()
+    $(".subCategorySelect").prop("disabled", true);
+    $(".subCategoryZoneSelect").prop("disabled", true);
+
+    $('.s'+ value +'Add').show();
+    $('.subCategory'+ value +'Select').prop("disabled", false);
+
+    if(!$('.s'+ value +'Add').length){
+
+      $('.sNewAdd').show();
+      $('.subCategoryNewSelect').prop("disabled", false);
+
+    }
+
+  }
+
+})
+
+$( 'select.subCategorySelect' ).selectize({
+
+  create : true,
+  sortField : 'text',
+
+  onChange: function(value) {
+    
+    $('.functionAdd').hide()
+    $(".functionSelect").prop("disabled", true);
+
+    $('.f'+ value +'Add').show();
+    $('.function'+ value +'Select').prop("disabled", false);
+
+    if(!$('.f'+ value +'Add').length){
+
+      $('.fNewAdd').show();
+      $('.functionNewSelect').prop("disabled", false);
+
+    }
+
+  }  
+
+})
+
+$( 'select.functionSelect' ).selectize({
+
+  create : true,
+  sortField : 'text',
+
+
+})
+
+$( 'select.subCategoryZoneSelect' ).selectize({
+
+  create : true,
+  sortField : 'text',
+
+
+})
+
+var form = document.querySelector('.insert')
+
+  form.onsubmit = function() {
+
+    var about = document.querySelector('input[name=contacts]')
+
+    about.value = JSON.stringify($('#chart-container').orgchart('getHierarchy'));
+    
+    return true
+  }
+</script>
+
+<style type="text/css">
+  
+  div.row {
+    padding-left: 50px;
+    padding-right: 50px;
+    
+  }
+
+</style>
+

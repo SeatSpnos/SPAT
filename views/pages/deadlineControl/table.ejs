@@ -1,0 +1,169 @@
+<%var colName = ['Tecnico','09:30 11:00', '11:00 12:30','12:30 14:00','14:00 15:30','15:30 17:00','17:00 18:30','18:30 20:00','20:00 21:30']  %>
+<%var boni = []%>
+
+<div class="container-fluid">
+
+	<% var start = 0%>
+	<% var finish = 12%>
+	<% var zone = ['Lisboa', 'Porto'] %>
+
+	<%for(let y = 0; y <2;y++){%>
+
+		<h3 class="text-center"><%=opt[y]%></h4>
+		<br>
+		<table id="table<%=y%>" class="table table-condensed" style="background-color: yellow">
+			<thead>
+
+				<% for (var j = 0; j < colName.length ; j++){ %>
+
+		    <th><p class="text-center"><%= colName[j] %></p></th>
+
+		  	<% } %>   
+
+			</thead>
+
+			<tbody>
+
+			<% for( var i = 0; i < tec.length ; i++ ) { %>
+
+				<%var slots%>
+				<%var tempDate = new Date(date)%>
+				<%tempDate = tempDate.getDay()%>
+
+				<% if( table[tec[i].id] && tec[i].zona == zone[y]) { %>
+
+						<tr>
+
+							<td><p style="font-size: 13px"><%=tec[i].name%></p></td>
+
+							<% for (var j = 1 ; j < 10 ; j++) { %>
+
+								<%if( table[tec[i].id][timeSlot[j]] ){%>
+
+									<% slots = table[tec[i].id][timeSlot[j]] %>
+
+									<%var CTL = false%>
+
+										<%if(slots.SIT_CTL){%>
+
+											<%if((slots.SIT_CTL.includes('Rejeitar') || slots.SIT_CTL.includes('Conf. Cliente') || slots.SIT_CTL.includes('Devolvida') || (slots.SIT_CTL.includes('Valid. Técnica') && slots.RESULTADO == "Incumprimento")) && !slots.inc_tratado){%>
+
+													<% CTL = true %>
+
+												<%}%>
+
+										<%}%>
+						
+										<td>
+
+										<% slots.forEach( function( slot ) { %>
+
+											<div class="<%=CTL?"blink_text":""%>" name = "<%=slot.RESULTADO == "Incumprimento" ? "Incumprimento":slot.estado%>" style="<%=slot.relatorio?'-webkit-border-radius:0px 250px 0px 0px;-moz-border-radius:0px 250px 0px 0px;border-radius: 0px 250px 0px 0px;':""%>">
+												<div class="row">
+													<div class="col-sm-8">
+
+														<%if(slot.OT == ""){%>
+
+															<p id="<%=tec[i].id%>|<%=timeSlot[j]%>|<%=date%>|<%=slot.id%>" style="color: #6E52A3" >Sem OT</p>
+
+														<% } else if(slot.obs == "Prevenção"){%>
+
+															<p id="<%=tec[i].id%>|<%=timeSlot[j]%>|<%=date%>|<%=slot.id%>" style="color: #4AA3EF">Prevenção</p>
+
+														<%} else if(slot.obs == "Sem Trabalho Disponivel"){%>
+
+															<p id="<%=tec[i].id%>|<%=timeSlot[j]%>|<%=date%>|<%=slot.id%>" style="color: #D65B49" >Sem Trab</p>
+
+														<% } else {%>
+
+															<p id="<%=tec[i].id%>|<%=timeSlot[j]%>|<%=date%>|<%=slot.id%>" data-toggle="tooltip_OT" title=" OBS : <%=slot.obs + " TRB: " + trb[slot.tipo_TRB_FK_id -1].name%>" ><%=slot.OT%></p>
+
+														<% }%>
+
+													</div>
+													
+													<%var boni = '#555555'%>
+													<%if(slot.BONIFICACAO){%>
+														<%if(slot.BONIFICACAO.includes('0')){%>
+															<% boni = "yellow" %>
+														<%}%>
+														<%if(slot.BONIFICACAO.includes('4') || (!slot.BONIFICACAO.includes('-')) && slot.BONIFICACAO.includes('EUR')){%>
+															<% boni = "rgba(0,255,0,1)" %>
+														<%}%>
+														<%if(slot.BONIFICACAO.includes('8') || slot.BONIFICACAO.includes('-')){%>
+															<% boni = "rgba(255,0,0,1)" %>
+														<%}%>
+													<%}%>
+
+													<div class="col-sm-3">
+															<i id="<%=slot.id%>" class="fa fa-circle fa-lg" aria-hidden="true" style="color: <%=boni%>;"></i> <br>
+													</div>
+
+												</div>
+
+											</div>
+
+											<% }) %>
+
+										</td>	
+
+								<% } else if(j<9){%>
+
+									<td id="<%=tec[i].id%>|<%=timeSlot[j]%>|<%=date%>" ></td>
+
+								<% } %>
+
+							<% } %>
+
+						</tr>
+
+						<% } %>	
+
+				<% } %>   
+			</tbody>               
+		</table>
+
+		<%start = finish%>
+
+		<%finish = tec.length%>
+
+		<script> 
+			$("#table<%=y%> tbody tr td p").on('dblclick', function (){
+				var id = this.id
+				$('#modal').find('.modal-body').load('/deadlinecontrol_addWT',{id:id}, function (responseText, textStatus) {
+		        if ( textStatus === 'success' || textStatus === 'notmodified'){
+		          $('#modal').modal('show')
+		          modalIsOpen = true
+		        }
+		    })
+			})
+
+			$("#table<%=y%> tbody tr td i").on('dblclick', function (){
+				var id = this.id
+				$('#modal').find('.modal-body').load('/deadlinecontrol_add',{id:id}, function (responseText, textStatus) {
+		        if ( textStatus === 'success' || textStatus === 'notmodified'){
+		          $('#modal').modal('show')
+		          modalIsOpen = true
+		        }
+		    })
+			})
+
+			$("#table<%=y%> tbody tr td ").on('dblclick', function (){
+				var id = this.id
+				$('#modal').find('.modal-body').load('/deadlinecontrol_addWT',{id:id}, function (responseText, textStatus) {
+		        if ( textStatus === 'success' || textStatus === 'notmodified'){
+		          $('#modal').modal('show')
+		          modalIsOpen = true
+		        }
+		    })
+			})
+		</script>
+	<% } %>
+</div>
+<script type="text/javascript">
+	$('[data-toggle="tooltip_OT"]').tooltip();
+	$('[data-toggle="tooltip_boni"]').tooltip();
+	$('[data-toggle="tooltip_CTL"]').tooltip();
+</script>	
+
+

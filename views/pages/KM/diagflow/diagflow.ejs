@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Work Flow</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+	  <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+	  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+
+		<link rel="stylesheet" type="text/css" href="lib/mermaid/dist/mermaid.css">
+		<script src="lib/mermaid/dist/mermaid.min.js"></script>
+	
+</head>
+<body>
+<h1>One</h1>
+<div class="contaienr-fluid">
+
+	<div class="mermaid" id="graphDiv"></div>
+	
+</div>
+
+<h1>Two</h1>
+
+	
+</body>
+</html>
+<script>
+	$(document).ready( function () {
+
+
+		var k = "graph TB\na(fa:fa-spinner first step)\nb{decision}\nc(second step)\nd{decision 2}\ne>end]\nf{decidion 3}\ng(third step)\nh(forth step)\na---b\nb-->|sim|d\nb-->|não|c\nc-->f\nd-->e\nf-->g\nf-->a\nd-->g\nf-->h"
+
+
+	    mermaid.initialize({
+	    	startOnLoad:false,
+        htmlLabels:true,
+	      flowchart:{
+            useMaxWidth:false,
+        }
+	    });
+
+	   	
+	  var element = document.querySelector("#graphDiv");
+
+	  var insertSvg = function(svgCode, bindFunctions){
+	      element.innerHTML = svgCode;
+	  };
+
+	  var graphDefinition = k;
+	  var graph = mermaidAPI.render('graphDiv', graphDefinition, insertSvg);
+
+	  function callback(id){
+	      alert(id);
+	  }
+	  function callback2(id){
+	      alert('x'+id);
+	  }
+
+	  function onNodeClick(nodeId){
+	      alert(nodeId);
+	  }
+
+	})
+	
+
+</script>
+
+<script type="text/javascript">
+	/*graph TB
+		a(first step)
+		b{decision}
+		c(second step)
+		d{decision 2}
+		e>end]
+		f{decidion 3}
+		g(third step)
+		h(forth step)
+
+		a --- b
+		b-->|sim|d
+		b-->|não|c
+		c-->f
+		d-->e
+		f-->g
+		f-->a
+		d-->g
+		f-->h*/
+
+
+</script> 

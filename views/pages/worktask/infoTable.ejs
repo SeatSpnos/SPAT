@@ -1,0 +1,31 @@
+<table class="table table-condensed">
+	<thead>
+		<th>
+		</th>
+		<th>11h00</th>
+		<th>14h00</th>
+		<th>17h00</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td><p>OT Instalação    (lx)<p>
+					<p class="text-right">(pt)<p>
+			</td>
+			<td><p><%=Math.floor(tableInfo[0]/(tableInfo[0] + tableInfoT[0])*100)%>%</p>
+					<p><%=Math.floor(tableInfo[4]/(tableInfo[4] + tableInfoT[4])*100)%>%</p>
+			</td>
+			<td><p><%=Math.floor(tableInfo[1]/(tableInfo[1] + tableInfoT[1])*100)%>%</p>
+					<p><%=Math.floor(tableInfo[5]/(tableInfo[5] + tableInfoT[5])*100)%>%</p>
+			</td>
+			<td><p><%=Math.floor(tableInfo[2]/(tableInfo[2] + tableInfoT[2])*100)%>%</p>
+					<p><%=Math.floor(tableInfo[6]/(tableInfo[6] + tableInfoT[6])*100)%>%</p>
+			</td>
+		</tr>
+		<tr>
+			<td>OT Manutenção</td>
+			<td><p><%=Math.floor(tableInfo[3]/(tableInfo[3] + tableInfoT[3])*100)%>%</p>
+					<p><%=Math.floor(tableInfo[7]/(tableInfo[7] + tableInfoT[7])*100)%>%</p>
+			</td>
+		</tr>
+	</tbody>
+</table>

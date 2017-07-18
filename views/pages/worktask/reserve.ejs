@@ -1,0 +1,92 @@
+<div class="container-fluid">
+	<div id="accordion" class="panel-group">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-5">
+						<span>Reservas</span>
+					</div>
+					<div class="col-sm-6">
+						<span><%=reserve.length%> slots reservadas</span>
+					</div>
+					<div class="col-sm-1">
+					  <a class="accordion-toggle" data-toggle="collapse" href="#acordReservas"> ></a>
+					</div>       
+				</div>				
+			</div>
+			<div id="acordReservas" class="panel-collapse collapse">
+				<div class="panel-body">
+				<table id="tableReservas" class="table table-condensed table-striped">
+					<thead>
+						<% for (var j = 0; j < colName.length ; j++){ %>
+					    <th><%= colName[j] %></th>
+					 <% } %>
+					 <th>Técnico</th>
+					 <th>Opções</th>    
+					</thead>   
+					<tbody>
+						<% for (var j = 0 ; j < reserve.length ; j++) { %>
+					   	<%var slot%>
+					    <tr id="<%=reserve[j].tecnico_FK_id %>|<%=reserve[j].slot_hora%>|<%=reserve[j].date%>|<%=reserve[j].id%>">              	
+						    <% var tableKeys = Object.keys(reserve[j])%> 
+						    <% for (var k = 2 ; k < colName.length+2 ; k++) { %>
+						      <%if(k==2){%>
+						        <td><%= reserve[j].slot_hora%></td>
+						      <%}else{%>
+						        <%if(tableKeys[k].includes("FK_id")){%>
+						          <td> <%= addTables[tableKeys[k]][reserve[j][tableKeys[k]]-1].name%></td>
+						       	<%}else{%>
+						          <td> <%= reserve[tableKeys[k]]%></td>
+						        <%}%>
+						    	<%}%>
+						    <%}%> 
+						    <td>
+						    	<% tec.forEach( function ( tecnico) {%>
+
+						    		<% if(tecnico.id == reserve[j].tecnico_FK_id) { %>
+						    			<%= tecnico.name%>
+
+						    		<% } %>	
+						    		
+						    	<% }) %>
+
+						    </td>
+						    <td>
+						      <form action="/worktask_delete" method="post">
+						        <input type="hidden" name="id" value="<%=reserve[j].id%>">
+						        <input type="hidden" name="slotsID" value="<%=reserve[j].slotsID%>">
+						        <input type="hidden" name="hora" value="<%=date%>">
+						        <input type="hidden" name="tec_id" value="<%=reserve[j].tecnico_FK_id%>">
+						        <button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_delete" title="Remover" type="submit"><i class="fa fa-ban fa-lg" style="color: red"></i></button>	
+						      </form>
+						    	<form action="/worktask_reserve" method="post">
+						      	<input type="hidden" name="id" value="<%=reserve[j].id%>">
+						      	<input type="hidden" name="slot" value="<%=reserve[j].slot_hora%>">
+						      	<input type="hidden" name="hora" value="<%=date%>">
+						      	<input type="hidden" name="reserve" value="false">
+						      	<input type="hidden" name="tec_id" value="<%=reserve[j].tecnico_FK_id%>">
+						        <button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_reserva" title="Reservar" type="submit"><i class="fa fa-clock-o fa-lg" style="color: green"></i></button>
+						      </form>
+						    </td>
+					    </tr>
+					  <% } %>     
+					</tbody>                               
+				</table>
+				</div>
+			</div>			
+		</div>
+	</div>
+</div>
+<script> 
+	$("#tableReservas tbody tr").on('dblclick', function (){
+		var id = this.id
+		$('#modal').find('.modal-body').load('/worktask_add',{id:id}, 
+			function (responseText, textStatus) {
+	      if ( textStatus === 'success' || textStatus === 'notmodified'){
+	        $('#modal').modal('show')
+	        modalIsOpen = true
+	        $('select').selectize();
+	      }
+	  	})
+	})
+	</script>

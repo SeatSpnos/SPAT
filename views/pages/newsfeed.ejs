@@ -1,0 +1,66 @@
+      <div class = "container-fluid">
+        <br>
+        <div id="accordion" class="panel-group">
+        <div class="panel panel-default" ">
+          <div class="panel-heading" style="background: #EDECEC; border-color: #EDECEC; ">
+            <div class="col-sm-2"><span class="text-center" style="color:#5C5B5A;font-family:'consolas';font-size:16px;font-weight:bold;">Data</span></div>
+            <div class="col-sm-4"><span class="text-center" style="color:#5C5B5A;font-family:'consolas';font-size:16px;font-weight:bold;">Titulo</span></div>
+            <div class="col-sm-2"><span class="text-center" style="color:#5C5B5A;font-family:'consolas';font-size:16px;font-weight:bold;">Categoria</span></div>
+            <div class="col-sm-2"><span class="text-center" style="color:#5C5B5A;font-family:'consolas';font-size:16px;font-weight:bold;">Tags</span></div>
+            <div class="col-sm-1">
+            <p class="text-right" style="color:#5C5B5A;font-family:'consolas';font-size:16px;font-weight:bold;" >Mensagens</p>
+            </div>
+            <div class="col-sm-1">
+            <a class="accordion-toggle" data-toggle="collapse" href="#acordoptions" id="opt"></a>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div id="acordoptions" class="panel-collapse collapse" style="background: #EDECEC; border-color: #EDECEC; ">
+            <div class="panel-body" style="background: #BDBFBF">
+              <br>
+              <div id="accordion" class="panel-group">
+                <% for (var i =0; i <news.length; i++) {%>
+                <div id="panel" class="panel panel-default" style="background: #EDECEC; border-color: #EDECEC; ">
+                  <div id="panel" class="panel-heading" style="background: #EDECEC; border-color: #EDECEC;" >
+                    <div class="row">
+                      <%var date = new Date(news[i].date)%>
+                      <%date = date.toISOString().slice(0,10)%>
+                      <div class="col-sm-2"><span class="text-center"><%=date%></span></div>
+                      <div class="col-sm-4"><span class="text-center"><%=news[i].title%></span></div>
+                      <div class="col-sm-2"><span class="text-center"><%=news[i].category%></span></div>
+                      <div class="col-sm-2"><span class="text-center"><%=news[i].tags%></span></div>
+                      <div class="col-sm-2"><a class="accordion-toggle" data-toggle="collapse" href="#<%=news[i].id%>"></a></div>
+                    </div>  
+                  </div>    
+                  <div id="<%=news[i].id%>" class="panel-collapse collapse">
+                    <div id="editor<%=news[i].id%>"></div>
+                    <%if(false){%>
+                      <p>Attachments</p>
+                      <a href="<%=news[i].attachment%>" download> 
+                    <%}%>
+                    <%if(news[i].required == "Sim"){%>
+                    <form method="post" action="newFeed_read">
+                      <input type="hidden" name="read" value="Sim">
+                      <input type="hidden" name="id" value="<%=news[i].id%>">
+                      <button class="btn btn-danger" type="submit">Eu li</button>       
+                    </form>
+                    <%}%>
+                  </div>
+                  <script>
+                    var quill = new Quill('#editor<%=news[i].id%>', {    
+                      theme: 'bubble' 
+                    })
+                    quill.setContents(<%-news[i].text%>)
+                    quill.enable(false);
+                  </script>    
+                <br>
+                </div>    
+                <%}%>
+              </div>
+            </div>
+            <br>      
+          </div>
+        </div> 
+      </div>
+    </div>

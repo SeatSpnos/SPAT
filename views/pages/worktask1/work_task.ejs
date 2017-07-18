@@ -1,0 +1,114 @@
+<%var tecKeys = Object.keys(tec[0])%>
+<%var opt = ["Lisboa", "Porto"]%>
+<%var addTables = {celula_FK_id : celula, tipo_OT_FK_id : ot_type, tipo_TRB_FK_id : trb}%>
+<%var begin = (slot!=='Todos'?slot:0) %>
+<%var end = (slot!=='Todos'?+slot+1:21)%>
+<% var colName = ["Horário", "Numero Cliente", 'OT', 'Celula', 'Tipo OT', 'Tipo TRB', 'Observações', 'Operador']%>
+<% var timeSlot = ['08:00 09:30','09:30 11:00', '11:00 12:30','12:30 14:00','14:00 15:30','15:30 17:00','17:00 18:30','18:30 20:00','20:00 21:30', '22:00 23:30','SLOT EXTRA'] %>
+<%var morning 	= [1,2,3,4,5,6,10]%>
+<%var afternoon = [4,5,6,7,8,10]%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Destribuição de Trabalho</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+  <script type="text/javascript" src="lib/bootstrap/js/transition.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/collapse.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>  
+
+  <link href="lib/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="lib/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+
+  <script src="/lib/selectize.js-master/dist/js/standalone/selectize.min.js"></script>
+  <link href="/lib/selectize.js-master/dist/css/selectize.default.css" rel="stylesheet">
+  <link href="/css/worktask/worktask.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<% include ../../partials/side_nav_bar %>
+	<%include ./filter_menu %>
+	<br>
+	<%if(reserve.length){%>
+		<% include ./reserve%>
+	<%}%>
+	<br>
+	<% include ./table %>
+ 	<% include ./modal%>
+</body>
+</html>
+
+<script type="text/javascript">
+ $(function () {
+    $('#datetimepicker').datetimepicker({
+    	locale: 'pt',
+    	format: 'YYYY-MM-DD'
+    })
+  })
+ $('butt').submit = function() {
+	  var about = window.pageYOffset
+	  sessionStorage.setItem('scrollPosition', about)
+	  alert("coisas"+ about + "  -  " + sessionStorage.getItem('scrollPosition'))	  
+	  return false
+	}
+</script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		var scrollPos = sessionStorage.getItem('scrollPosition');
+
+		$('[data-toggle="tooltip_delete"]').tooltip();
+		$('[data-toggle="tooltip_reserva"]').tooltip(); 
+		$('[data-toggle="tooltip_picket"]').tooltip();
+		$('[data-toggle="tooltip_noWork"]').tooltip();
+
+		$("#openall").click(function(){
+    	$('.panel-collapse').collapse('show');
+    	$('#acordoptions').collapse('hide');
+  	}) 
+		$('')
+  	$("#closeall").click(function(){
+    	$('.panel-collapse').collapse('hide');
+  	}) 
+  	/// save acordion state
+    $(".panel-collapse").on('shown.bs.collapse', function (){
+
+	    var active = $(this).attr('id');
+	    var panels= sessionStorage.panels === undefined ? new Array() : JSON.parse(sessionStorage.panels);
+	    if ($.inArray(active,panels)==-1)
+	        panels.push(active);
+	    sessionStorage.panels=JSON.stringify(panels);
+		});
+
+		$(".panel-collapse").on('hidden.bs.collapse', function (){
+	    var active = $(this).attr('id');
+	    var panels= sessionStorage.panels === undefined ? new Array() : JSON.parse(sessionStorage.panels);
+	    var elementIndex=$.inArray(active,panels);
+	    if (elementIndex!==-1){
+	        panels.splice(elementIndex,1);        
+	    }
+	    sessionStorage.panels=JSON.stringify(panels);
+		});
+		// load acordion plus scroll state
+		var panels=sessionStorage.panels === undefined ? new Array() : JSON.parse(sessionStorage.panels);
+    for (var i in panels){ 
+        if ($("#"+panels[i]).hasClass('panel-collapse')){
+            $("#"+panels[i]).collapse("show");
+        }
+        if(i==panels.length-1){
+        	setTimeout(function() {
+        		//alert(scrollPos)
+            window.scrollTo(0, scrollPos);
+        	}, 300);
+        	
+        }
+    }
+})
+</script>

@@ -1,0 +1,75 @@
+<%var tecKeys = Object.keys(tec[0])%>
+<%var opt = ["Lisboa", "Porto"]%>
+<%var addTables = {celula_FK_id : celula, tipo_OT_FK_id : ot_type, tipo_TRB_FK_id : trb}%>
+<%var begin = (slot!=='Todos'?slot:0) %>
+<%var end = (slot!=='Todos'?+slot+1:21)%>
+<% var colName = ["Horário", "Numero Cliente", 'OT', 'Celula', 'Tipo OT', 'Tipo TRB', 'Observações', 'Operador']%>
+<% var timeSlot = ['08:00 09:30','09:30 11:00', '11:00 12:30','12:30 14:00','14:00 15:30','15:30 17:00','17:00 18:30','18:30 20:00','20:00 21:30', '22:00 23:30','SLOT EXTRA'] %>
+<%var morning 	= [1,2,3,4,5,6,10]%>
+<%var afternoon = [4,5,6,7,8,10]%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Work Task</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+  <script type="text/javascript" src="lib/bootstrap/js/transition.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/collapse.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>  
+
+  <link href="lib/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="lib/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+
+  <script src="/lib/selectize.js-master/dist/js/standalone/selectize.min.js"></script>
+  <link href="/lib/selectize.js-master/dist/css/selectize.default.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" type="text/css" href="css/deadlinecontrol/deadlinecontrol.css">
+
+</head>
+<body>
+	<% include ../../partials/side_nav_bar %>
+  <div class="row" >
+    <div class="col-sm-8"></div>
+    <div class="col-sm-3">
+      <div class="body_" id="body_" style="position: fixed; z-index:999999;"><div id="timediv"></div></div>
+    </div>
+  </div>
+  <% include ./table %>	
+	<% include ./modal%>
+</body>
+</html>
+
+<script type="text/javascript">
+$('[data-toggle="tooltip_obs"]').tooltip();
+  var interval = setInterval(timestamphome, 1000);
+
+function timestamphome(){
+  var date;
+  date = new Date();
+  var time = document.getElementById('timediv'); 
+  time.innerHTML = date.toLocaleString();
+}
+
+var modalIsOpen = false
+$('#modal').on('hidden.bs.modal', function(e) { location.reload()})
+
+  function ReloadPage() {
+    if(!modalIsOpen)
+      window.location.href = "http://wdt19167:3000/deadlinecontrol";
+  }
+
+$(document).ready(function() {
+
+  setTimeout("ReloadPage()", 60000);
+
+})
+</script>
+

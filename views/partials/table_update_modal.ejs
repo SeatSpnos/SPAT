@@ -1,0 +1,54 @@
+<% var tables 			= tables%>
+<% var row 					= rows[0]%>
+<% var keys 				= Object.keys(row)%>
+<% var restrictions = restrictions%>
+
+
+<div class="modal-body">
+	<form action="<%=action%>" method="post">
+	<input type="hidden" class="form-control" id="id" name="id" value=<%=row.id%>>		
+		<% for (var i = 0; i <restrictions.length; i++) { %>
+			<div class="form-group">
+				<%if(Object.prototype.toString.call(restrictions[i]) === '[object String]'){%>
+				<div class="row">
+					<div class="col-sm-4">
+						<p style="color:black;font-family:'consolas';font-size:18px;font-style: bold;"><%= keys[i+1] %></p>
+					</div>
+					<div class="col-sm-8">
+						<input type= <%= restrictions[i] %> class="form-control" name= <%= keys[i+1] %> value= <%=row[keys[i+1]]%>>
+					</div>
+				</div>
+				<%} else {%>
+					<div class="row">
+						<div class="col-sm-4">
+							<p style="color:black;font-family:'consolas';font-size:18px;font-style: bold;"><%- keys[i+1] %></p>
+						</div>
+						<div class="col-sm-8">					
+							<select class="form-control" id= <%- keys[i+1] %> name= <%- keys[i+1] %>>
+								<% var temp = tables[restrictions[i]] %>
+								<option selected placeholder= <%=row[keys[i+1]]%>><%=row[keys[i+1]]%></option>					
+								<% for (var j = 0; j < temp.length; j++) { %>
+							    <option value = <%= temp[j].name %>><%= temp[j].name %></option>
+							 	<% } %>
+						 	</select>
+					 	</div>
+					</div>
+				<% } %>
+			</div>
+		<% }%>
+		<div class="row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-2">
+				<button type="submit" class="btn btn-warning btn-lg">Submeter</button>				
+			</div>
+		<div class="col-sm-6"></div>
+	</form>
+	<br>
+	<div class="row">
+		<div class="col-sm-9"></div>
+		<div class="col-sm-2">				
+			<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		</div>
+	</div>
+</div>
+				

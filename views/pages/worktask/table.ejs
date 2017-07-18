@@ -1,0 +1,58 @@
+<%var tempDate = new Date(date)%>
+<%tempDate = tempDate.getDay()%>
+<%for(var i=0;i< tec.length;i++){%>
+	<% if(!tec[i].vacation && !tec[i].falta && !tec[i].folga && !(tempDate == 6 && !(tec[i].escala==1))) {%>
+		<div class="panel panel-default worktask <%=tec[i].zona%>" id="T<%=tec[i].id%>">
+		  <div class="panel-heading" name="<%=tec[i].zona%>">
+		  	<div class="row">
+		  		<div class="col-sm-4">
+		  			<span class="text-left"><%=tec[i].name%></span>
+		  		</div>
+		  		<div class="col-sm-6"></div>
+		  		<div class="col-sm-2">
+		  			<span class="text-right"><%=date%></span>
+		  		</div>
+		  	</div>
+		  </div>
+		  <div class="panel-body">
+		  	<table id="table<%=tec[i].id%>" class="table table-condensed">
+					<thead>
+						<% for (var j = 0; j < colName.length ; j++){ %>
+				    <th><%= colName[j] %></th>
+				  <% } %>
+				  <th>Opções</th>    
+					</thead>   
+					<tbody>
+					<%var horario = morning%>
+					<%if(tec[i].horario){%>
+						<% horario = afternoon%>
+					<%}%>
+					<% var rslot = 0 %>
+					<% for (var j = begin ; j < 10 ; j++) { %>
+					    <% if(table[tec[i].id] && table[tec[i].id][timeSlot[j]]) { %>
+					    	<% for (let y in table[tec[i].id][timeSlot[j]]) { %>
+					    		<%let slot = table[tec[i].id][timeSlot[j]][y] %>
+					    		<% include ./td%>
+					    	<% } %>
+					    <%} else if(horario[ rslot ] == j){%>
+					    	<%include ./td3%>
+					    <%}%>
+					<% } %>
+					</tbody>               
+				</table>
+				<script> 
+				$("#table<%=tec[i].id%> tbody tr").on('dblclick', function (){
+					var id = this.id
+					$('#modal').find('.modal-body').load('/worktask_add',{id:id}, 
+						function (responseText, textStatus) {
+				      if ( textStatus === 'success' || textStatus === 'notmodified'){
+				        $('#modal').modal('show')
+				        modalIsOpen = true				        
+				      }
+				  	})
+				})
+				</script>
+		  </div>
+		</div>
+	<%}%>	
+<%}%>

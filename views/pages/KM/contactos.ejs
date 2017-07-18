@@ -1,0 +1,94 @@
+<div class="container-fluid">
+	<br>
+	<div class="row">
+		<div class="col-sm-4"></div>
+		<div class="col-sm-3">
+			<div class="panel panel-default" style="border-color: red; background-color: transparent;">
+	  		<div class="panel-body">
+					<div class="col-sm-10">
+						<pre>Zé Manel
+Big Boss
+Manda fazer cenas </pre>
+					</div>
+					<div class="col-sm-2">
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_1" title="Cenas" id="one" type="submit"></button>
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_2" title="Blá blá" id="two" type="submit"></button>
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_3" title="Kewl stuff.jpg" id="three" type="submit"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-3">
+			<div class="panel panel-default" style="border-color: red; background-color: transparent;">
+	  		<div class="panel-body">
+					<div class="col-sm-10">
+						<pre>Zé Armindo
+Vice-Boss
+Delega cenas X </pre>
+					</div>
+					<div class="col-sm-2">
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_1" title="Cenas" id="one" type="submit"></button>
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_2" title="Blá blá" id="two" type="submit"></button>
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_3" title="Kewl stuff.jpg" id="three" type="submit"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2"></div>
+		<div class="col-sm-3">
+			<div class="panel panel-default" style="border-color: red; background-color: transparent;">
+	  		<div class="panel-body">
+					<div class="col-sm-10">
+						<pre>Ti Zéi 
+Vice-Boss 2
+Coffee Manager </pre>
+					</div>
+					<div class="col-sm-2">
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_1" title="<img src='/imgs/index5.jpeg'/>" id="one" type="submit"></button>
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_2" title="Blá blá" id="two" type="submit"></button>
+						<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_3" title="Kewl stuff.jpg" id="three" type="submit"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+
+
+<style type="text/css">
+	#one:after{
+		font-family: 'Glyphicons Halflings'; 
+		content : "\e008 ";
+		color: red;
+	}
+	#two:after{
+		font-family: 'Glyphicons Halflings'; 
+		content : "\e001 ";
+		color: blue;
+	}
+	#three:after{
+		font-family: 'Glyphicons Halflings'; 
+		content : "\e021 ";
+		color: green;
+	}
+</style>
+<script type="text/javascript">
+	$('[data-toggle="tooltip_1"]').tooltip({
+		animated: 'fade',
+    placement: 'bottom',
+    html: true
+	});
+	$('[data-toggle="tooltip_2"]').tooltip({
+		animated: 'fade',
+    placement: 'left',
+	}); 
+	$('[data-toggle="tooltip_3"]').tooltip({
+		animated: 'fade',
+    placement: 'right',
+	});
+</script>

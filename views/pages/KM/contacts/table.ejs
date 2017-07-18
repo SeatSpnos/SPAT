@@ -1,0 +1,32 @@
+
+<% for ( var l in functions ) { %>
+
+	<div class="panel panel-default <%= functions[l].pai %> functions" id="Function<%= functions[l].id %>" hidden>
+
+	  <div class="panel-heading">
+
+	  	<div class="row">
+
+	  		<div class="col-sm-4">
+
+	  			<span class="text-left"><%= functions[l].name %></span>
+
+	  		</div>
+
+	  		<div class="col-sm-6"></div>
+
+	  		<div class="col-sm-2"></div>
+
+	  	</div>
+
+	  </div>
+
+	  <div class="panel-body">
+
+	  	<% include ./contact %>
+
+	  </div>
+
+	</div>
+
+<% } %>

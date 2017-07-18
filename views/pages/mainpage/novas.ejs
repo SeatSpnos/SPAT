@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+  <div class="panel-heading" id="headReq" style="background-color: steelblue; border-color: steelblue">
+    <div class="row">
+      <%var date = new Date(newMsg[0].date)%>
+      <%date = date.toISOString().slice(0,10)%>
+      <div class="col-sm-2 "><span class="text-center msgDate"><%=date%></span></div>
+      <div class="col-sm-4"><span class="text-center msgTitle"><%=newMsg[0].title%></span></div>
+      <div class="col-sm-2"><span class="text-center msgCategory"><%=newMsg[0].category%></span></div>
+    </div>
+  </div>
+  <div class="panel-body" id="bodyReq">
+    <div id="editorMsg"></div>
+    <div class="row">
+      <div class="col-sm-5">
+        <button class="btn btn-info" id="prev-btn">Previous</button>
+      </div>
+      <div class="col-sm-2">
+        <form method="post" action="newFeed_read">
+          <input type="hidden" name="read" value="Sim">
+          <input id="msgID" type="hidden" name="id" value="<%=newMsg[0].id%>">
+          <button class="btn btn-default" id="Read">Eu li</button>
+        </form>
+      </div>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-1">
+        <button class="btn btn-info" id="next-btn">Next</button>
+      </div>
+    </div> 
+  </div>
+</div>

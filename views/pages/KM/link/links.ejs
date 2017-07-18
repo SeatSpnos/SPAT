@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<title>KM Links</title>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+	  <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+
+	  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+	   <link rel="stylesheet" type="text/css" href="css/main/main.css">
+	   <link rel="stylesheet" type="text/css" href="css/KM/links.css">
+
+	</head>
+
+	<body>
+
+	<% include ../../../partials/side_nav_bar %>
+
+	<div>
+		
+	</div>
+
+		<h2 class="text-center"> Links mais usados</h2>
+
+		<div class="container-fluid">
+
+			<div class="row borderStyleTop" >
+
+				<div class="col-sm-6">
+
+					<h3 class="text-center"> Top 3</h3>
+
+				</div>
+
+				<div class="col-sm-6">
+
+					<h3 class="text-center"> Pesquisa Directa</h3>
+
+				</div>
+
+			</div>
+			
+			<div class="row borderStyleBottom">
+
+					<% if( top.length ) { %>
+
+						<%var topEnd = top.length >= 3 ? 3:top.length %>
+
+						<% for( var j = 0; j < topEnd; j++ ) { %>
+
+							<% for( var i in links ) {%>
+
+								<% if(top[j].link_FK_ID == links[i].id) {%>
+
+									<div class="col-sm-2">
+
+										<a data-toggle="tooltip" title="<%=links[i].tooltip%>" name="Links" class="btn btn-custom btn-outline links" style=" border-color: #2059B8" href="<%=links[i].link%>" target="_blank" id = "<%=links[i].id%>"><%=links[i].name%></a>
+									
+									</div>
+
+								<% } %>
+
+							<% } %>	
+
+						<% } %>
+
+					<% } %>
+
+					<% for( var spacing = 3 - top.length; spacing > 0; spacing-- ) { %>
+
+						<div class="col-sm-2"></div>
+
+					<% } %>
+
+					<div class="query">
+
+						<% include ./querys %>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="row " style="padding-left: 25px; padding-right: 25px;">
+
+				<div class="col-sm-3">
+
+					<h3 class="text-left category" style="color: #ead24c">Voz</h3>
+
+					<br>
+
+					<%for(var i in links){%>
+
+						<%if(links[i].categoria == "Voz"){%>
+
+							<div class="row">
+
+								<div class="col-sm-4" >
+
+									<a data-placement="auto" data-toggle="tooltip" title="<%=links[i].tooltip%>" name="Links" class="btn btn-custom btn-outline links" href="<%=links[i].link%>" target="_blank" id = "<%=links[i].id%>"><%=links[i].name%></a>
+
+								</div>
+
+							</div>
+
+							<br>
+
+						<%}%>
+
+					<%}%>
+
+				</div>
+
+				<div class="col-sm-3">
+
+					<h3 class="text-left category" style="color: #ec1b5a">Sinais</h3>
+
+					<br>
+
+					<%  for( var i in links ) {%>
+
+						<% if( links[i].categoria == "Sinais" ) { %>
+
+							<div class="row">
+
+								<div class="col-sm-4">
+
+									<a data-placement="auto" data-toggle="tooltip" title="<%=links[i].tooltip%>" name="Links" class="btn btn-custom btn-outline links" href="<%=links[i].link%>" target="_blank" id = "<%=links[i].id%>"><%=links[i].name%></a>					
+								
+								</div>
+
+							</div>
+
+							<br>
+
+						<% } %>
+
+					<% } %>
+
+				</div>
+
+				<div class="col-sm-3 ">
+
+					<h3 class="text-left category" style="color: #79aefe">Ferramentas</h3>
+
+					<br>
+
+					<% for( var i in links ) { %>
+
+						<% if( links[i].categoria == "Ferramentas" ) { %>
+
+							<div class="row">
+
+								<div class="col-sm-4">
+
+									<a data-placement="auto" data-toggle="tooltip" title="<%= links[i].tooltip %>" name="Links" class="btn btn-custom btn-outline links" href="<%= links[i].link %>" target="_blank" id = "<%= links[i].id %>"><%= links[i].name %></a>					
+								
+								</div>
+
+							</div>
+
+							<br>
+
+						<% } %>
+
+					<% } %>
+
+				</div>	
+
+				<div class="col-sm-3">
+				
+					<h3 class="text-left category" style="color: #279636" >Links Uteis</h3>
+				
+					<br>
+				
+					<%for(var i in links){%>
+				
+						<%if(links[i].categoria == "Links Úteis"){%>
+				
+							<div class="row">
+				
+								<div class="col-sm-4">
+				
+									<a data-placement="auto" data-toggle="tooltip" title="<%=links[i].tooltip%>" name="Links" class="btn btn-custom btn-outline links" href="<%=links[i].link%>" target="_blank" id = "<%=links[i].id%>"><%=links[i].name%></a>					
+								
+								</div>
+							</div>
+
+							<br>
+
+						<%}%>
+
+					<%}%>
+
+					<br>
+
+				</div>	
+
+			</div>
+
+		</div>
+
+	</body>	
+
+</html>
+
+<% include ./link_insert %>
+<% include ./link_modal %>
+
+<script type="text/javascript" src="js/km/links.js"></script>
+

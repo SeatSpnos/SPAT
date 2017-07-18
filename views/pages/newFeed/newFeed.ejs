@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>New Feed</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+
+ 	<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+  <script type="text/javascript" src="lib/bootstrap/js/transition.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/collapse.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script> 
+
+  <link href="//cdn.quilljs.com/1.1.5/quill.snow.css" rel="stylesheet">
+  <script src="//cdn.quilljs.com/1.1.5/quill.js"></script>
+
+  <script src="/lib/jquery-editable-select-master/dist/jquery-editable-select.min.js"></script>
+  <link href="/lib/jquery-editable-select-master/dist/jquery-editable-select.min.css" rel="stylesheet">
+
+  <script src="/lib/selectize.js-master/dist/js/standalone/selectize.min.js"></script>
+	<link href="/lib/selectize.js-master/dist/css/selectize.default.css" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+  <link href="lib/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="lib/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+
+  <link href="css/newFeed/newFeed.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <% include ../../partials/side_nav_bar %>
+
+<div class="container-fluid" style="position: relative; top: -15px;">
+
+	<div class="row">
+
+		<div class="col-sm-2"></div>
+
+		<div class="col-sm-5">
+			<select class="form-control">
+
+			<% for( var i in oldNews ) {%>
+
+				<option class="editNews" value="<%= oldNews[i].id %>"> <%= oldNews[i].title + " | " + oldNews[i].date + " | "  + oldNews[i].percentage + "%" %></option>
+
+			<% } %>
+			</select>
+
+		</div>
+
+		<div class="col-sm-1">
+			
+			<button class="btn btn-warning edit">Editar</button>	
+
+		</div>
+
+		<div class="col-sm-1">
+			
+			<button class="btn btn-info inactive">Excluir</button>	
+
+		</div>
+
+		<div class="col-sm-1">
+			
+			<button class="btn btn-info new">Nova</button>	
+
+		</div>
+
+	</div>
+			
+		
+</div>
+
+<div class="container-fluid main" style="background: transparent;">
+
+	<div id="form-container inMain" class="container-fluid">
+
+		<form action="/newFeed"  method="post" enctype="multipart/form-data" class="insert">
+
+		<br>
+
+			<div class="form-group">
+
+				<h5 class="text-center">Titulo</h5>
+
+				<br>
+
+					<input class="form-control" type="text" name="Title" placeholder="Titulo" required>
+
+				<br>
+
+			</div>
+
+			<div class="form-group">
+
+				<h5 for ="about" class="text-center">Texto</h5>
+
+				<br>
+
+				<input type="hidden" name="about">
+
+				<div id="editor"></div>
+
+			</div>
+
+			<div class="row">
+
+				<div class="col-sm-6">
+
+					<div class="form-group">
+
+						<h5 class="text-center">Extra</h5>
+
+						<br>
+
+						<p class="text-center description" >Categoria</p>
+
+						<select class="demo-default editableCategory" id="category" name="category" required>
+
+						<option value=""></option>
+
+							<% for (var i in category) { %>
+
+								<option value="<%=category[i].name%>"><%=category[i].name%></option>
+
+							<% } %>		
+
+						</select>
+
+						<br>
+
+						<p class="text-center description">Tags</p>
+
+						<select class="demo-default editableTags" id="tags" name="tags" required>
+
+							<option value=""></option>
+
+							<% for (var i in tags) { %>
+
+								<option value="<%=tags[i].name%>"><%=tags[i].name%></option>
+
+							<% } %>		
+
+						</select>
+
+						<br>
+
+		        <p class="text-center">Attachments</p>
+
+		        <br>
+
+						<p class="text-center description">
+						  Please specify a file:<br>
+
+						  <input type="file" name="datafile" class="center-block">
+						</p>
+
+					</div>
+
+				</div>
+
+				<div class="col-sm-6">
+
+					<div class="form-group">
+
+						<h5 class="text-center">Opções</h5>
+
+						<br>
+
+						<p class="text-center description">Prioridade</p>
+
+						<select class="form-control" id="priority" name="priority" required>
+
+							<option value="0">0 (Menor prioridade)</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="6">5 (Maior prioridade)</option>
+
+						</select>
+
+				  	<p class="text-center description">Leitura obrigatória</p>
+
+					  <select class="form-control" id="required" name="required" required>
+
+							<option>Não</option>
+							<option>Sim</option>
+
+						</select>
+
+						<p class="text-center description">Grupo</p>
+
+						<select class="form-control" id="grupo" name="group" required>
+
+							<option>Todos</option>
+							<option>Admin</option>
+							<option>Supervisor</option>
+							<option>Segmento</option>
+							<option>Guest</option>
+
+						</select>
+
+						<p class="text-center description">Data de Expiração</p>
+
+						<div class='input-group date' id='datetimepicker'>
+
+						
+	            <input type='text' class="form-control" name = "dateEnd">
+
+	            <span class="input-group-addon">
+
+	            	<span class="glyphicon glyphicon-calendar"></span>
+
+	            </span>
+
+	          </div>
+						  		
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<br>
+			<br>
+
+			<div class="row">
+
+				<div class="col-sm-10"></div>
+
+				<div class="col-sm-2">
+
+				<input type="hidden" name="isEdit" value="false" class="isEdit">
+
+					<button type="submit" class="btn btn-success">Submeter</button>
+
+				</div>
+
+			</div>
+
+			<br>
+
+		</form>	
+
+	</div>
+
+</div>
+
+</body>
+
+</html>
+
+<script>
+	var $selectCategory = $('select.editableCategory').selectize({
+
+		create: true,
+		placeholder : 'Categoria',
+		maxItems: 1,
+		hideSelected: true
+
+	})
+	
+
+	var $selectTags = $('select.editableTags').selectize({
+
+		delimiter: '#',
+		create: true,
+		maxItems: null,
+		hideSelected: true,
+		placeholder : 'Tags'
+
+	});
+
+	$(function () {
+
+		var now = moment().add(3, 'M');
+
+    $('#datetimepicker').datetimepicker({
+    	locale: 'pt',
+    	format: 'YYYY-MM-DD',
+    	defaultDate : now,
+
+    })
+
+  })
+
+  var quill = new Quill('#editor', {
+
+  	image: true,
+    modules: {
+	    toolbar: [
+	    	['bold', 'italic', 'underline', 'strike'],        
+	  		['blockquote', 'code-block'],
+
+	  		[{ 'header': 1 }, { 'header': 2 }],               
+			  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+			  [{ 'script': 'sub'}, { 'script': 'super' }],      
+			  [{ 'indent': '-1'}, { 'indent': '+1' }],          
+			  [{ 'direction': 'rtl' }],                         
+
+			  [{ 'size': ['small', false, 'large', 'huge'] }],  
+			  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+			  [{ 'color': [] }, { 'background': [] }],          
+			  [{ 'font': [] }],
+			  [{ 'align': [] }],
+			  ['image']
+			  ]
+	  },
+	  placeholder: 'I hid the body. Now what?',
+	  theme: 'snow' 
+	})
+
+	var news = <%-JSON.stringify(oldNews)%>
+
+  
+	$('.edit').on( 'click', function() {
+
+		var val = $('.editNews:selected')[0].value
+
+		$('.isEdit').val(val)
+
+		for (var i in news) {
+
+			var temp = news[i].id
+
+			if(temp == val) {
+				
+				$('[name=Title]').val(news[i].title)
+				
+				$selectCategory[0].selectize.addItem(news[i].category, true)
+
+				var arr = news[i].tags
+				arr = arr.replace(/,/g, '#')
+				arr = arr.split('#')
+				arr.forEach( function(tag) {
+
+					$selectTags[0].selectize.addItem(tag, true)
+
+				})
+			
+				
+				$('[name=priority]').val(news[i].priority)
+				$('[name=required]').val(news[i].required)
+				$('[name=group]').val(news[i].grupo)
+				$('[name=dateEnd]').val(news[i].expireDate)
+
+				quill.setContents( JSON.parse( news[i].text ) )
+
+				return
+
+			}
+
+		}
+		
+	})
+
+	$('.new').on( 'click', function() {
+
+		$('[name=Title]').val("")
+		$selectCategory[0].selectize.clear(false)
+		$selectTags[0].selectize.clear(false)
+		$('[name=priority]').val("0")
+		$('[name=required]').val("Não")
+		$('[name=group]').val("Todos")
+
+		quill.setContents( "" )
+
+	})
+
+	$('.inactive').on( 'click', function() {
+
+		bootbox.confirm({ 
+  		size: "small",
+  		message: "Are you sure?", 
+  		callback: function(result){ 
+
+  			if( result ) {
+
+  			var el = $('.editNews:selected')
+				var val = el[0].value
+
+				$.post( "/newfeed_inactive", { id : val } )
+
+				el.remove();
+
+  			}
+  			
+  		}
+		})
+		
+	})
+
+	$('#save').on('click', function() {
+
+	  var about = document.querySelector('input[name=about]')
+
+	  about.value = JSON.stringify(quill.getContents())
+
+	})
+
+	var form = document.querySelector('.insert')
+
+	form.onsubmit = function() {
+
+	  var about = document.querySelector('input[name=about]')
+
+	  about.value = JSON.stringify(quill.getContents())
+	  
+	  return true
+	}
+
+</script>
+
+<style type="text/css">
+	p {
+		color : black;
+	}
+</style>

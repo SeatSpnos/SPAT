@@ -1,0 +1,167 @@
+<div class="contairner-fluid">
+
+  <div id= "modal" class= "modal fade" role="dialog">
+
+    <div class= "modal-dialog">
+
+      <div class = "modal-content">
+
+        <div class = "modal-header">
+
+          <button type= "button" class="close" data-dismiss="modal">&times;</button>
+
+          <h4 class="modal-title text-center">Adicionar</h4>
+
+        </div>
+
+       	<div class="modal-body">
+
+          <form class="insert" method="post" action="km_contact_add">
+
+            <div class="row">
+              
+              <select class="form-control categorySelect" name="category" required placeholder="">
+
+                <% for( var z in category ) { %>
+
+                  <option value="<%= category[z].name %>"><%= category[z].name %></option>
+
+                <% } %>   
+
+              </select>
+
+            </div>
+
+            <br>
+
+            <div class="row subCategoryAdd" hidden>
+              
+              <select class="form-control subCategorySelect" name="subCategory_name" required placeholder="">
+
+                <% for( var z in subcategory ) { %>
+
+                  <option value="<%= subcategory[z].name %>" class="subCategoryOption <%= subcategory[z].pai %>Option" hidden><%=subcategory[z].name%></option>
+
+                <% } %>   
+
+              </select>
+
+            </div>
+
+            <br>
+
+            <div class="row subCategoryAdd" hidden>
+              
+              <select class="form-control subCategorySelect" name="subCategory_zona" required placeholder="">
+
+                <% for( var z in subcategory ) { %>
+
+                  <option value="<%= subcategory[z].zona %>" class="subCategoryOption <%= subcategory[z].pai %>Option" hidden><%= subcategory[z].zona %></option>
+
+                <% } %>   
+
+              </select>
+
+            </div>
+
+            <br>
+
+            <div class="row functionAdd" hidden>
+              
+              <select class="form-control functionSelect" name="function" required placeholder="">
+
+                <% for( var z in functions ) { %>
+
+                  <option value="<%= functions[z].name %>" class="functionOption <%= functions[z].pai %>Option" hidden><%= functions[z].name %></option>
+
+                <% } %>   
+
+              </select>
+
+            </div>
+
+            <br>
+
+            <div class="row">
+              
+              <div class="col-sm-5">
+
+              <input type="hidden" name="contact">
+                
+                <button type="sumbit" class="btn btn-red">Submeter</button>
+
+              </div>
+
+            </div>
+
+          </form>
+
+      	</div>
+
+    	</div>
+
+  	</div>
+
+  </div>
+
+</div>
+
+  <script src="/lib/jquery-editable-select-master/dist/jquery-editable-select.min.js"></script>
+  <link href="/lib/jquery-editable-select-master/dist/jquery-editable-select.min.css" rel="stylesheet">
+
+<script type="text/javascript">
+
+  $('select').editableSelect();
+  
+  $('.es-visible').on('change', function() {
+    var name = this.value
+
+    $('.subCategoryOption').hide()
+
+    $('.functionAdd').hide()
+
+    $('.functionOption').hide()
+
+    $('.contactAdd').hide()
+
+    $('.subCategoryAdd').show()
+
+    $('.'+name+'Option').show()
+
+  })
+
+  $('.subCategorySelect').on('change', function() {
+
+    var name = this.value
+
+    $('.functionOption').hide()
+
+    $('.contactAdd').hide()
+
+    $('.functionAdd').show()
+
+    $('.'+name+'Option').show()
+    
+  })
+
+
+  var form = document.querySelector('.insert')
+
+  form.onsubmit = function() {
+
+    var about = document.querySelector('input[name=contact]')
+
+    about.value = $('#chart-container').orgchart('getHierarchy');
+    
+    return true
+  }
+
+</script>
+<style type="text/css">
+   div.row {
+    padding-left: 50px;
+    padding-right: 50px;
+    
+  }
+</style>
+

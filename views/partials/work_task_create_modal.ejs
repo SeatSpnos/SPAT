@@ -1,0 +1,501 @@
+
+<%var worktask = typeof worktask=="undefined"?worktask:worktask[0]%>
+
+<style>
+  label {   
+    color:black;
+    font-family:'segoe ui';
+    font-size:14px;
+    font-weight: bold;
+    }
+</style>
+
+<div class="modal-body">
+
+  <p class="text-center" style="font-size: 18px;color:black;font-family:'segoe ui';font-weight: bold;"><%=slot%></p>
+
+    <form action="worktask_create" method="post">
+
+      <div class="form-group common">
+        <div class="row">
+          <div class="col-sm-5"></div>
+          <div class="col-sm-4">
+            <label>Relatório</label>
+          </div>
+          <div class="col-sm-3">
+            <label class="radio-inline <%=typeof worktask=="undefined" ?'active':(!worktask.relatorio?'active':'')%>"><input type="radio" name="relatorio" value="0" <%=typeof worktask=="undefined"?'checked':(!worktask.relatorio?'checked':'')%>>Não</label>
+            <label class="radio-inline <%=typeof worktask!="undefined"?(worktask.relatorio?'active':''):''%>"><input type="radio" name="relatorio" value="1" <%=typeof worktask!=="undefined"?(worktask.relatorio?'checked':''):''%>>Sim</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group common">
+        <div class="row">
+          <div class="col-sm-5"></div>
+          <div class="col-sm-4">
+            <label>OT com orçamento</label>
+          </div>
+          <div class="col-sm-3">
+            <label class="radio-inline <%=typeof worktask=="undefined" ?'active':(!worktask.orcamento?'active':'')%>"><input type="radio" name="orcamento" value="0" <%=typeof worktask=="undefined"?'checked':(!worktask.orcamento?'checked':'')%>>Não</label>
+            <label class="radio-inline <%=typeof worktask!="undefined"?(worktask.orcamento?'active':''):''%>"><input type="radio" name="orcamento" value="1" <%=typeof worktask!=="undefined"?(worktask.orcamento?'checked':''):''%>>Sim</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group common">
+        <div class="col-sm-4">
+          <label>Numero Cliente</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="nclient" placeholder= "<%= typeof worktask=="undefined"?"":worktask.client_number %>" value="<%= typeof worktask=="undefined"?"":worktask.client_number %>">
+        </div>
+      </div>
+
+      <div class="form-group common">
+      <div class="col-sm-4">
+        <label>Contacto Cliente</label>
+      </div>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" name="contact_number" placeholder= "<%= typeof worktask=="undefined"?"":worktask.contact_number %>" value="<%= typeof worktask=="undefined"?"":worktask.contact_number %>">
+      </div>
+    </div>
+
+      <div class="form-group common">
+        <div class="col-sm-4">
+          <label>OT</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="OT" placeholder= "<%= typeof worktask=="undefined"?"":worktask.OT %>" value="<%= typeof worktask=="undefined"?"":worktask.OT%>">
+        </div>
+      </div>
+
+      <div class="form-group common">
+        <div class="col-sm-4">
+          <label>Tipo OT</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default otTypeSelect" name="ot_type" placeholder="Escolher tipo de OT">
+            <option selected></option>
+            <%for (var i = 0; i< ot_type.length-1; i++) {%>
+              <%if(typeof worktask=='undefined'?false:worktask.tipo_OT_FK_id-1 == i){%>
+                <option selected value="<%=ot_type[i].id%>"><%=ot_type[i].name%></option>
+              <%}else{%>
+                <option value="<%=ot_type[i].id%>"><%=ot_type[i].name%></option>
+              <%}%>
+            <%}%>
+          </select>           
+        </div>
+      </div>
+
+      <div class="form-group common">
+        <div class="col-sm-4">
+          <label>Tipo TRB</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default trbSelect" name="trb" placeholder="Escolher tipo de TRB">
+            <option selected></option>        
+            <%for (var i = 0; i< trb.length-1; i++) {%>
+              <%if(typeof worktask =='undefined'?false:worktask.tipo_TRB_FK_id-1 == i){%>
+                <option selected value="<%=trb[i].id%>"><%=trb[i].name%></option>
+              <%}else{%>
+                <% if(trb[i].name == 'GI') { %>
+                  <option selected value="<%=trb[i].id%>"><%=trb[i].name%></option>
+                <% } else { %>
+                  <option value="<%=trb[i].id%>"><%=trb[i].name%></option>
+                <% } %>
+              <%}%>
+            <%}%>
+          </select>            
+        </div>
+      </div>
+
+      <div class="form-group common">
+        <div class="col-sm-4">
+          <label>Observações</label>
+        </div>
+        <div class="col-sm-8">
+          <textarea class="form-control" row row-bottom-margins="3" name="obs" value=" <%= typeof worktask=="undefined"?"":worktask.obs %>"><%= typeof worktask=="undefined"?"":worktask.obs%></textarea>
+        </div>
+      </div>
+
+      <div class="form-group common">
+        <div class="col-sm-4">
+          <label>Celula</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default celulaSelect" name="celula" placeholder="Escolher Celula">
+          <%for (var i = 0; i < celula.length-1; i++) {%>     
+            <%if(typeof worktask=='undefined'? false : worktask.celula_FK_id - 1 == i ) { %>
+
+              <option selected value="<%=celula[i].id %>"><%=celula[i].name%></option>
+                                
+            <% } %>
+          <% } %>
+          </select>           
+        </div>  
+      </div>
+
+      <button class="btn btn-danger next common"> Seguinte </button>
+
+      <h1 class="text-center options" hidden> Opções Extra</h1>
+
+      <div class="form-group options" hidden>
+        <div class="col-sm-4">
+          <label>Numero de Slots</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default nslotsSelect" name="nSlots" hidden>
+            <%for (var i = 1; i< 8; i++) {%>
+              <option value="<%=i%>"><%=i%></option>
+          <%}%>
+          </select>           
+        </div>
+      </div>
+
+      <div class="form-group options" hidden>
+        <div class="col-sm-4">
+          <label>Ajuda</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default helptecSelect" placeholder="Escolher Tecnico ajudante" name="helptec" hidden>
+            <option selected value ="0">Não</option>
+            <%for (var i = 0; i< tec.length; i++) {%>
+              <option value="<%=tec[i].id%>"><%=tec[i].name%></option>
+            <%}%>
+          </select>               
+        </div>  
+      </div>
+
+      <div class="form-group options" hidden>
+        <div class="col-sm-4">
+          <label>Mudar Tecnico</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default userSelect" placeholder="Escolher outro Tecnico" name="newTec">
+            <option selected value ="0">Não</option>
+              <%for( var tecID in tec){%>
+                <% if(id == tec[tecID].id) {%>
+                  <%= tec[tecID].name%>
+                <%}%>
+              <%}%>
+                
+              </option>
+              <%for (var i = 0; i< tec.length; i++) {%>
+                <option value="<%=tec[i].id%>"><%=tec[i].name%></option>
+            <%}%>
+          </select>
+        </div>  
+      </div>
+
+      <div class="form-group options" hidden>
+        <div class="col-sm-4">
+          <label>Mudar de Slot</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default swapSlotSelect" placeholder="Mudar hora da slot inicial" name="swapSlot">
+          <option selected value ="0">Não</option>
+            <%for (var i = 0; i < 10; i++) {%>
+              <option value="<%=i%>"><%=timeSlot[i]%></option>
+          <%}%>
+          </select>           
+        </div>
+      </div>
+
+      <div class="form-group options" hidden>
+        <div class="col-sm-4">
+          <label>Saltar Almoço</label>
+        </div>
+        <div class="col-sm-8">
+          <select class="demo-default lunchSelect" name="lunch">
+            <option selected value="0">Sim</option>
+            <option value="1">Não</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group options" hidden>
+        <div class="col-sm-4">
+          <label class="text-left">Mudar data</label>
+        </div>
+        <div class="col-sm-8">
+          <div class='input-group date' id='datetimepickerSLOT'>
+            <input type='text' class="form-control" name = "newDate" value="<%= typeof worktask=="undefined"?date:worktask.date %>">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+         </div>
+      </div>
+
+      <button class="btn btn-danger previous options" hidden> Voltar </button>
+
+      <button class="btn btn-danger verify options" hidden> Verificar </button>
+
+      <br>
+
+      <br>
+
+      <div class="row confirm" hidden>
+
+        <label>Se pretenderes continuar queres</label>
+
+      </div>    
+      <div class="row confirm" hidden>
+
+        <label class="radio-inline" ><input type="radio" name="newSlot" value="0" checked="checked" >Nova Slot</label>
+        <label class="radio-inline "><input type="radio" name="newSlot" value="1" >Mudar Slots já existentes</label>
+
+      </div>
+
+
+
+      <br>
+      <div class="form-group">
+        <input type="hidden" name="wt" value="<%= typeof worktask=="undefined"?"":worktask.id %>">
+        <input type="hidden" name="slotsID" value="<%= typeof worktask=="undefined"?"":worktask.slotsID %>">
+        <input type="hidden" class="dateInput" name="date" value="<%= typeof worktask=="undefined"?date:worktask.date %>">
+        <input type="hidden" class="tecInput" name="tec_id" value="<%=id%>">
+        <input type="hidden" name="slotHora" value="<%=slot%>">
+      </div>
+      <button type="submit" class="btn btn-danger submit" hidden>Inserir</button>
+    </form>
+    <br>
+    <div class="row">
+      <div class="alert alert-danger status" style="white-space: pre" hidden>
+        <strong>Cuidado! </strong> 
+      </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+  var tecnicos 
+
+  $('.trbSelect').selectize();
+  $('.lunchSelect').selectize();
+  $('.nslotsSelect').selectize();
+
+  $('.celulaSelect').selectize({
+    valueField: 'id',
+    labelField: 'name',
+    searchField: 'name',
+    options: [],
+    persist: false,
+    loadThrottle: 600,
+    create: false,
+    allowEmptyOption: true,
+    load: function(query, callback) {
+      if (!query.length) return callback();
+      $.ajax({
+          url: '/worktask_celula',
+          type: 'GET',
+          dataType: 'json',
+          data: {
+              name: query,
+          },
+          error: function() {
+              callback();
+          },
+          success: function(res) {
+
+              callback(res);
+              // res is json response from server
+              // it contains array of objects. Each object has two properties. In this case 'id' and 'Name'
+              // if array is inside some other property of res like 'response' or something. than use this
+              //callback(res.response);
+          }
+      });
+    }
+  });
+  var $user =  $('.userSelect').selectize({
+    valueField: 'id',
+    labelField: 'title'
+  });
+  var $help =  $('.helptecSelect').selectize({
+    valueField: 'id',
+    labelField: 'title'
+  });
+
+  $('#datetimepickerSLOT').datetimepicker({
+    locale: 'pt',
+    format: 'YYYY-MM-DD'
+  })
+
+  $('.otTypeSelect').selectize();
+  $('.swapSlotSelect').selectize();
+
+  $('.common').show();
+  $('.options').hide();
+  $('.submit').hide()
+
+  $('form').submit = function() {
+    var about = window.pageYOffset
+    var stuff = $(window).scrollTop()
+    sessionStorage.setItem('scrollPosition', about )
+    //console.log(stuff + "coisas"+ about + "  -  " + sessionStorage.getItem('scrollPosition'))
+    //alert("coisas"+ about + "  -  " + sessionStorage.getItem('scrollPosition'))   
+    return false
+  }
+
+  $('.next').on('click', function (e) {
+    e.preventDefault();
+    $('.common').hide();
+    $('.options').show();
+  });
+
+  $('.previous').on('click', function (e) {
+    e.preventDefault();
+    $('.common').show();
+    $('.options').hide();
+    $('.submit').hide();
+    $('.confirm').hide();
+    $('.alert-danger').hide();
+  });
+
+  $('.verify').on('click', function (e) {
+    e.preventDefault()
+
+    let body = {
+      tec_id: $(".tecInput").val(),
+      slot: $("input[name='slotHora']").val(),
+      slotsID: $("input[name='slotsID']").val(),
+      nSlots: $("select[name='nSlots']").val(),
+      helptec: $("select[name='helptec']").val(),
+      newTec: $("select[name='newTec']").val(),
+      swapSlot: $("select[name='swapSlot']").val(),
+      lunch: $("select[name='lunch']").val(),
+      newDate: $("input[name='newDate']" ).val()
+    };
+    console.log(body)
+    $.post( "/worktask_verify", body )
+      .done(function (data) {
+        if (data.length) {
+          $('.alert-danger').text( "" );
+          $('.alert-danger').hide();
+          $('.confirm').hide();
+          $('.submit').hide();
+          var danger = false
+          var names = {
+            nslots: "Numero de slots : ",
+            swapSlot: "Mudar de slot : ",
+            swapTec: "Mudar de tecnico : ",
+            help: "Ajuda : ",
+            currentSlot: "Slot atual : "
+          }
+  
+          for( var j in data ) {
+            var slot = data[j]
+            if( slot.status != 'ok') {
+              danger = true
+              var tec
+              for( var tecID in tecnicos ) {
+                if( slot.tecnico == tecnicos[tecID].id ) {
+                  tec = tecnicos[tecID].name
+                }
+              }
+              $('.alert-danger.status').text( $('.alert-danger.status').text() + "O " + tec + slot.status + "\n")
+              $('.alert-danger.status').show()
+            }          
+          }
+          if (danger) $('.confirm').show();
+          $('.submit').show();
+          //if( body.helptec || body.newTec ) checkAllTecs( body )
+        } else {
+          alert(data)
+        }
+      });
+
+  })
+
+  function checkAllRecs( body ) {
+
+    for ( var k in tecnicos ) {
+
+      body.newTec == tecnicos[k].id
+
+      $.post( "/worktask_verify", body )
+      .done( function( data ) {
+
+      });
+
+    }
+
+  }
+
+
+  function sendMessage( data ) {}
+
+  $('#datetimepickerSLOT').on('dp.change', function dateChanged( e ) {  
+
+    var value = $('input[name="newDate"]').val()
+
+    $.ajax({
+      url: '/worktask_findAvailableTec',
+      type: 'GET',
+      dataType: 'json',
+      data: {
+          date: value,
+      },
+      error: function() {
+          return
+      },
+      success: function( res ) {
+        tecnicos = res
+        var selects = {
+          otherTecSelect  : $user[0].selectize,
+          helpSelect      : $help[0].selectize
+        }
+        
+
+        for( var k in selects ) {
+
+          selects[k].clearOptions()
+
+          selects[k].addOption( { id :0, title : 'Não' } )
+
+          selects[k].addItem( 0, true )
+
+          for( var i = 0; i< res.length; i++ ) {
+
+            selects[k].addOption( { id : res[i].id, title : res[i].name } )
+
+          }  
+
+        }
+
+        return
+
+      }
+
+    });
+
+  })
+
+  $(document).ready( function() {
+
+    var value = $('input[name="newDate"]').val()
+
+    $.ajax({
+      url: '/worktask_findAvailableTec',
+      type: 'GET',
+      dataType: 'json',
+      data: {
+          date: value,
+      },
+      error: function() {
+          return
+      },
+      success: function( res ) {
+        tecnicos = res
+
+        return
+
+      }
+
+    });
+
+  })
+
+
+</script>

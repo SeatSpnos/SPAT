@@ -1,0 +1,179 @@
+<div class="container-fluid">		
+	<%for(let y = 0; y <2;y++){%>
+		<div id="accordion" class="panel-group">					  
+	    <%for(var i=0;i< tec.length;i++){%>
+	    	<% if(!tec[i].vacation) {%>
+		    	<% if(tec[i].zona == opt[y]){%>
+			      <div class="panel panel-default">
+			        <div class="panel-heading" name="<%=opt[y]%>">
+			          <div class="row">
+			            <div class="col-sm-3">
+			              <span><%= tec[i].name%></span>
+			            </div>
+			            <div class="col-sm-3">
+			              <span><%= tec[i].zona%></span>
+			            </div>
+			            <div class="col-sm-3">
+				            <% if(typeof table[tec[i].id] !== 'undefined'){%>
+					            <%var k = Object.keys(table[tec[i].id])%>
+					              <span><%= 5 - k.length%></span>
+					            <%}else {%>
+					            	<span>5</span>
+					            <%}%>
+			            </div>
+			            <div class="col-sm-3">
+			              <a class="accordion-toggle" data-toggle="collapse" href="#acord<%=tec[i].id%>"></a>
+			            </div>       
+			          </div>
+			        </div>
+		         	<div id="acord<%=tec[i].id%>" class="panel-collapse collapse">
+		         		<div class="panel-body">
+		         			<table id="table<%=tec[i].id%>" class="table table-condensed">
+		         				<thead>
+		         					<% for (var j = 0; j < colName.length ; j++){ %>
+		                    <th><%= colName[j] %></th>
+		                  <% } %>
+		                  <th>Opções</th>    
+		         				</thead>   
+										<tbody>
+										<%var horario = morning%>
+										<%if(tec[i].horario){%>
+											<% horario = afternoon%>
+										<%}%>
+										<%var rslot=0%>
+									  <% for (var j = begin ; j < end ; j++) { %>							  	
+									  	<%var slot%>
+									      <% if(typeof table[tec[i].id] !== 'undefined' && typeof table[tec[i].id][j] !== 'undefined'){%>
+									      	<%slot = table[tec[i].id][j]%>
+									      	<tr id="<%=tec[i].id%>|<%=j%>|<%=date%>|<%=slot.id%>"  name="<%=trb[slot["tipo_TRB_FK_id"]-1].name%> <%=ot_type[slot["tipo_OT_FK_id"]-1].name%> <%=slot["obs"]%>">
+									          <% var tableKeys = Object.keys(slot)%> 
+									          <% for (var k = 2 ; k < colName.length+2 ; k++) { %>
+									           	<%if(k==2){%>
+									           		<%if(slot.slot_hora >10){%>
+									           			<%slot.slot_hora-=10%>
+									           		<%}%>
+									              <td style = "width: 90px; background-color: white"><%= timeSlot[slot.slot_hora]%></td>
+									            <%}else{%>
+									            	<%if(tableKeys[k].includes("FK_id")){%>
+									            		<td> <%= addTables[tableKeys[k]][slot[tableKeys[k]]-1].name%></td>
+									            	<%}else{%>
+									               		<td> <%= slot[tableKeys[k]]%></td>
+									             	<%}%>
+									           	<%}%> 
+									          <%}%>
+									          <td  style = "width: 115px; background-color: white">
+										          <div class="row">
+										            <div class="col-xs-4">
+										            	<form action="/worktask_delete" method="post">
+										              	<input type="hidden" name="id" value="<%=slot.id%>">
+										              	<input type="hidden" name="slotsID" value="<%=slot.slotsID%>">
+										              	<input type="hidden" name="hora" value="<%=date%>">
+										              	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_delete" title="Remover" type="submit"><i class="fa fa-ban fa-2x" style="color: red"></i></button>					                      		
+										              </form>
+										            </div>
+										            <div class="col-xs-4">
+										              <form action="/worktask_reserve" method="post">
+										              	<input type="hidden" name="id" value="<%=slot.id%>">
+										              	<input type="hidden" name="hora" value="<%=date%>">
+										              	<input type="hidden" name="reserve" value="true"> 
+										              	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_reserva" title="Reservar" type="submit"><i class="fa fa-clock-o fa-2x" style="color: green"></i></button>
+										              </form>
+										            </div>
+										            <div class="col-xs-4"">
+										              <form action="/worktask_picket" method="post">
+										              	<input type="hidden" name="id" value="<%=tec[i].id%>">
+										              	<input type="hidden" name="slot_hora" value="<%=j%>">
+										              	<input type="hidden" name="hora" value="<%=date%>">
+																		<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_picket" title="Prevenção" type="submit"><i class="fa fa-taxi fa-2x" style="color: blue"></i></button>
+																	</form>
+																</div>
+										          </div>					                      
+										        </td>			                      
+									      	</tr>
+									      	<%if(horario[rslot] == j){%>
+									      		<%rslot++%>
+									      	<%}%>			                        
+									      <%}else if(horario[rslot] == j){%>
+									      	<tr id="<%=tec[i].id%>|<%=j%>|<%=date%>">
+									          <% for (var k = 2 ; k < colName.length+2 ; k++) { %>
+									          	<%if(j==3){%>
+									          		<%if(k==2){%>
+									                <td><%= timeSlot[j]%></td>
+									              <%}else if(k==7){%>
+									                <td><span>Almoço</span></td>
+									              <%}else{%>
+									                <td></td>
+									              <%}%>
+									          	<%}else {%>
+									              <%if(k==2){%>
+									                <td><%= timeSlot[j]%></td>
+									              <%}else{%>
+									                <td></td>
+									              <%}%>
+									            <%}%>
+									          <%}%>
+									          <td  style = "width: 115px; background-color: white">
+									          <div class="row">
+									          	<div class="col-xs-4">
+									              <form action="/worktask_nowork" method="post">
+									              	<input type="hidden" name="id" value="<%=tec[i].id%>">
+									              	<input type="hidden" name="slot_hora" value="<%=j%>">
+									              	<input type="hidden" name="hora" value="<%=date%>">
+									              	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_noWork" title="Sem Trabalho" type="submit"><i class="fa fa-hourglass-half fa-2x" style="color: orange"></i></button>
+									              </form>
+									            </div>
+									            <div class="col-xs-4">
+									              <form action="/worktask_reserve" method="post">
+									              	<input type="hidden" name="hora" value="<%=date%>">
+									              	<input type="hidden" name="reserve" value="true">
+									              	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_reserva" title="Reservar" type="submit"><i class="fa fa-clock-o fa-2x" style="color: green"></i></button>
+									              </form>
+									            </div>
+									            <div class="col-xs-4"">
+									              <form action="/worktask_picket" method="post">
+									              	<input type="hidden" name="id" value="<%=tec[i].id%>">
+									              	<input type="hidden" name="slot_hora" value="<%=j%>">
+									              	<input type="hidden" name="hora" value="<%=date%>">
+																	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_picket" title="Prevenção" type="submit"><i class="fa fa-taxi fa-2x" style="color: blue"></i></button>
+																</form>
+															</div>
+									          </div>					                      
+									        </td>			                      
+									      </tr>
+									      <%rslot++%>
+									      <%}%>
+									  <% } %>     
+									</tbody>               
+		         			</table>
+  			     			<script> 
+										$("#table<%=tec[i].id%> tbody tr").on('dblclick', function (){
+											var id = this.id
+											$('#modal').find('.modal-body').load('/worktask_add',{id:id}, 
+												function (responseText, textStatus) {
+									        if ( textStatus === 'success' || textStatus === 'notmodified'){
+									          $('#modal').modal('show')
+									          modalIsOpen = true
+									          $('select').selectize();
+									        }
+									    	})
+										})
+									</script>
+		         		</div>
+		         	</div>
+		        </div>
+		      <%}%>
+        <%}%>
+    	<%}%>
+    </div>
+	<%}%>
+</div>
+<script>
+	var form = document.querySelector('form')
+	form.onsubmit = function() {
+	  var about = window.pageYOffset
+	  sessionStorage.setItem('scrollPosition', about)
+	  console.log("coisas"+ about + "  -  " + sessionStorage.getItem('scrollPosition'))
+	  alert("coisas"+ about + "  -  " + sessionStorage.getItem('scrollPosition'))	  
+	  return true
+	}	
+</script>

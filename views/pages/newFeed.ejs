@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>New Feed</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+ 	<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>   
+
+
+  <link href="//cdn.quilljs.com/1.1.5/quill.snow.css" rel="stylesheet">
+  <script src="//cdn.quilljs.com/1.1.5/quill.js"></script>
+
+</head>
+<style type="text/css">
+	body 		{ padding-top:80px; word-wrap:break-word;background: #333333;}
+	h5 {
+			background-color: orange;
+			color:black;
+			font-family:'segoe ui';
+			font-size:20px;
+			font-weight:bold;
+			}
+	.ql-toolbar {
+			background: white;
+		}
+	.ql-snow{
+
+			background: white;
+		}
+
+	.btn:focus, .upload-btn:focus{
+  	outline: 0 !important;
+	}
+
+	.upload-btn {
+ 		color: #ffffff;
+  	background-color: #F89406;
+  	border: none;
+	}
+
+	.upload-btn:hover,
+	.upload-btn:focus,
+	.upload-btn:active,
+	.upload-btn.active {
+	  color: #ffffff;
+	  background-color: #FA8900;
+	  border: none;
+	}
+
+	#upload-input {
+	  display: none;
+	}
+
+	@media (min-width: 768px) {
+	  .main-container {
+	    width: 100%;
+	  }
+	}
+
+	@media (min-width: 992px) {
+	  .container {
+	    width: 450px;
+	  }
+	}
+
+</style>
+<body>
+<div class="container-fluid" style="margin-right: 150px;
+																		margin-left: 150px;
+																		background: #f0eff4;
+																		border-style: solid;
+																		border-width: medium;
+																		border-color: #fb8b24;
+																		border-radius: 15px;">
+	<div id="form-container" class="container-fluid" >
+		<form action="/newFeed"  method="post" enctype="multipart/form-data">
+		<br>
+			<div class="form-group">
+				<h5 class="text-center">Titulo</h5>
+				<br>
+					<input class="form-control" type="text" name="Title" placeholder="Titulo e cenas" required>
+				<br>
+			</div>
+			<div class="form-group">
+				<h5 for ="about" class="text-center">Texto</h5>
+				<br>
+				<input type="hidden" name="about">
+				<div id="editor"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<h5 class="text-center">Extra</h5>
+						<br>
+						<p style="color:#453f78;font-family:'consolas';font-size:16px;font-style: bold;" class="text-center" required>Categoria</p>
+						<input class="form-control" type="text" name="category" placeholder="Categoria">
+						<br>
+						<p style="color:#453f78;font-family:'consolas';font-size:16px;font-style: bold;" class="text-center">Tags</p>
+						<input class="form-control" type="text" name="tags" placeholder="#hastag">
+						<br>
+		        <p style="color:#453f78;font-family:'consolas';font-size:16px;font-style: bold;" class="text-center">Attachments</p>
+		        <br>
+						<p>
+						  Please specify a file:<br>
+						  <input type="file" name="datafile">
+						</p>
+					</div>
+				</div>
+				<div class="col-sm-6">
+				<div class="form-group">
+					<h5 class="text-center">Opções</h5>
+					<br>
+					<p style="color:#453f78;font-family:'consolas';font-size:16px;" class="text-center">Prioridade</p>
+					<select class="form-control" id="priority" name="priority">
+						<option>0</option>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+					<br>
+			  	<p style="color:#453f78;font-family:'consolas';font-size:16px;font-style: bold;" class="text-center">Leitura obrigatória</p>
+				  <select class="form-control" id="required" name="required">
+						<option>Sim</option>
+						<option>Não</option>
+					</select>
+					<p style="color:#453f78;font-family:'consolas';font-size:16px;font-style: bold;" class="text-center">Grupo</p>
+					<select class="form-control" id="grupo" name="group">
+						<option>Todos</option>
+						<option>Admin</option>
+						<option>Supervisor</option>
+						<option>Basic</option>
+						<option>Guest</option>
+					</select>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="row">
+				<div class="col-sm-10"></div>
+				<div class="col-sm-2">
+					<button type="submit" class="btn btn-success">Submeter</button>
+				</div>  
+			</div>
+			<br>
+			<br>	
+		</form>	
+	</div>
+</div>
+</body>
+</html>
+
+<script>
+  var quill = new Quill('#editor', {
+  	image: true,
+    modules: {
+	    toolbar: [
+	    	['bold', 'italic', 'underline', 'strike'],        
+	  		['blockquote', 'code-block'],
+
+	  		[{ 'header': 1 }, { 'header': 2 }],               
+			  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+			  [{ 'script': 'sub'}, { 'script': 'super' }],      
+			  [{ 'indent': '-1'}, { 'indent': '+1' }],          
+			  [{ 'direction': 'rtl' }],                         
+
+			  [{ 'size': ['small', false, 'large', 'huge'] }],  
+			  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+			  [{ 'color': [] }, { 'background': [] }],          
+			  [{ 'font': [] }],
+			  [{ 'align': [] }],
+			  ['image']
+			  ]
+	  },
+	  placeholder: 'I hid the body. Now what?',
+	  theme: 'snow' 
+	})
+
+	$('#save').on('click', function() {
+	  var about = document.querySelector('input[name=about]')
+	  about.value = JSON.stringify(quill.getContents())
+	})
+
+	var form = document.querySelector('form')
+
+	form.onsubmit = function() {
+	  var about = document.querySelector('input[name=about]')
+	  about.value = JSON.stringify(quill.getContents())
+	  
+	  return true
+	}
+
+  </script>
+  

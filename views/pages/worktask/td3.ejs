@@ -1,0 +1,50 @@
+<tr id="<%=tec[i].id%>|<%=timeSlot[j]%>|<%=date%>">
+<% for (var k = 2 ; k < colName.length+2 ; k++) { %>
+	<%if(j==3){%>
+		<%if(k==2){%>
+      <td><%= timeSlot[j]%></td>
+    <%}else if(k==7){%>
+      <td><span>Almoço</span></td>
+    <%}else{%>
+      <td></td>
+    <%}%>
+	<%}else {%>
+    <%if(k==2){%>
+      <td><%= timeSlot[j]%></td>
+    <%}else{%>
+      <td></td>
+    <%}%>
+  <%}%>
+<%}%>
+<td  style = "width: 115px; background-color: white">
+<div class="row">
+	<div class="col-xs-4">
+    <form action="/worktask_nowork" method="post">
+    	<input type="hidden" name="id" value="<%=tec[i].id%>">
+    	<input type="hidden" name="slot_hora" value="<%=timeSlot[j]%>">
+    	<input type="hidden" name="hora" value="<%=date%>">
+    	<input type="hidden" name="tec_id" value="<%=tec[i].id%>">
+    	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_noWork" title="Sem Trabalho" type="submit"><i class="fa fa-hourglass-half fa-lg" style="color: orange"></i></button>
+    </form>
+  </div>
+  <div class="col-xs-4">
+    <form action="/worktask_reserve" method="post">
+    	<input type="hidden" name="hora" value="<%=date%>">
+    	<input type="hidden" name="reserve" value="true">
+    	<input type="hidden" name="tec_id" value="<%=tec[i].id%>">
+    	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_reserva" title="Reservar" type="submit"><i class="fa fa-clock-o fa-lg" style="color: green"></i></button>
+    </form>
+  </div>
+  <div class="col-xs-4"">
+    <form action="/worktask_picket" method="post">
+    	<input type="hidden" name="id" value="<%=tec[i].id%>">
+    	<input type="hidden" name="slot_hora" value="<%=timeSlot[j]%>">
+    	<input type="hidden" name="hora" value="<%=date%>">
+    	<input type="hidden" name="tec_id" value="<%=tec[i].id%>">
+			<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_picket" title="Prevenção" type="submit"><i class="fa fa-taxi fa-lg" style="color: blue"></i></button>
+		</form>
+	</div>
+</div>					                      
+</td>			                      
+</tr>
+<%rslot++%>

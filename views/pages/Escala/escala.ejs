@@ -1,0 +1,338 @@
+<%function getName(tec){
+	if(tec.falta == 2 ){
+		return "FI"
+	} if(tec.falta == 1 ){
+		return "LBF"
+	} if(tec.falta == 3 ){
+		return "LBF"
+	} if(tec.falta == 4 ){
+		return "NOJO"
+	} if(tec.falta == 5 ){
+		return "LBF"
+	} if(tec.folga==2){
+		return "FIN"
+	} if(tec.folga==1){
+		return "F"
+	} if(tec.vacation){
+		return "FE"
+	} if(tec.horario){
+		return "T"
+	} else {
+		return "M"
+	}
+}%>
+
+<% var months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']%>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">  
+  <script type="text/javascript" src="/lib/bootstrap/js/transition.js"></script>
+  <script type="text/javascript" src="/lib/bootstrap/js/collapse.js"></script>
+  <script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link href="/lib/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="/lib/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+  <style type="text/css">
+  	.spinner{
+      position: absolute;
+      height: 100px;
+      width: 100px;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -50px;
+      background: url(/imgs/balls.gif);
+      background-size: 100%;
+      z-index: 999;
+    }
+	[name = 'F']{
+		background-color: #D8E4BC;
+	}
+	[name = 'FIN']{
+		background-color: #DA9694;
+		color: white;
+	}
+	[name = 'FO']{
+		background-color: #B8CCFF;
+	}
+	[name = 'FE']{
+		background-color: #FFFF00;
+	}
+	[name = 'FI']{
+		background-color: red;
+		color: white;
+	}
+	[name = 'LBF']{
+		background-color: #C00000;
+		color: white;
+	}
+	[name = 'HE']{
+		background-color: #00B0F0;
+	}
+	[name = 'NOJO']{
+		background-color: black;
+		color: white;
+	}
+	[name = 'OA']{
+		background-color: #FFC000;
+	}
+	[name ='WE']{
+		background-color: lightgrey;
+	}
+	[name = 'E']{
+		background-color: white;
+	}
+
+	[name = 'HOLYDAY']{
+		background-color: red;
+	}
+	body {
+      background-color: #dbdbdb;
+    }
+/*li.dropdown-submenu {
+  left: auto;
+  right: 0;
+}
+
+li.dropdown-submenu {
+  margin-top: -1px;
+  top: -1.75em;
+  left: auto;
+  right: calc(100% + 1.75em);
+}*/
+  
+	.dropdown-submenu {
+	    position: relative;
+	  
+	}
+
+	.dropdown-submenu>.dropdown-menu {
+	    
+	    -webkit-border-radius: 0 6px 6px 6px;
+	    -moz-border-radius: 0 6px 6px;
+	    border-radius: 0 6px 6px 6px;
+	    margin-top: -1px;
+		  top: -1.75em;
+		  left: auto;
+		  right: calc(100%);
+	}
+
+	.dropdown-submenu:hover>.dropdown-menu {
+	    display: block;
+	}
+
+	.dropdown-submenu>a:after {
+	    display: block;
+	    content: " ";
+	    float: right;
+	    width: 0;
+	    height: 0;
+	    border-color: transparent;
+	    border-style: solid;
+	    border-width: 5px 0 5px 5px;
+	    border-left-color: #ccc;
+	    margin-top: 5px;
+	    margin-right: -10px;
+	}
+
+	.dropdown-submenu:hover>a:after {
+	    border-left-color: #fff;
+	}
+
+	.dropdown-submenu.pull-left {
+	    float: none;
+	}
+
+	.dropdown-submenu.pull-left>.dropdown-menu {
+	    left: -100%;
+	    margin-left: 10px;
+	    -webkit-border-radius: 6px 0 6px 6px;
+	    -moz-border-radius: 6px 0 6px 6px;
+	    border-radius: 6px 0 6px 6px;
+	}
+
+	span {
+	      font-size: 14px;
+	      color:#5C5B5A;
+	      font-family:'Azo Sans Woso';
+	      font-weight: bold;
+	    }
+	div.container {
+	    width: 80%;
+	}
+
+	h1 {
+
+		font-family:'Azo Sans Woso';
+		color: steelblue;
+	}
+</style>
+</head>
+<body>
+<% include ../../partials/side_nav_bar %>
+
+	<h1 class="text-center"> <%= months[ new Date( tec[0].date ).getMonth() ]%></h1>
+  <div id="spinner" class="spinner" hidden></div>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-2">
+				<label>Data Inicio</label>
+				<div class='input-group date' id='datetimepickerBegin'>
+	        <input type='text' class="form-control" name = "dateBegin">
+	        <span class="input-group-addon">
+	        	<span class="glyphicon glyphicon-calendar"></span>
+	        </span>
+	      </div>
+			</div>
+			<div class="col-sm-2">
+				<label>Data Fim</label>
+				<div class='input-group date' id='datetimepickerEnd'>
+	        <input type='text' class="form-control" name ="dateEnd">
+	        <span class="input-group-addon">
+	        	<span class="glyphicon glyphicon-calendar"></span>
+	        </span>
+	      </div>
+			</div>
+			<div class="col-sm-4">
+				<label>Zona</label>
+				<select class="form-control" name="zone">
+					<option>Porto</option>
+					<option>Lisboa</option>
+				</select>
+			</div>
+			<div class="col-sm-2">
+				<br>
+				<button class="btn btn-default" id="create">Criar Escala Teste</button>
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-2">
+					<button class="btn btn-bulk">Alteração em Massa</button>
+				</div>
+				<div class="col-sm-5"></div>
+				<form action="/escala_date" method="post">
+					<div class="col-sm-2">
+						<div class='input-group date' id='datetimepicker3'>
+			        <input type='text' class="form-control" name = "date" required">
+			        <span class="input-group-addon">
+			        	<span class="glyphicon glyphicon-calendar"></span>
+			        </span>
+			      </div>
+					</div>
+					<div class="col-sm-1">
+						<button class="btn" type="submit">Pesquisar</button>
+					</div>
+				</form>
+			</div>	
+		</div>
+		<h4 class="text-center">Lisboa</h4>
+		<div class="container-fluid">
+		<%var begin = 0%>
+		<%var end = 12%>
+		<%var k = 0 %>
+		<%var day = new Date(date)%>
+		<%var temp = new Date(day.getFullYear(), day.getMonth() + 1, 0)%>
+		<%var lastDay = temp.getDate()%>
+		<%for(var y = 0; y < 2;y++){%>
+			<%if(y == 1){%>
+				<%begin = 12%>
+				<%end = tecs.length%>
+				<h4 class="text-center">Porto</h4>
+			<%}%>
+			<% include ./table %>
+		<%}%>
+		</div>
+		<%include ./blk_insert%>
+		<%include ./legenda%>
+	</div>
+</body>
+</html>
+<script>
+  $(function () {
+    $('#datetimepickerBegin').datetimepicker({
+      locale: 'pt',
+      format: 'YYYY-MM-DD'
+
+    });
+  });
+  $(function () {
+    $('#datetimepickerEnd').datetimepicker({
+      locale: 'pt',
+      format: 'YYYY-MM-DD'
+
+    });
+  });
+  function setposition(e, k) {
+
+    var bodyOffsets = document.body.getBoundingClientRect();
+    tempX = e.pageX - bodyOffsets.left;
+    tempY = e.pageY;
+    console.log(tempX);
+    console.log(tempX-150);       
+    console.log(k)
+    
+    $(k).css({ 'top': (0), 'left': (0)});
+
+    $(k).dropdown('toggle')
+  }
+
+  $("#table0 tbody td").on('dblclick', function(e){
+    var id = this.id
+    var k ="#Drop"+id
+    setposition(e,k);
+  });
+
+  $("#table1 tbody td").on('dblclick', function(e){
+
+    var id = this.id
+    var k ="#Drop"+id
+    setposition(e,k);
+    
+  });
+
+  $('.btn-bulk').on('click', function(e){
+
+    $('#myModal').modal('show')
+
+  })
+
+  $('#create').on('click', function (e) {
+  	e.preventDefault();
+  	let dateBegin = $('input[name="dateBegin"]').val();
+  	let dateEnd = $('input[name="dateEnd"]').val();
+  	let zone = $('select[name="zone"]').val();
+
+  	$.ajax({
+    url: '/escala_create',
+    type: 'GET',
+    dataType: 'json',
+    data: {
+      dateBegin: dateBegin,
+      dateEnd: dateEnd,
+      zone: zone
+    },
+    beforeSend: function () {
+      $('#spinner').show();
+    },
+    complete: function () {
+      $('#spinner').hide();
+    },
+    error: function () {
+    	alert('done')
+    },
+    success: function (res) {
+      alert('done')
+    }
+  });
+});
+</script>	

@@ -1,0 +1,79 @@
+
+<div class="modal-body">
+
+	<form action="/km_link_update" method="post">
+
+			<div class="form-group">
+
+				<input type="text" name="name" class="form-control" placeholder="name" value="<%=link[0].name%>" style="color: #000">
+
+				<br>
+
+				<input type="text" name="link" class="form-control" placeholder="link" value="<%=link[0].link%>">
+
+				<br>
+
+				<input type="text" name="tooltip" class="form-control" value="<%=link[0].tooltip%>" placeholder="tooltip">
+
+				<br>
+
+				<select class="form-control" name="pass_categoria" placeholder="Password Categoria">
+
+					<option value="Rede">Rede</option>
+					<option value="IAM">IAM</option>
+					<option value="Comum">Comum</option>	
+
+				</select>
+
+				<br>
+
+				<select class="form-control" name="categoria" placeholder="categoria">
+
+					<option <%="Voz"==link[0].categoria?"selected":""%> value="Voz">Voz</option>
+					<option <%="Sinais"==link[0].categoria?"selected":""%> value="Sinais">Sinais</option>
+					<option <%="Ferramentas"==link[0].categoria?"selected":""%> value="Ferramentas">Ferramentas</option>
+					<option <%="Links Úteis"==link[0].categoria?"selected":""%> value="Links Úteis">Links Úteis</option>	
+
+				</select>
+
+				<br>
+
+				<input type="hidden" name="user" class="form-control" id="insert3" placeholder="user" value="<%=link[0].user%>"">
+
+				<br>
+
+				<input type="hidden" name="password" class="form-control" id="insert4" placeholder="password" value="<%=link[0].password%>">
+
+				<br>
+
+				<input type="hidden" name="id" value="<%=link[0].id%>">	
+
+			</div>
+
+		<button type="submit" class="btn btn-custom">Submeter</button>
+
+	</form>
+
+</div>
+
+<script type="text/javascript">
+
+$("select.form-control").on("change",function(){
+
+	var value = $(this).val();
+
+	if(value=="Comum"){
+
+		$("#insert3").attr("type", "text")
+		$("#insert4").attr("type", "text")
+
+	} else {
+
+		$("#insert3").attr("type", "hidden")
+		$("#insert4").attr("type", "hidden")
+
+	}
+
+})
+	
+</script>

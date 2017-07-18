@@ -1,0 +1,160 @@
+<% function isHoliday( date ) {
+
+	if( holydays[date.getMonth() +1] ) {
+
+		if(holydays[date.getMonth() +1].length > 1 ){
+
+			var length = holydays[date.getMonth() +1].length
+
+			for( var day = 0 ; day < length ; day ++ ) {
+
+				if( holydays[ date.getMonth() +1 ][ day ] == date.getDate())
+
+					return true
+			}
+
+		} else 	{
+			
+			if( holydays[date.getMonth() +1] == date.getDate() )
+
+				return true
+
+		}
+
+	}	else return false
+
+} %>
+
+<% var holydays = {
+	1: 1,
+	4: [ 14, 25 ],
+	5: 1,
+	6: [10, 15],
+	8: 15,
+	10: 5,
+	11: 1,
+	12: [1,8,25]	
+}
+%>
+
+<table class="table table-striped" id="table<%=y%>">  
+	<thead>
+	  <tr>
+	  	<th><span>Técnico</span></th>
+	    <% for (var i = 1; i <= lastDay ; i++){ %>
+	      <th style="background-color: steelblue;"><%=i%></th>
+	    <% } %>
+	  </tr>
+	</thead>   
+	<tbody>   
+
+	  <% for (var i = begin ; i < end ; i++) { %>
+
+	    <tr>
+	    	<td><span><%=tecs[i].name%></span></td>
+
+	    <% for (var j =0 ; j < lastDay; j++) {%>
+
+	    <%if(typeof tec[k] != "undefined" && (new Date(tec[k].date)).getDate() == j+1 && tec[k].tecnico_FK_id == tecs[i].id){%>
+
+	    <% var date = new Date(tec[k].date)%>
+
+	    	<% if( isHoliday(date)) {%>
+
+	    		<td name = "HOLYDAY" id="<%=tec[k].id%>"> <span>FN</span>
+
+	    		<% k++ %>
+
+	    	<%} else if(date.getDay() == 0 || date.getDay() == 6 || tec[k].feriado){%>
+
+	    		<%if(tec[k].escala){%>
+
+	    			<td name = "E" id="<%=tec[k].id%>">
+
+		    		<span>E</span>
+
+		    	<%} else {%>
+
+	    			<td name = "WE" id="<%=tec[k].id%>">
+
+	    		<%}%>		
+
+	    		<%k++%>	    	
+
+	    	<%}else{%>
+
+	    		<td name="<%=getName(tec[k])%>" id="<%=tec[k].id%>">
+
+	    		<%if(tec[k].falta){%>
+
+	    			<%if(tec[k].falta == 2 ){ %>
+
+								<span style="color: white;">FI</span>
+
+						<%} else if(tec[k].falta == 1 ){ %>
+
+							<span style="color: white;">FJ</span>
+
+						<%} else if(tec[k].falta == 3 ){ %>
+
+							<span style="color: white;">B</span>
+
+						<%} else if(tec[k].falta == 4 ){ %>
+
+							<span style="color: white;">N</span>
+
+						<%} else if(tec[k].falta == 5 ){%>
+
+							<span style="color: white;">L</span>
+
+						<%}%>		    			
+
+		    	<%} else if(tec[k].folga ==1 ){%>
+
+		    		<span>F</span>
+
+		    		<%} else if(tec[k].folga == 2 ){%>
+
+		    		<span style="color: white;">F</span>
+
+		    	<%} else if(tec[k].vacation){%>
+
+		    		<span>FE</span>
+
+		    	<%} else if(tec[k].escala){%>
+
+		    		<span>E</span>
+
+		    	<%} else if(tec[k].horario){%>
+
+		    		<span>T</span>
+
+		    	<%} else if(!tec[k].horario){%>
+
+		    		<span>M</span>
+
+		    	<% } %>
+
+		    	<% k++ %>
+
+	    	<% } %>
+
+	    	<% include ./dropdown%>	 
+
+	    	</td>
+
+	    	<%} else {%>
+
+	    		<td></td>
+
+	    	<%}%>
+
+	    <% } %>
+
+	    </tr>
+
+	  <% } %> 
+
+	</tbody>
+
+</table>

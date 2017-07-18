@@ -1,0 +1,52 @@
+
+
+<% for( var k in contacts) { %>
+
+	<% if( contacts[k].pai == functions[l].name ) { %>
+
+	<div class="panel panel-default" style="border-color: red; background-color: transparent;">
+
+		<div class="panel-body">
+
+			<div class="col-sm-10">
+
+				<p> <%= contacts[k].nome%></p>
+				<p> <%= contacts[k].email%></p>
+
+				<% if(contacts[k].fixo != 0) { %>
+
+				<p> <%= contacts[k].fixo%></p>
+
+				<% } %>
+
+				<% if(contacts[k].movel != 0) { %>
+
+				<p> <%= contacts[k].movel%></p>
+
+				<% } %>
+
+			</div>
+
+			<div class="col-sm-2">
+
+				<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_1" title="<img src='/imgs/index5.jpeg'/>" type="submit">
+					<i class="fa fa-bell-o" aria-hidden="true"></i>
+				</button>
+				<br>
+				<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_2" title="<%= contacts[k].email%>" type="submit">
+					<i class="fa fa-bell-o" aria-hidden="true"></i>
+				</button>
+				<br>
+				<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_3" title="<%= contacts[k].movel%>" type="submit">
+					<i class="fa fa-bell-o" aria-hidden="true"></i>
+				</button>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<% } %>
+
+<% } %>

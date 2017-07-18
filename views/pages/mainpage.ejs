@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>News Feed</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+  <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link href="/lib/quill-1.1.6/themes/quill.bubble.css" rel="stylesheet">
+  <script src="/lib/quill-1.1.6/themes/quill.js"></script>
+</head>
+ <style type="text/css">
+   .panel-heading .accordion-toggle:after {
+      font-family: 'Glyphicons Halflings'; 
+      content: "\e114";  
+      float: right;      
+      color: #DE563A;        
+    }
+    .panel-heading .accordion-toggle.collapsed:after {
+      content: "\e080"; 
+    }
+    #panel{
+      background: transparent;
+    }
+
+    .panel {
+      border-color: transparent;
+    }
+
+    body {
+      background-color: #dbdbdb;
+      background-attachment: fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    .container-fluid{      
+    margin-right: 150px;
+    margin-left: 150px;
+    background: transparent;
+    
+    }
+    .ql-toolbar {
+      background: transparent;
+    }
+    .ql-bubble{
+      background: #BDBFBF;
+    }
+    span {
+      font-size: 18px;
+      color:#5C5B5A;
+      font-family:'Azo Sans Woso';
+      font-weight: bold;
+    }
+    h1{
+      color:#2E2E2E;
+      font-family:'Azo Sans Woso';
+      font-weight: bold;
+      font-size: 50px
+    }
+ </style> 
+<body>
+<% include ../partials/side_nav_bar %>
+  <main>
+    <h1 class="text-center">NOTÍCIAS</h1>
+    <br>
+    <br>
+      <%include ./newsfeed %>
+
+    <div class="contairner-fluid">
+      <div id= "modal" class= "modal fade" role="dialog">
+        <div class= "modal-dialog">
+          <div class = "modal-content">
+            <div class = "modal-header">
+              <button type= "button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title text-center">Nova Mensagem</h4>
+            </div>
+            <div class="modal-body">
+            <pre>
+              Boa tarde <%=user.firstName%> <%=user.lastName%>
+              Tens mensagens novas.
+              É necessário marcar como lido para avançar.
+              Obrigado. 
+            </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>    
+</body>
+<script type="text/javascript">
+  if(<%=user.required%> == true){
+    $('#modal').modal('show')
+  }
+</script>
+</html>

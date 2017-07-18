@@ -1,0 +1,35 @@
+<div>
+
+	<% for(var j in functions ) { %>
+
+		<% if( functions[j].pai == subcategory[i].name ) { %>
+
+				<div class="row">
+
+					<div class="col-sm-10">
+
+			  		<span class="text-left"><%=functions[j].name%></span>
+
+			  	</div>
+
+			  	<div class="col-sm-2">
+
+						<div class="material-switch pull-right">
+
+						  <input id="function<%=functions[j].id%>" class="check" type="checkbox">
+
+						  <label for="function<%=functions[j].id%>" id="function<%=functions[j].id%>" class="label-success"></label>
+
+						</div>
+
+					</div>
+
+			  </div>
+			  
+			  <br> 
+
+		<% } %>
+
+	<% } %>
+
+</div>

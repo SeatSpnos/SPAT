@@ -1,0 +1,104 @@
+<div class="query1">
+
+	<div class="col-sm-2">
+
+		<p>WFM</p>
+
+	</div>
+
+	<form name="com.ismobile.submarine.WorkOrderCollectionForm" target="_blank" method="get" action="http://lx3prdrhwfm101.optimus.pt:8085/submarine/workorders.do">
+
+		<div class="col-sm-3">
+
+			<input value="quickSearch" name="action" type="hidden">
+			<input value="TAB_EDIT_VIEW" name="tab.currentTab"  type="hidden">
+			<input value="false" name="showPager"  type="hidden">
+			<input type="text" name="quickSearchId" value="" id="quicksearch" class="form-control" placeholder="Pesquisa WO">
+		
+		</div>
+
+	</form>			
+
+</div>
+
+<div class="query2" hidden>
+
+	<div class="col-sm-2">
+
+		<p>NA</p>
+
+	</div>
+
+<form action="http://grifo.ip.pt/cgi-bin/clogng.cgi" method="post" target="_blank">
+
+		<div class="col-sm-3">
+
+			 <input name="tipo" value="all" type="hidden">
+			 <input name="method" value="backlog" type="hidden">
+			 <input name="fancy" value="1" type="hidden">
+			 <input name="method" value="backlog" type="hidden">
+			 <input name="hours" type="hidden" value="72">	
+       <input value="" name="pattern" size="15" type="text" placeholder="User : na153682" class="form-control">
+		
+		</div>
+
+	</form>
+
+</div>
+
+<div class="query3" hidden>
+
+	<div class="col-sm-1">
+
+		<p>SIGA</p>
+
+	</div>
+
+		<div class="col-sm-2">
+
+			<input class="form-control" type="text" name="agendamento" id="agendamento" placeholder="Agendamento">
+
+		</div>	
+		<div class="col-sm-1"> 
+			<input class="form-control" type="text" name="celula" id="celula" placeholder="Celula">
+		</div>
+		<div class="col-sm-1"> 
+			<button type="submit" id="query5">GO</button>	
+		</div>
+</div>
+<div class="col-sm-1">
+
+	<div class="dropdown">
+
+		<a type="hidden" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-sort-desc fa-2x" aria-hidden="true"></i></a>
+
+		<ul class="dropdown-menu dropdown-menu-right">
+
+		  <li class="dropdown-submenu dropdown-menu-right">
+
+		    <li><a tabindex="-1" href="" id="query1"><p class="text-center" style="font-size: 12px; color: black">WFM</p></a></li>
+		    <li><a tabindex="-1" href="" id="query2"><p class="text-center" style="font-size: 12px; color: black">NA</p></a></li>
+		    <li><a tabindex="-1" href="" id="query3"><p class="text-center" style="font-size: 12px; color: black">SIGA</p></a></li>
+
+		  </li>
+
+	  </ul>
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+	$('#query5').on('click', function(e) {
+		e.preventDefault()
+
+		var agendamento = $('#agendamento')[0].value
+		var celula = $('#celula')[0].value
+
+
+		var query = "http://outsystemsapp.corporativo.pt/SIGA/Agendamento_Edit.aspx?Nome_Sistema_Origem=SIE&ID_Unico_Sistema_Origem=" + agendamento + "&TipodeAgenda=T%C3%A9cnica&Filtro=Tipo%20De%20OT=ALTERA%C3%87%C3%83O%20SERVI%C3%87O|Tipo%20De%20Cliente=PROFISSIONAL|%C3%81rea%20De%20Neg%C3%B3cio=CABO|C%C3%A9lula="+ celula +"|PBX=|Sub%20Tipo%20Produto=N|Tecnologia="
+
+		window.location.href = query
+
+	})
+</script>

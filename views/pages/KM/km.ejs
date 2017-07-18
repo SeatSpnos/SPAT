@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>KM</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" type="text/css" href="css/KM/km.css">
+</head>
+
+<body>
+<% include ../../partials/side_nav_bar %>
+	<div class="container-fluid">
+		<ul class="nav nav-tabs">
+	    <li class="active"><a data-toggle="tab" href="#home" ><span>Home</span></a></li>
+	    <li><a data-toggle="tab" href="#Links"><span>Links</span></a></li>
+	    <li><a data-toggle="tab" href="#Contacts"><span>Contactos</span></a></li>
+	    <li><a data-toggle="tab" href="#Manuals"><span>Manuais</span></a></li>
+	    <li><a data-toggle="tab" href="#Processes"><span>Processos</span></a></li>
+  	</ul>
+	  <div class="tab-content">
+	    <div id="home" class="tab-pane fade in active">
+	    </div>
+	    <div id="Links" class="tab-pane fade in">
+	    <br>
+	    <br>
+	    <% include ./link/links %>
+	    </div>
+	    <div id="Contacts" class="tab-pane fade in">
+	    <% include ./contactos %>
+	    </div>
+	    <div id="Manuals" class="tab-pane fade in">
+	    </div>
+	    <div id="Processes" class="tab-pane fade in">
+	    </div>
+    </div>
+	</div>
+</body>
+</html>
+ <link rel="stylesheet" type="text/css" href="css/KM/km.css">

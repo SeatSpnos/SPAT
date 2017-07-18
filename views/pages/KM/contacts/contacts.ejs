@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Contactos</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+	  <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	  <link rel="stylesheet" type="text/css" href="css/main/main.css">
+	  <link rel="stylesheet" type="text/css" href="css/km/km.css">
+		<link rel="stylesheet" href="lib/OrgChart/dist/css/jquery.orgchart.css">
+		<link rel="stylesheet" href="css/km/contacts2.css">
+
+	</head>
+
+	<body>
+
+		<div class="container-fluid bar" style="padding-top: 50px;">
+
+		  <div class="row">
+
+		 	 <div class="col-sm-2"></div>
+
+				<div class="col-sm-8">
+
+					<div class="btn-group">
+
+						<%for(var i in category){%>
+
+							<a href="#" id="<%=category[i].name%>" class="btn btn-grey openall"><%=category[i].name%></a> 
+
+						<%}%>
+
+					</div>
+
+				</div>
+
+				<div class="col-sm-1"></div>
+
+			</div>	
+
+		</div>
+
+		<br>
+
+		<div class="row">
+			
+			<div class="col-sm-2">	
+
+				<div class="container-fluid" >
+
+					<% include ./subcategory %>
+
+				</div>
+
+			</div>
+
+			<div class="col-sm-10">
+
+				<div class="container-fluid">
+
+					<div class="panel panel-default" id="hierarchyChart" >
+
+		  				<div class="panel-heading">
+
+		  					<h1 class="text-center" id="hierarchyText" style="font-size: 25px; color: white; font-weight: bold"></h1>
+
+		  				</div>
+
+		  				<div class="panel-body" id="stuffs" style="overflow: hidden"; >
+
+		  					<% include ./contact2 %>
+
+							</div>
+						
+					</div>					
+					
+				</div>
+
+			</div>	
+
+		</div>
+
+		<% include ./modal2 %>
+
+	</body>
+
+</html>
+
+<script type="text/javascript">
+
+	$('[data-toggle="tooltip_contact"]').tooltip();
+	$('[data-toggle="tooltip_mail"]').tooltip(); 
+
+	$(".openall").click(function(){
+
+		$('.subcategory').hide()
+
+		var id = this.id
+
+		$('.'+id+'').show()
+
+	})
+
+	$('.check').click(function( e ) {
+
+		var id = this.id
+
+		$('.check').prop('checked', false)
+
+		$(this).prop('checked', true)
+
+		$.post('/km_contacts_hierarchy', { hierarchy : id }, function( response ) {
+
+			$('#hierarchyText').text( id )
+			
+			$('#chart-container').orgchart('removeNodes', $('.orgchart').find('.node:first'));
+
+			if( response ) {
+
+				$('#chart-container').orgchart({
+
+		      'data' : response,
+		      'depth': 2,
+		      'nodeContent': 'title',
+		      'pan' : true,
+		      'draggable': true,
+
+		    })
+
+			}			
+
+		})		
+
+	});
+
+	function copyToClipboard(element) {
+
+	  var $temp = $("<input>");
+	  $("body").append($temp);
+	  $temp.val($(element).attr('value')).select();
+	  document.execCommand("copy");
+	  $temp.remove();
+	  
+	}
+
+</script>
+
+<style type="text/css">
+
+	.material-switch > input[type="checkbox"] {
+
+    display: none;  
+
+  }
+
+  .material-switch > label {
+
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 40px;  
+
+  }
+
+  .material-switch > label::before {
+
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+
+  }
+
+  .material-switch > label::after {
+
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+
+  }
+
+  .material-switch > input[type="checkbox"]:checked + label::before {
+
+    background: inherit;
+    opacity: 0.5;
+
+  }
+
+  .material-switch > input[type="checkbox"]:checked + label::after {
+
+    background: inherit;
+    left: 20px;
+
+  }
+
+</style>
+
+	  

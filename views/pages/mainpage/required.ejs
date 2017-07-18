@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+  <div class="panel-heading" id="headReq" style="background-color: steelblue; border-color: steelblue" >
+    <div class="row">
+      <%var date = new Date(newReq[0].date)%>
+      <%date = date.toISOString().slice(0,10)%>
+      <div class="col-sm-2"><span class="text-center"><%=date%></span></div>
+      <div class="col-sm-4"><span class="text-center"><%=newReq[0].title%></span></div>
+      <div class="col-sm-2"><span class="text-center"><%=newReq[0].category%></span></div>
+    </div>
+  </div>
+  <div class="panel-body" id="bodyReq">
+    <div id="editorReq"></div>
+    <div class="row">
+      <div class="col-sm-5">
+        <%if(newReq[0].attachment.length){%>
+          <a class="btn btn-primary view-pdf" href="<%=newReq[0].attachment%>">Attachment</a>
+        <%}%>
+      </div>
+      <div class="col-sm-2">
+        <form method="post" action="newFeed_read">
+          <input type="hidden" name="read" value="Sim">
+          <input type="hidden" name="flag" value="0">
+          <input type="hidden" name="id" value="<%=newReq[0].id%>">
+          <button type="submit" class="btn btn-default" <%=newReq[0].attachment.length?'disabled':''%> id="Read">Eu li</button>
+        </form>
+      </div>
+    </div> 
+  </div>
+</div>

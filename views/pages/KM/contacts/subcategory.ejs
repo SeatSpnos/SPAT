@@ -1,0 +1,32 @@
+<% for(var i in subcategory) { %>
+
+	<div id="accordion" class="panel-group subcategory <%=subcategory[i].pai%>" hidden>
+
+		<div class="panel panel-default">
+
+		  <div class="panel-heading">			
+
+				<p class="text"><%=subcategory[i].name%></p>
+
+	  		<div class="material-switch">
+
+				  <input id="<%=subcategory[i].name%>" class="check" type="checkbox">
+
+				  <label for="<%=subcategory[i].name%>" id="subcategory<%=subcategory[i].id%>" class="label-success"></label>
+
+				</div>
+
+			</div> 
+
+				<div class="panel-body" hidden>
+
+				<% include ./function %>
+
+				</div>
+
+
+		</div>
+
+	</div>	
+
+<%}%>

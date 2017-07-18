@@ -1,0 +1,284 @@
+<%var tecKeys = Object.keys(tec[0])%>
+<%var opt = ["Lisboa", "Porto"]%>
+<%var addTables = {celula_FK_id : celula, tipo_OT_FK_id : ot_type, tipo_TRB_FK_id : trb}%>
+<%var begin = 0%>
+<%var end = 11%>
+<% var colName = ["Horário", "Numero Cliente", 'OT', 'Celula', 'Tipo OT', 'Tipo TRB', 'Observações', 'Operador']%>
+<% var timeSlot = ['08:00 09:30','09:30 11:00', '11:00 12:30','12:30 14:00','14:00 15:30','15:30 17:00','17:00 18:30','18:30 20:00','20:00 21:30', '22:00 23:30','SLOT EXTRA'] %>
+<%var morning 	= [1,2,3,4,5,6,10]%>
+<%var afternoon = [4,5,6,7,8,10]%>
+<%var tableInfo = [0,0,0,0,0,0,0,0]%>
+<%var tableInfoT = [0,0,0,0,0,0,0,0]%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Destribuição de Trabalho</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+  <script type="text/javascript" src="lib/bootstrap/js/transition.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/collapse.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>  
+
+  <link href="lib/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="lib/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+
+  <script src="/lib/selectize.js-master/dist/js/standalone/selectize.min.js"></script>
+  <link href="/lib/selectize.js-master/dist/css/selectize.default.css" rel="stylesheet">
+  
+  <link href="/css/worktask/worktask.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<% include ../../partials/side_nav_bar %>
+	<br>	
+	<div class="container-fluid bar" style="padding-top: 115px;">
+	  <div class="row">
+			<div class="col-sm-4">
+				<label>Opções</label>
+				<br>
+				<div class="btn-group">
+					<a href="#" id="openall" class="btn btn-info openall">Abrir</a> 
+					<a href="#" id="closeall" class="btn btn-info closeall">Fechar</a>
+					<a href="#" id="Lisboa" class="btn btn-info openall">Lisboa</a> 
+					<a href="#" id="Porto" class="btn btn-info closeall">Porto</a>
+				</div>
+			</div>
+			<div class="col-sm-4"></div>
+			<div class="col-sm-3">
+				<form action="/worktask_filters" method="post">
+					<div class="row">
+			  		<div class="col-sm-1"></div>
+			  		<div class="col-sm-8">
+							<label>Data</label>
+							<div class='input-group date' id='datetimepicker'>
+		            <input type='text' class="form-control" name = "date" value="<%=date%>">
+		            <span class="input-group-addon">
+		            	<span class="glyphicon glyphicon-calendar"></span>
+		            </span>
+		          </div>
+			  		</div>
+			  		<div class="col-sm-1">
+			  		<br>
+				  		<button class="btn btn-info" type="submit">Pesquisar</button>
+				  	</div>
+			  		<div class="col-sm-1"></div>
+			  	</div>			  	
+			  </form>		
+			</div>
+		</div>	
+	</div>
+	<br>
+	<div class="container-fluid">
+		<%if(reserve.length){%>
+			<% include ./reserve%>
+		<%}%>
+	</div>	
+	<br>
+	<div class="row">
+		<div class="col-sm-3">
+			<div class="container-fluid" >
+				<% include ./tecs %>
+			</div>
+		</div>
+		<div class="col-sm-9">
+			<div class="container-fluid" style="padding-right: 35px">
+				<% include ./table %>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid" style=" position: absolute; left: 30px; top: 30px;">
+		<% include ./infoTable%>
+	</div>	
+ 	<% include ./modal%>
+ 	<div class="scroll-top-wrapper ">
+	  <span class="scroll-top-inner">
+	    <i class="fa fa-2x fa-arrow-circle-up"></i>
+	  </span>
+	</div>
+	<div class="body_" id="body_" ><div id="timediv"></div></div>
+</body>
+</html>
+<script type="text/javascript">
+ $(function () {
+    $('#datetimepicker').datetimepicker({
+    	locale: 'pt',
+    	format: 'YYYY-MM-DD'
+    })
+  })
+
+var interval = setInterval(timestamphome, 1000);
+
+function timestamphome(){
+ 	var date;
+	date = new Date();
+ 	var time = document.getElementById('timediv'); 
+ 	time.innerHTML = date.toLocaleString();
+}
+
+	var modalIsOpen = false	
+
+	$('#modal').on('hidden.bs.modal', function(e) { modalIsOpen = false; ReloadPage()} )
+
+  function ReloadPage() {
+
+  	var dateFilter = $('input[name="date"]').val()
+
+    if(!modalIsOpen){
+    	var form = $('<form action="/worktask_filters" method="post">' +
+			  '<input type="text" name="date" value="' + dateFilter + '" />' +
+			  '</form>');
+			$('body').append(form);
+			form.submit();
+
+    }
+
+  }
+
+$(document).ready(function() {
+
+  setTimeout("ReloadPage()", 120000);
+
+		$('[data-toggle="tooltip_delete"]').tooltip();
+		$('[data-toggle="tooltip_reserva"]').tooltip(); 
+		$('[data-toggle="tooltip_picket"]').tooltip();
+		$('[data-toggle="tooltip_noWork"]').tooltip();
+		$('[data-toggle="tooltip_ob"]').tooltip();
+		var id = "#T"
+		
+		$('.check').prop('checked', true);
+
+		$("#openall").click(function(){
+    	$('.Lisboa').show()
+    	$('.Porto').show()
+    	$('.check').prop('checked', true);
+
+  	}) 
+  	$("#closeall").click(function(){
+  		$('.Lisboa').show()
+    	$('.Porto').show()
+    	$('.worktask').hide()
+    	$('.check').prop('checked', false);
+  	})
+
+  	$("#Lisboa").click(function(){
+    	$('.Lisboa').show()
+    	$('.check').prop('checked', true);
+    	$('.Porto').hide()
+    })	
+  	$("#Porto").click(function(){
+    	$('.Lisboa').hide()
+    	$('.check').prop('checked', true);
+    	$('.Porto').show()
+  	})
+  		/// save acordion state
+		// load acordion plus scroll state
+		
+		/*var panels=sessionStorage.panels === undefined ? new Array() : JSON.parse(sessionStorage.panels);
+    for (var i in panels){
+    	
+    	$(panels[i]).show()
+    }
+    if(!panels.length){
+    	$('.check').prop('checked', true);
+    	$('.worktask').show()
+    }*/
+
+		 $(document).on( 'scroll', function(){
+	 
+	    	if ($(window).scrollTop() > 100) {
+				$('.scroll-top-wrapper').addClass('show');
+			} else {
+				$('.scroll-top-wrapper').removeClass('show');
+			}
+		});
+ 
+		$('.scroll-top-wrapper').on('click', scrollToTop);
+
+  	function scrollToTop() {
+			verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
+			element = $('body');
+			offset = element.offset();
+			offsetTop = offset.top;
+			$('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
+		}
+
+		$('html,body').animate({
+			<% if (tec_id) {%>
+		    scrollTop: ($('#T'+'<%=tec_id%>').offset().top)
+		    <%}%>
+		},0);
+
+	})
+</script>
+
+<script type="text/javascript">
+
+	$('.check').click(function() {
+		var id = "#T"+this.id.slice(1,this.id.length)
+		/*
+		if($(id).prop('checked')){
+			var active = id;
+	    var panels= sessionStorage.panels === undefined ? new Array() : JSON.parse(sessionStorage.panels);
+	    if ($.inArray(active,panels)==-1)
+	        panels.push(active);
+	    sessionStorage.panels=JSON.stringify(panels);
+		} else {
+			var active = id;
+	    var panels= sessionStorage.panels === undefined ? new Array() : JSON.parse(sessionStorage.panels);
+	    var elementIndex=$.inArray(active,panels);
+	    if (elementIndex!==-1){
+	        panels.splice(elementIndex,1);        
+	    }
+	    sessionStorage.panels=JSON.stringify(panels);
+		}*/
+    	$(id).toggle()
+	});
+/*$('.selectCel').selectize({
+  valueField: 'name',
+  labelField: 'name',
+  searchField: 'name',
+  options: [],
+  create: false,
+  render: {
+      option: function(item, escape) {
+          var actors = [];
+          for (var i = 0, n = item.abridged_cast.length; i < n; i++) {
+              actors.push('<span>' + escape(item.abridged_cast[i].name) + '</span>');
+          }
+
+          return '<div>' +
+              '<img src="' + escape(item.posters.thumbnail) + '" alt="">' +
+              '<span class="name">' +
+                  '<span class="name">' + escape(item.name) + '</span>' +
+              '</span>' +
+              '<span class="description">' + escape(item.synopsis || 'No synopsis available at this time.') + '</span>' +
+              '<span class="actors">' + (actors.length ? 'Starring ' + actors.join(', ') : 'Actors unavailable') + '</span>' +
+          '</div>';
+      }
+  },
+  load: function(query, callback) {
+      if (!query.length) return callback();
+      $.ajax({
+          url: '/getCelName',
+          type: 'GET',
+          dataType: 'jsonp',
+          data: {
+              name: query,
+          },
+          error: function() {
+              callback();
+          },
+          success: function(res) {
+              callback(res.movies);
+          }
+      });
+  }
+});*/
+</script>

@@ -1,0 +1,49 @@
+<% var tables 			= row%>
+<% var keys 				= Object.keys(row[0])%>
+
+
+				
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+</head>
+<body>
+
+ <div class="container">
+      <table class="table table-bordered" id="table">  
+	<thead>
+		<tr>
+		  <% for (var i = 0; i < keys.length ; i++){ %>
+        <th><%= keys[i] %></th>
+      <% } %>
+		</tr>
+	</thead>
+		 <tbody>       
+        <% for (var i = 0 ; i < tables.length ; i++) { %>
+          <tr>
+            <% for (var j =0 ; j < keys.length ; j++) { %>
+              <td> <%= tables[i][keys[j]] %></td>
+            <% } %>
+            <form action="/registo_inc_get" method="post">
+            <div class="form-group">
+            	<input type="hidden" class="form-control" name="OT" value="<%=tables[i]['Codigo_OT']%>"/>
+            	</div>
+            <td><button type="submit" class="btn btn-warning btn-lg">Escolher</button></td>
+           	</form>
+            </tr>
+          <% } %>                 
+        </tbody>
+        </table>
+	</div>
+</body>
+</html>

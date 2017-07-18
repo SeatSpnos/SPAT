@@ -1,0 +1,36 @@
+<% var timeSlot = ['08:00 09:30','09:30 11:00', '11:00 12:30','12:30 14:00','14:00 15:30','15:30 17:00','17:00 18:30','18:30 20:00','20:00 21:30', '22:00 23:30'] %>
+<div class="container-fluid">
+    <div class="container-fluid">
+      <table class="table" id="table">  
+        <thead>
+          <tr>
+            <% for (var i = 0; i < colName.length ; i++){ %>
+              <th><%= colName[i] %></th>
+            <% } %>
+          </tr>
+        </thead>      
+        <tbody>       
+          <% for (var i = begin ; i < end ; i++) { %>
+            <tr id = <%= searchResult[i][keys[0]]%>>
+            <% for (var j = 0 ; j < colSize ; j++) { %>
+
+            <% var slots = searchResult[i][keys[j]] %>
+            
+              <td><p><%= slots %></p></td>
+
+            <% } %>
+            </tr>
+          <% } %>                 
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  table {
+    word-wrap: break-word;
+}
+ td {max-width: 120px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+</style>
+  

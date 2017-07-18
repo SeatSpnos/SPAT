@@ -1,0 +1,97 @@
+<div class="container-fluid">
+	<div id="accordion" class="panel-group navbar-fixed-top" style="background: #white;margin-right: 50px;margin-left: 300px;">
+		<div class="panel panel-default" style="background: #white;">
+		  <div class="panel-heading" style = "background: #3bb0c7;border-style: solid;border-width: 1px;border-color: #white;">
+		  	<div class="row">
+			  	<div class="col-sm-2"></div>
+					<div class="col-sm-2">
+						<p style= "color:black;font-family:'Azo Sans Woso';font-size:14px;font-weight: bold"><%=date%></p>
+					</div>
+					<div class="col-sm-2">
+						<p style= "color:black;font-family:'Azo Sans Woso';font-size:14px;font-weight: bold"> <%=tecnico=="Todos"?tecnico:tec[0].name%></p>
+					</div>
+					<div class="col-sm-2">
+					  <p style="color:black;font-family:'Azo Sans Woso';font-size:14px;font-weight:bold;" ><%=slot=="Todos"?slot:timeSlot[slot]%></p>
+					</div>
+					<div class="col-sm-2">
+						<p style= "color:black;font-family:'Azo Sans Woso';font-size:14px;font-weight: bold"><%=zona%></p>
+					</div>
+					<div class="col-sm-2">
+			  		<a class="accordion-toggle" data-toggle="collapse" href="#acordoptions" id="opt"></a>
+			  		</div>
+		  		</div>
+		  </div>
+		  <div id="acordoptions" class="panel-collapse collapse" style="background: #white; ">
+		    <div class="panel-body" style="background: #white; ">
+		    	<form action="/worktask_filters" method="post">
+						<div class="row">
+				  		<div class="col-sm-1"></div>
+				  		<div class="col-sm-2">
+								<label>Data</label>
+								<div class='input-group date' id='datetimepicker'>
+			            <input type='text' class="form-control" name = "date">
+			            <span class="input-group-addon">
+			            	<span class="glyphicon glyphicon-calendar"></span>
+			            </span>
+			          </div>
+				  		</div>
+				  		<div class="col-sm-2">
+						 		<div class="form-group" >
+						  		<label>Tecnico</label>			
+									<select class="demo-default" id= "tecnico" name= "tecnico">
+										<option selected placeholder= "Todos">Todos</option>	
+										<% for (var j = 0; j < tec.length; j++) { %>
+									    <option value = "<%=tec[j].id%>"><%=tec[j].name%>(<%=tec[j].zona%>)</option>   
+										<% } %>
+								 	</select>
+								 	<script>
+								 		$('select').selectize();
+								 	</script>
+					  		</div>
+				  		</div>
+				  		<div class="col-sm-2">
+						 		<div class="form-group" >
+						  		<label>Slot</label>	
+									<select class="demo-default" id= "slot" name= "slot">
+										<option selected placeholder= "Todos">Todos</option>
+										<% for (var j = 0; j < timeSlot.length; j++) { %>
+									    <option value = "<%=[j]%>"><%=timeSlot[j]%></option>   
+										<% } %>
+								 	</select>
+								 	<script>
+								 		$('select').selectize();
+								 	</script>
+					  		</div>
+				  		</div>
+				  		<div class="col-sm-2">
+						 		<div class="form-group" >
+						  		<label>Zona</label>
+									<select class="demo-default" id= "zona" name= "zona">
+										<option selected placeholder= "Todos">Todos</option>
+										<option value="Lisboa">Lisboa</option>	
+										<option value="Porto">Porto</option>	
+								 	</select>
+								 	<script>
+								 		$('select').selectize();
+								 	</script>
+					  		</div>
+				  		</div>
+				  		<div class="col-sm-2">
+				  			<br>
+					  		<button class="btn btn-info" type="submit">Pesquisar</button>
+					  	</div>
+				  		<div class="col-sm-1"></div>
+				  	</div>			  	
+				  </form>
+				  <div class="row">
+						<div class="col-sm-4"></div>
+						<div class="btn-group">
+							<a href="#" id="openall" class="btn btn-info openall">Abrir Todos</a> 
+							<a href="#" id="closeall" class="btn btn-info closeall">Fechar Todos</a>
+						</div>
+					</div>						
+				</div>
+		  </div>
+		</div>
+	 </div>
+</div>

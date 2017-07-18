@@ -1,0 +1,60 @@
+<div class="dropdown">
+  <a type="hidden" class="dropdown-toggle" data-toggle="dropdown" id="Drop<%=tec[k-1].id%>"></a>
+  <ul class="dropdown-menu">
+    <li class="dropdown-submenu ">
+      <a class="test" tabindex="-1" href="#">Faltas</a>
+      <ul class="dropdown-menu dropdown-menu-left">
+        <li><a tabindex="-1" href="/escala/faltas/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Justificadas</a></li>
+        <li><a tabindex="-1" href="/escala/faltas/2-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Injustificadas</a></li>
+        <li><a tabindex="-1" href="/escala/faltas/3-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Baixa</a></li>
+        <li><a tabindex="-1" href="/escala/faltas/4-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Nojo</a></li>
+        <li><a tabindex="-1" href="/escala/faltas/5-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Licença</a></li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a class="test" tabindex="-1" href="#">Folga</a>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href="/escala/folga/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Normal</a></li>
+        <li><a tabindex="-1" href="/escala/folga/2-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Intervenção Noturna</a></li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a class="test" tabindex="-1" href="#">Formação</a>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href="/escala/formacao/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">1</a></li>
+        <li><a tabindex="-1" href="#">2</a></li>
+        <li><a tabindex="-1" href="#">3</a></li>
+        <li><a tabindex="-1" href="#">4</a></li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a class="test" tabindex="-1" href="#">Horário</a>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href="/escala/horario/0-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Manhã</a></li>
+        <li><a tabindex="-1" href="/escala/horario/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Tarde</a></li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a class="test" tabindex="-1" href="#">Férias</a>
+      <ul class="dropdown-menu">
+        <li><a tabindex="-1" href="/escala/ferias/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Férias</a></li>
+        <li><a tabindex="-1" href="/escala/ferias/2-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Viagem</a></li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a class="test" tabindex="-1" href="#">Feriados</a>
+      <ul class="dropdown-menu">
+      	<li><a tabindex="-1" href="/escala/feriado/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Nacional</a></li>
+        <li><a tabindex="-1" href="/escala/feriado/2-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Municipal</a></li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a class="test" tabindex="-1" href="#">Outros</a>
+      <ul class="dropdown-menu">
+      	<li><a tabindex="-1" href="/escala/sabado/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Sábado</a></li>
+        <li><a tabindex="-1" href="/escala/clear/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Limpar</a></li>
+        <li><a tabindex="-1" href="/escala/delete/1-<%=tec[k-1].id%>-<%=date.toISOString().slice(0,10)%>">Remover</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

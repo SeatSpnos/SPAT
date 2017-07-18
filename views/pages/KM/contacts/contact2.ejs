@@ -1,0 +1,275 @@
+
+<link rel="stylesheet" href="lib/OrgChart/dist/css/jquery.orgchart.css">
+<link rel="stylesheet" href="css/km/contacts2.css">
+<div id="chart-container"></div>
+
+<div id="edit-panel" class="view-state">
+
+  <span id="chart-state-panel" class="radio-panel">
+
+    <input type="radio" name="chart-state" id="rd-view" value="view" checked="true"><label for="rd-view">View</label>
+    <input type="radio" name="chart-state" id="rd-edit" value="edit"><label for="rd-edit">Edit</label>
+
+  </span>
+
+  <label class="selected-node-group">Selected node : </label>
+
+  <input type="text" id="selected-node" class="selected-node-group">
+
+  <label>New node : </label>
+
+  <br>
+  
+  <br class="input">
+  <div class="row input">
+    <li>
+      <div class="col-sm-2">
+        <input type="text" class="new-node form-control" placeholder ="Nome" name="name" >
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="new-node form-control" placeholder ="Função" name="function">
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="new-node form-control" placeholder ="Competências" name="competencias">
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="new-node form-control" placeholder ="phone" name="phone">
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="new-node form-control" placeholder ="email" name="email">
+      </div>
+    </li>
+
+    <div class="col-sm-2" hidden="">
+
+      <ul id="new-nodelist">
+
+      </ul>
+
+      <i class="fa fa-plus-circle btn-inputs" id="btn-add-input"></i>
+
+    </div>
+
+  </div>
+
+  <br>
+
+  <span id="node-type-panel" class="radio-panel">
+
+    <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Parent(root)</label>
+    <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child">Child</label>
+    <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Sibling</label>
+
+  </span>
+
+  <div class="btn-group">
+
+	  <button class="btn" type="button" id="btn-add-nodes">Add</button>
+	  <button class="btn" type="button" id="btn-delete-nodes">Delete</button>
+	  <button class="btn" type="button" id="btn-reset">Reset</button>
+	  <button class="btn" type="button" id="btn-save">save</button>
+
+  </div>
+
+</div>
+
+<script type="text/javascript" src="lib/OrgChart/dist/js/jquery.orgchart.js"></script>
+<script type="text/javascript" src="js/km/contacts-config2.js"></script>
+<script type="text/javascript">
+  
+  var getId = function() {
+      return (new Date().getTime()) * 1000 + Math.floor(Math.random() * 1001);
+    };
+    $('#chart-container').orgchart({
+      'data' : <%-JSON.stringify(config)%>,
+      'depth': 2,
+      'nodeContent': 'title',
+      'pan' : true,
+      'draggable': true,
+      'dropCriteria': function($draggedNode, $dragZone, $dropZone) {
+		    if($draggedNode.find('.content').text().indexOf('manager') > -1 && $dropZone.find('.content').text().indexOf('engineer') > -1) {
+		      return false;
+		    }
+		    return true;
+		  },
+			'createNode': function($node, data) {
+        if(!$node[0].id ){
+          $node[0].id = getId();
+        }
+      }
+    })
+    .on('click', '.node', function() {
+      var $this = $(this);
+      $('#selected-node').val($this.find('.title').text()).data('node', $this);
+    })
+    .on('click', '.orgchart', function(event) {
+      if (!$(event.target).closest('.node').length) {
+        $('#selected-node').val('');
+      }
+    });
+
+    $('input[name="chart-state"]').on('click', function() {
+      $('.orgchart').toggleClass('view-state', this.value !== 'view');
+      $('#edit-panel').toggleClass('view-state', this.value === 'view');
+      if ($(this).val() === 'edit') {
+        $('.orgchart').find('tr').removeClass('hidden')
+          .find('td').removeClass('hidden')
+          .find('.node').removeClass('slide-up slide-down slide-right slide-left');
+      } else {
+        $('#btn-reset').trigger('click');
+      }
+    });
+
+    $('input[name="node-type"]').on('click', function() {
+      var $this = $(this);
+      if ($this.val() === 'parent') {
+        $('#edit-panel').addClass('edit-parent-node');
+        $('#new-nodelist').children(':gt(0)').remove();
+      } else {
+        $('#edit-panel').removeClass('edit-parent-node');
+      }
+    });
+
+    $('#btn-add-input').on('click', function() {
+
+      $('#new-nodelist').append('<br class="input"><div class="row input"><li><div class="col-sm-2"><input type="text" class="new-node form-control" name="name" placeholder ="Nome"></div><div class="col-sm-2"><input type="text" class="new-node form-control" placeholder ="Função" name="function"></div><div class="col-sm-2"><input type="text" class="new-node form-control" placeholder ="Competências" name="competencias"></div><div class="col-sm-2"><input type="text" class="new-node form-control" placeholder ="Movel" name="phone"></div><div class="col-sm-2"><input type="text" class="new-node form-control" placeholder ="email" name="email"></div><div class="col-sm-2"><input type="text" class="new-node form-control" placeholder ="fixo" name="fixo"></div></li></div>');
+      
+    });
+
+    $('#btn-remove-input').on('click', function() {
+      var inputs = $('#new-nodelist').children('li');
+      if (inputs.length > 1) {
+        inputs.last().remove();
+      }
+    });
+
+    $('#btn-add-nodes').on('click', function() {
+      var $chartContainer = $('#chart-container');
+      var nodeVals = [];
+      $('.new-node').each(function(index, item) {
+        var validVal = item.value.trim();
+        if (validVal.length) {
+          nodeVals.push(validVal);
+        }
+      });
+      var $node = $('#selected-node').data('node');
+      if (!nodeVals.length) {
+        alert('Please input value for new node');
+        return;
+      }
+      var nodeType = $('input[name="node-type"]:checked');
+      if (!nodeType.length) {
+        alert('Please select a node type');
+        return;
+      }
+      if (nodeType.val() !== 'parent' && !$('.orgchart').length) {
+        alert('Please creat the root node firstly when you want to build up the orgchart from the scratch');
+        return;
+      }
+      if (nodeType.val() !== 'parent' && !$node) {
+        alert('Please select one node in orgchart');
+        return;
+      }
+      if (nodeType.val() === 'parent') {
+        if (!$chartContainer.children().length) {// if the original chart has been deleted
+
+          $chartContainer.orgchart({
+            'data' : { 
+            	'name'	: nodeVals[0],
+  						'title'	: '<p>' + nodeVals[1] + '</p><p>' + nodeVals[2] + '</p><i class="fa fa-address-book-o fa-2x" aria-hidden="true" data-toggle="tooltip_contact" title="' + nodeVals[3] + '" value="' + nodeVals[3] + '" style="float:left" onclick="copyToClipboard(this)" ></i><i style="float:right" class="fa fa-envelope-o fa-2x" aria-hidden="true" onclick="copyToClipboard(this)" value="' + nodeVals[4] + '" data-toggle="tooltip_mail" title="' + nodeVals[4] + '"></i>'
+
+              },
+            'depth': 2,
+            'nodeContent': 'title',
+            'pan' : true,
+            'draggable': true,
+            'parentNodeSymbol': 'fa-th-large',
+            'createNode': function($node, data) {
+              $node[0].id = getId();
+            }
+          })
+          .find('.orgchart').addClass('view-state');
+        } else {
+          $chartContainer.orgchart('addParent', $chartContainer.find('.node:first'), { 'name': nodeVals[0],'title': '<p>'+  nodeVals[1] + '</p><p>' + nodeVals[2] + '</p><i class="fa fa-address-book-o fa-2x" aria-hidden="true" data-toggle="tooltip_contact" title="' + nodeVals[3] + '" value="' + nodeVals[3] + '" style="float:left" onclick="copyToClipboard(this)" ></i><i style="float:right" class="fa fa-envelope-o fa-2x" aria-hidden="true" onclick="copyToClipboard(this)" value="' + nodeVals[4] + '" data-toggle="tooltip_mail" title="' + nodeVals[4] + '"></i>', 'Id': getId() });
+        }
+        $('[data-toggle="tooltip_contact"]').tooltip();
+				$('[data-toggle="tooltip_mail"]').tooltip(); 
+      } else if (nodeType.val() === 'siblings') {
+        $chartContainer.orgchart('addSiblings', $node,
+          { 'siblings': [{'name': nodeVals[0], 'relationship': '110', 'title' : '<p>'+ nodeVals[1] + '</p><p>' + nodeVals[2] + '</p><i class="fa fa-address-book-o fa-2x" aria-hidden="true" data-toggle="tooltip_contact" title="' + nodeVals[3] + '" value="' + nodeVals[3] + '" style="float:left" onclick="copyToClipboard(this)" ></i><i style="float:right" class="fa fa-envelope-o fa-2x" aria-hidden="true" onclick="copyToClipboard(this)" value="' + nodeVals[4] + '" data-toggle="tooltip_mail" title="' + nodeVals[4] + '"></i>','Id': getId()}]
+        });
+        $('[data-toggle="tooltip_contact"]').tooltip();
+				$('[data-toggle="tooltip_mail"]').tooltip(); 
+      } else {
+        var hasChild = $node.parent().attr('colspan') > 0 ? true : false;
+        if (!hasChild) {
+          var rel = nodeVals.length > 1 ? '110' : '100';
+          $chartContainer.orgchart('addChildren', $node, {
+              'children': [{'name': nodeVals[0], 'relationship': rel, 'title': '<p>' + nodeVals[1] + '</p><p>' + nodeVals[2] + '</p><i class="fa fa-address-book-o fa-2x" aria-hidden="true" data-toggle="tooltip_contact" title="' + nodeVals[3] + '" value="' + nodeVals[3] + '" style="float:left" onclick="copyToClipboard(this)" ></i><i style="float:right" class="fa fa-envelope-o fa-2x" aria-hidden="true" onclick="copyToClipboard(this)" value="' + nodeVals[4] + '" data-toggle="tooltip_mail" title="' + nodeVals[4] + '"></i>', 'Id': getId()}]
+ 
+            }, $.extend({}, $chartContainer.find('.orgchart').data('options'), { depth: 0 }));
+          $('[data-toggle="tooltip_contact"]').tooltip();
+					$('[data-toggle="tooltip_mail"]').tooltip(); 
+        } else {
+          $chartContainer.orgchart('addSiblings', $node.closest('tr').siblings('.nodes').find('.node:first'),
+            { 'siblings':  [{'name': nodeVals[0], 'relationship': '110', 'title': '<p>'+ nodeVals[1] + '</p><p>' + nodeVals[2] + '</p><i class="fa fa-address-book-o fa-2x" aria-hidden="true" data-toggle="tooltip_contact" title="' + nodeVals[3] + '" value="' + nodeVals[3] + '" style="float:left" onclick="copyToClipboard(this)" ></i><i style="float:right" class="fa fa-envelope-o fa-2x" aria-hidden="true" onclick="copyToClipboard(this)" value="' + nodeVals[4] + '" data-toggle="tooltip_mail" title="' + nodeVals[4] + '"></i>','Id': getId()}]
+
+          });
+       	  $('[data-toggle="tooltip_contact"]').tooltip();
+					$('[data-toggle="tooltip_mail"]').tooltip();   
+        }
+      }
+    });
+
+    $('#btn-delete-nodes').on('click', function() {
+      var $node = $('#selected-node').data('node');
+      
+      if (!$node) {
+        alert('Please select one node in orgchart');
+
+        return;
+
+      } else if ($node[0] === $('.orgchart').find('.node:first')[0]) {
+
+        if (!window.confirm('Are you sure you want to delete the whole chart?')) {
+
+          return;
+
+        } else {
+
+            $('#chart-container').orgchart('removeNodes', $node);
+            $('#selected-node').val('').data('node', null);
+          }
+
+      }else {
+
+        if (!window.confirm('Are you sure you want to this node and all its children? \n Think of the children!!! ヽ(●ﾟ´Д｀ﾟ●)ﾉﾟ ')) {
+
+          return;
+          
+          } else {
+
+            $('#chart-container').orgchart('removeNodes', $node);
+            $('#selected-node').val('').data('node', null);
+          }
+
+        
+      }
+    });
+
+    $('#btn-reset').on('click', function() {
+      $('.orgchart').find('.focused').removeClass('focused');
+      $('#selected-node').val('');
+      $('#new-nodelist').find('input').val('').parent().siblings().remove();
+      $('#new-nodelist').find('.input').remove();
+      $('#node-type-panel').find('input').prop('checked', false);
+    });
+
+    $('#btn-save').on('click', function() {
+
+    		$('#modal').modal('toggle')
+
+    })
+
+</script>
+

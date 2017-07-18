@@ -1,0 +1,31 @@
+<%var tempDate = new Date(date)%>
+<%tempDate = tempDate.getDay()%>
+<% for(var i = 0 ; i < tec.length;i++){%>
+	<% if(!tec[i].vacation && !tec[i].falta && !tec[i].folga && !(tempDate == 6 && !(tec[i].escala==1))) {%>
+		<div class="panel panel-default <%=tec[i].zona%>">
+		  <div class="panel-body" name="<%=tec[i].zona%>">
+				<div class="row">
+					<div class="col-sm-8">
+			  		<span class="text-left"><%=tec[i].name%></span>
+			  	</div>
+			  	<div class="col-sm-2">
+						<div class="material-switch pull-right">
+						  <input id="C<%=tec[i].id%>" class="check" type="checkbox"/>
+						  <label for="C<%=tec[i].id%>" id="C<%=tec[i].id%>" class="label-success"></label>
+						</div>
+					</div>
+			  	<div class="col-sm-2">
+					  <span class="text-right">
+						  <% if(typeof table[tec[i].id] !== 'undefined'){%>
+				        <%var k = Object.keys(table[tec[i].id])%>
+				          <%= 5 - k.length%>
+				        <%}else {%>
+				        	5
+				        <%}%>
+				    </span>
+			    </div>
+			  </div>  
+			</div>
+		</div>
+	<%}%>		
+<%}%>

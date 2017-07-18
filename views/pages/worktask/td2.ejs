@@ -1,0 +1,108 @@
+<%slot = table[tec[i].id][j+10]%>
+<tr id="<%=tec[i].id%>|<%=j+10%>|<%=date%>|<%=slot.id%>"  name="<%=trb[slot["tipo_TRB_FK_id"]-1].name%> <%=ot_type[slot["tipo_OT_FK_id"]-1].name%> <%=slot["obs"]%>">
+  <% var tableKeys = Object.keys(slot)%> 
+  <% for (var k = 2 ; k < colName.length+2 ; k++) { %>
+   	<%if(k==2){%>
+      <td style = "width: 90px; background-color: white"><%= timeSlot[slot.slot_hora-10]%></td>
+   	<%} else if(k == 8){%>
+   		<td style="max-width: 150px; data-toggle="tooltip_obs"; title="<%= slot[tableKeys[k]]%>"; "> <p style=" white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= slot[tableKeys[k]]%></p></td>
+    <%}else{%>
+    	<%if(tableKeys[k].includes("FK_id")){%>
+    		<td> <%= addTables[tableKeys[k]][slot[tableKeys[k]]-1].name%></td>
+    	<%}else{%>
+       		<td> <%= slot[tableKeys[k]]%></td>
+     	<%}%>
+   	<%}%> 
+  <%}%>
+  <td  style = "width: 115px; background-color: white">
+    <div class="row">
+      <div class="col-xs-4">
+      	<form action="/worktask_delete" method="post">
+        	<input type="hidden" name="id" value="<%=slot.id%>">
+        	<input type="hidden" name="slotsID" value="<%=slot.slotsID%>">
+        	<input type="hidden" name="hora" value="<%=date%>">
+        	<input type="hidden" name="tec_id" value="<%=tec[i].id%>">
+        	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_delete" title="Remover" type="submit"><i class="fa fa-ban fa-lg" style="color: red"></i></button>					                      		
+        </form>
+      </div>
+      <div class="col-xs-4">
+        <form action="/worktask_reserve" method="post">
+        	<input type="hidden" name="id" value="<%=slot.id%>">
+        	<input type="hidden" name="hora" value="<%=date%>">
+        	<input type="hidden" name="reserve" value="true">
+        	<input type="hidden" name="tec_id" value="<%=tec[i].id%>"> 
+        	<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_reserva" title="Reservar" type="submit"><i class="fa fa-clock-o fa-lg" style="color: green"></i></button>
+        </form>
+      </div>
+      <div class="col-xs-4"">
+        <form action="/worktask_picket" method="post">
+        	<input type="hidden" name="id" value="<%=tec[i].id%>">
+        	<input type="hidden" name="slot_hora" value="<%=j+10%>">
+        	<input type="hidden" name="hora" value="<%=date%>">
+        	<input type="hidden" name="tec_id" value="<%=tec[i].id%>">
+					<button style="background-color: transparent;" class="btn btn-xs" data-toggle="tooltip_picket" title="Prevenção" type="submit"><i class="fa fa-taxi fa-lg" style="color: blue"></i></button>
+				</form>
+			</div>
+    </div>					                      
+  </td>			                      
+</tr>
+<%if(horario == morning){%>
+	<%if(j == 2 || j == 12){%>
+		<%if(tec[i].zona == 'Lisboa' && slot.tipo_OT_FK_id == 2){%>
+			<%tableInfo[0]++%>
+		<%} else if(tec[i].zona == 'Porto'&& slot.tipo_OT_FK_id == 2){%>
+			<%tableInfo[4]++%>
+		<%} else {%>
+			<%if(tec[i].zona == 'Lisboa'){%>
+				<%tableInfoT[0]++%>
+			<%} else if(tec[i].zona == 'Porto'){%>
+  			<%tableInfoT[4]++%>
+  		<%}%>
+		<%}%>
+	<%}%>	
+	<%if(j == 6 || j == 16){%>
+		<%if(tec[i].zona == 'Lisboa' && slot.tipo_OT_FK_id == 2){%>
+			<%tableInfo[2]++%>
+		<% } else if(tec[i].zona == 'Porto'&& slot.tipo_OT_FK_id == 2){%>
+			<%tableInfo[6]++%>
+		<% } else {%>
+			<%if(tec[i].zona == 'Lisboa'){%>
+				<%tableInfoT[2]++%>
+			<%} else if(tec[i].zona == 'Porto'){%>
+  			<%tableInfoT[6]++%>
+  		<%}%>
+		<% }%>
+	<%}%>	
+<% } else {%>
+	<%if(j == 4 || j == 14){%>
+		<%if(tec[i].zona == 'Lisboa' && slot.tipo_OT_FK_id == 2){%>
+			<%tableInfo[1]++%>
+		<% } else if(tec[i].zona == 'Porto'&& slot.tipo_OT_FK_id == 2){%>
+			<%tableInfo[5]++%>
+		<%} else {%>
+			<%if(tec[i].zona == 'Lisboa'){%>
+				<%tableInfoT[1]++%>
+			<%} else if(tec[i].zona == 'Porto'){%>
+  			<%tableInfoT[5]++%>
+  		<%}%>
+		<%}%>
+	<%}%>
+<%}%>
+
+<%if(slot.tipo_OT_FK_id == 4){%>
+	<%if(tec[i].zona == 'Lisboa'){%>
+		<%tableInfo[3]++%>
+	<%} else if(tec[i].zona == 'Porto'){%>
+			<%tableInfo[7]++%>
+	<%}%>
+<%} else if(slot.OT){%>
+	<%if(tec[i].zona == 'Lisboa' && slot.OT.length){%>
+		<%tableInfoT[3]++%>
+	<%} else if(tec[i].zona == 'Porto' && slot.OT.length){%>
+			<%tableInfoT[7]++%>
+	<%}%>
+<%}%>
+
+<%if(horario[rslot] == j){%>
+	<%rslot++%>
+<%}%>	

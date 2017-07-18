@@ -1,0 +1,124 @@
+	
+<div class="modal-body">
+	<h1><span class="fa fa-sign-in"></span>Novo Utilizador</h1>
+
+		<form action="/newUser" method="post">
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Utilizador</label>
+				</div>
+				<div class="col-sm-8">				
+					<input type="text" class="form-control" name="username" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-4">
+	      	<label>Email</label>
+	      </div>
+				<div class="col-sm-8">
+	      	<input type="email" class="form-control" name="email">
+	      </div>
+	    </div>
+	    <div class="form-group">
+				<div class="col-sm-4">
+	      	<label>Primeiro Nome</label>
+	      </div>
+				<div class="col-sm-8">
+	      	<input type="text" class="form-control" name="firstName" required>
+	      </div>
+	    </div>
+	    <div class="form-group">
+				<div class="col-sm-4">
+	      	<label>Ultimo Nome</label>
+	      </div>
+				<div class="col-sm-8">
+	      	<input type="text" class="form-control" name="lastName" required>
+	      </div>
+	    </div>
+	    <div class="form-group">
+				<div class="col-sm-4">
+					<label>Data Nascimento</label>
+				</div>
+				<div class="col-sm-8">
+					<div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" name = "Data Nascimento" required>
+            <span class="input-group-addon">
+            	<span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Data de entrada</label>
+				</div>
+				<div class="col-sm-8">
+					<div class='input-group date' id='datetimepicker2'>
+            <input type='text' class="form-control" name = "Data Entrada" required>
+            <span class="input-group-addon">
+            	<span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Foto</label>
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="picture">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Contacto pessoal</label>
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="cellnumber" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Carta de condução</label>
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="driverslicence">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Numero cartão NOS</label>
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="noscard">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-4">
+					<label>Comentários</label>
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="obs">
+				</div>
+			</div>
+				<input type="hidden" class="form-control" name="password" value="password">
+			<button type="submit" class="btn btn-warning btn-lg">Inscrever</button>
+		</form>
+</div>
+
+<script type="text/javascript">
+	 $(function () {
+    $('#datetimepicker1').datetimepicker({
+      locale: 'pt',
+      format: 'YYYY-MM-DD'
+
+    });
+  });
+	  $(function () {
+    $('#datetimepicker2').datetimepicker({
+      locale: 'pt',
+      format: 'YYYY-MM-DD'
+
+    });
+  });
+</script>

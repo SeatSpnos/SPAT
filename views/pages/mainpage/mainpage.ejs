@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>News Feed</title>
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css">
+  <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link href="/lib/quill-1.1.6/themes/quill.bubble.css" rel="stylesheet">
+  <script src="/lib/quill-1.1.6/themes/quill.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/mainpage/mainpage.css">
+  <script src="/js/mainpage/mainpage.js"></script>
+</head>
+<body>
+  <% include ../../partials/side_nav_bar %>
+  <h1 class="text-center" >NEWS FEED</h1>
+  <%for(var i = 0 ; i < 9;i++){%>
+    <br>
+  <%}%>
+  <div class="container-fluid">
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home">Obrigatórias <span class="badge" ><%=newReq.length%></span></a></li>
+      <li><a data-toggle="tab" href="#menu1">Geral <span class="badge" ><%=newMsg.length%></span></a></li>
+    </ul>
+    <div class="tab-content">
+      <div id="home" class="tab-pane fade in active">
+        <%if(newReq.length){%>
+          <% include ./required %>
+        <%}%> 
+      </div>
+      <div id="menu1" class="tab-pane fade">
+        <%if(newMsg.length){%>
+          <% include ./novas %>
+        <%}%>    
+      </div>
+    </div>
+  </div> 
+  <% include ./modal %>
+</body>
+</html>
+<script type="text/javascript">
+
+  var quill = new Quill('#editorReq', {    
+              theme: 'bubble' 
+            })
+
+  var newReq = <%-JSON.stringify(newReq)%>
+
+  if(newReq.length){
+
+    quill.setContents(JSON.parse(newReq[0].text))
+
+    quill.enable(false);
+
+  }
+
+  var newMsg = <%-JSON.stringify(newMsg)%>
+
+  var quill2 = new Quill('#editorMsg', {    
+              theme: 'bubble' 
+            })
+
+  if(newMsg.length){
+    
+    quill2.setContents(JSON.parse(newMsg[0].text))
+    quill2.enable(false);
+
+  }  
+
+  var number = 0
+
+  $('#next-btn').click(function() {
+
+    number++;
+
+    if( number === newMsg.length ) number = 0;
+
+    $('.msgDate').text(newMsg[number].date.slice(0,10));
+    $('.msgTitle').text(newMsg[number].title);
+    $('.msgCategory').text(newMsg[number].category);
+    $('.msgTags').text(newMsg[number].tags);
+
+    quill2.setContents(JSON.parse(newMsg[number].text));
+
+  });
+
+  $('#prev-btn').click(function() {
+    number--;    
+
+    if(number === -1)  number = newMsg.length-1;
+
+    $('.msgDate').text(newMsg[number].date.slice(0,10));
+    $('.msgTitle').text(newMsg[number].title);
+    $('.msgCategory').text(newMsg[number].category);
+    $('.msgTags').text(newMsg[number].tags);
+
+    quill2.setContents(JSON.parse(newMsg[number].text));
+
+  });
+
+  /*
+  * This is the plugin
+  */
+  (function(a){a.createModal=function(b){defaults={title:"",message:"Attachments",closeButton:true,scrollable:false};var b=a.extend({},defaults,b);var c=(b.scrollable===true)?'style=""':"";html='<div class="modal fade" id="myModal">';html+='<div class="modal-dialog">';html+='<div class="modal-content">';html+='<div class="modal-header">';html+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';if(b.title.length>0){html+='<h4 class="modal-title">'+b.title+"</h4>"}html+="</div>";html+='<div class="modal-body" '+c+">";html+=b.message;html+="</div>";html+='<div class="modal-footer">';if(b.closeButton===true){html+='<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>'}html+="</div>";html+="</div>";html+="</div>";html+="</div>";a("body").prepend(html);a("#myModal").modal().on("hidden.bs.modal",function(){a(this).remove()})}})(jQuery);
+
+  /*
+  * Here is how you use it
+  */
+  $(function(){    
+    
+    $('.view-pdf').on('click',function(){
+
+      $('#Read').prop('disabled', false);
+
+      var pdf_link = $(this).attr('href');
+
+      if(pdf_link.contains('.pdf')) {
+
+        var iframe = '<div class="iframe-container"><iframe src="'+pdf_link+'"></iframe></div>'
+
+        $.createModal({
+
+          title:'Attachments- pdf',
+          message: iframe,
+          closeButton:true,
+          scrollable:false
+
+        });
+
+      }        
+      
+      return false; 
+
+    }); 
+
+  })
+
+
+  $(document).ready( function () {
+    
+  if( <%= user.required %> && <%= flag %> ) {
+
+    $ ('#modal' ).modal( 'show' )
+
+  }
+})
+</script>

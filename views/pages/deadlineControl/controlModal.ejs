@@ -1,0 +1,106 @@
+<style>
+	label {		
+		color:black;
+		font-family:'segoe ui';
+		font-size:14px;
+		font-weight: bold;
+		}
+		span {
+			color:black;
+		font-family:'segoe ui';
+		font-size:14px;
+		font-weight: bold;
+		}
+		}
+</style>
+
+<div class="modal-body">
+	<div class="row">
+		<div class="col-sm-4">
+			<span><%=table.tec%></span>
+		</div>
+		<div class="col-sm-4">
+			<span><%=table.slot_hora%></span>
+		</div>
+		<div class="col-sm-3">
+			<span><%=table[0].OT%></span>
+		</div>
+		<div class="col-sm-1">
+			<span><%=table.BONIFICACAO%></span>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-sm-4">
+			<span><%=table.SIT_CTL%></span>
+		</div>
+		<div class="col-sm-8">
+			<span><%=table.OBS_CTL%></span>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-sm-4">
+			<span>Observações OT</span>
+		</div>
+		<div class="col-sm-8">
+			<pre><%=table[0].obs%></pre>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-sm-4">
+			<span>Observações Controlo</span>
+		</div>
+		<div class="col-sm-8">
+			<pre><%=table[0].c_obs%></pre>
+		</div>
+	</div>
+	<br>
+		<form action="deadlinecontrol_create" method="post">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-3">
+						<label>Incumprimento Tratado</label>
+					</div>
+					<div class="col-sm-3">
+						<label class="radio-inline <%=!table[0].inc_tratado?'active':''%>"><input type="radio" name="inc_tratado" value="0" <%=!table[0].inc_tratado?'checked':''%>>Não</label>
+						<label class="radio-inline <%=table[0].inc_tratado?'active':''%>"><input type="radio" name="inc_tratado" value="1" <%=table[0].inc_tratado?'checked':''%>>Sim</label>
+					</div>
+					<%if(table[0].relatorio){%>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-4">
+							<span>É necessário relatório</span>
+						</div>
+					<%}%>
+					
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-4">
+						<span>Histórico de Incumprimentos</span>
+					</div>
+					<div class="col-sm-8">
+						<pre><%=table[0].inc_obs%></pre>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-4">
+						<span>Observações</span>
+					</div>
+					<div class="col-sm-8">
+						<textarea class="form-control" rows="5" name="c_obs"></textarea>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<input type="hidden" name="id" value="<%=table[0].id%>">
+			</div>
+			<div class="row">
+				<div class="col-sm-5"></div>
+				<button type="submit" class="btn btn-warning btn-lg">Submeter</button>
+			</div>
+		</form>
+</div>
