@@ -1,0 +1,45 @@
+<% const colName = ['Referencia', 'Item', 'Serial', 'Remover']%>
+<div>
+  <div class="row">
+    <div class="col-sm-2">
+      
+    </div>
+    <div class="col-sm-8">
+      <label>Serial</label>
+      <br>
+      <input class="form-control" type="text" name="serial" id="serial">
+    </div>
+  </div>
+  <br>
+  <div class="alert alert-danger errSerial" hidden>   
+    <strong>Alerta!</strong> O Serial utilizado não se encontra disponivel em stock, verificar Serial.
+  </div>
+  <div class="alert alert-danger errSerialDuplicate" hidden>   
+    <strong>Alerta!</strong> O Serial utilizado já está na lista.
+  </div>
+  <br>
+  <div id="serialItems" hidden>
+    <h4 class="text-center">Lista de Equipamentos a adicionar</h4>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <% for (let i in colName) { %>
+            <th><%= colName[i] %></th>
+          <% } %>
+        </tr>
+      </thead>      
+      <tbody class="serialItems">     
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-10"></div>
+    <div class="col-sm-2">
+      <button class="btn btn-info" id="serialSubmit">Okay</button>
+    </div>
+  </div>
+  <br>
+</div>
+<script src="/js/armazem/delivery/addSerials.js"></script>

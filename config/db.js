@@ -37,10 +37,11 @@ function values(table, sql, val, callback){
     }
 })
 
-  connection.query(sql, val, function(err, rows){
+  let test = connection.query(sql, val, function(err, rows){
     if(err) throw err
     callback(null, rows)
-    })
+    });
+  console.log(test.sql)
 }
 
 

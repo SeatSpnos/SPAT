@@ -1,0 +1,14 @@
+<tr>
+	<td><%= item.referencia %></td>
+	<td><%= item.nome %></td>
+	<td><%= item.serial ? item.serial : item.hasSerial%></td>
+	<% console.log(item)%>
+	<% if (item.hasSerial !== 'Não Seriado') { %>
+		<td>1</td>
+	<% } else { %>
+		<td><input class="form-hidden itemQuantity" type="number" name="<%= item.nome %>" ref="<%= item.referencia %>" value="<%= quantity %>"></td>
+	<% } %>	
+	<td><input class="form-hidden itemObs" type="text" name="<%= item.nome %>Obs" ref="<%= item.referencia %>"></td>
+	<td><%= item.quantity %></td>
+	<td><a href="#" title="Remover Item" data-toggle="tooltip_removeItem" class="removeItem"><i class="fa fa-minus" aria-hidden="true"></i></a></td>
+</tr>

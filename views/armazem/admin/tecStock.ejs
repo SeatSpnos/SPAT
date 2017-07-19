@@ -1,0 +1,45 @@
+<% const colName = ['Referencia', 'Item', 'Quantidade']%>
+<h4 class="text-center" id="tecTable"><%=tecnico%></h4>
+<br>
+<div class="col-sm-6">
+	<label>With Serial</label>
+	<table class="table table-condensed" id="itemsTecSerial">
+	  <thead>
+	    <tr>
+	      <% for (let i in colName) { %>
+	        <th><%= colName[i] %></th>
+	      <% } %>
+	    </tr>
+	  </thead>      
+	  <tbody class="itemsTecSerial">
+		  <%for (let i in serials ) { %>
+        <tr id="<%= serials[i].nome %>">
+	        <td><%= serials[i].referencia %></td>
+	        <td><%= serials[i].nome %></td>
+	        <td><%= serials[i].quantity %></td>
+        </tr>
+      <% } %>
+	  </tbody>
+	</table>
+</div>
+<div class="col-sm-6">
+	<label>No Serial</label>
+	<table class="table table-condensed" id="itemsTecNoSerial">
+	  <thead>
+	    <tr>
+	      <% for (let i in colName) { %>
+	        <th><%= colName[i] %></th>
+	      <% } %>
+	    </tr>
+	  </thead>      
+	  <tbody class="itemsTecNoSerial">
+		  <%for (let i in noSerials ) { %>
+        <tr id="<%= noSerials[i].nome %>">
+	        <td><%= noSerials[i].referencia %></td>
+	        <td><%= noSerials[i].nome %></td>
+	        <td><%= noSerials[i].quantity %></td>
+        </tr>
+      <% } %>
+	  </tbody>
+	</table>
+</div>

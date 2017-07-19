@@ -1,8 +1,9 @@
 {
-  "name": "node-authentication",
-  "main": "server.js",
+  "name": "SPAT_dev",
+  "main": "app.js",
   "scripts": {
-    "start": "node ./server"
+    "start": "node bin/app.js",
+    "test": "set NODE_ENV=test&& mocha --timeout 5000 --recursive test"
   },
   "dependencies": {
     "app-module-path": "^2.1.0",

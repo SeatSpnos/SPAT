@@ -1,197 +1,149 @@
-var controller  = require('controllers')
-var multer = require('multer')
-var upload = multer({ dest: 'public/uploads/' })
-var async  = require('async')
+const controller = require('controllers');
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/' });
+const middlewares = require('middlewares');
 const operadorGroup = ['Admin', 'Gestão', 'Supervisor', 'Operador'];
 const supervisorGroup = ['Admin', 'Gestão', 'Supervisor'];
 const gestorGroup = ['Admin', 'Gestão'];
-module.exports = function (app, passport) {  
- 
+module.exports = function (app, passport) {
+  // ROUTES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  //Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // ARMAZEM ITEMS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem_item', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.item.find);
+  app.post('/armazem_item_new', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.item.create);
+  app.get('/armazem_item_add', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.item.add);
+  app.post('/armazem_item_edit', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.item.edit);
+  app.post('/armazem_item_update', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.item.update);
+  app.post('/armazem_item_inactive', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.item.remove);
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  //User+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  //pp.get('/chat', isLoggedIn, controller.chat.find)
-  //app.post('/chat_new', isLoggedIn, controller.chat.create)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // ARMAZEM STOCK+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem_stock', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.stock.find);
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  app.get('/reporting_wt', isLoggedIn, hasPermission(["Admin"]), controller.reporting.find)
-  app.post('/reporting_wt', isLoggedIn, hasPermission(["Admin"]), controller.reporting.find)
-   //User+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/user', isLoggedIn, hasPermission(["Admin","Supervisão"]), controller.user.find)
-  app.post('/newUser', isLoggedIn, hasPermission(["Admin"]),controller.user.create)
-  app.get('/newUser', isLoggedIn, hasPermission(["Admin"]),controller.user.add)
-  app.post('/user_edit',isLoggedIn, hasPermission(["Admin"]), controller.user.edit)
-  app.post('/user_update', isLoggedIn, hasPermission(["Admin"]), controller.user.update)
-  app.post('/user_reset', isLoggedIn, hasPermission(["Admin"]), controller.user.reset)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // ARMAZEM LOGS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem_logs', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.logs.find);
+  app.post('/armazem_logs_options', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.logs.findOptions);
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  //KM_Link++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/km_link', isLoggedIn, hasPermission(["Admin", "Supervisão", "Operador"]), controller.km.link.find)
-  app.post('/km_link_insert', isLoggedIn, hasPermission(["Admin", "Supervisão"]), controller.km.link.create)
-  app.post('/km_link_edit', isLoggedIn, hasPermission(["Admin", "Supervisão"]), controller.km.link.edit)
-  app.post('/km_link_update', isLoggedIn, hasPermission(["Admin", "Supervisão"]), controller.km.link.update)
-  app.post('/km_link_updateHits', isLoggedIn, hasPermission(["Admin", "Supervisão", "Operador"]), controller.km.link.updateHits)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // ARMAZEM RECOLHAS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem/recolhas/', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.recolhas.init);
+  app.get('/armazem/recolhas/tecnicos/items/:tecName', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.recolhas.tecnicos.find);
+  app.get('/armazem/recolhas/tecnicos/verify/:serial', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.recolhas.tecnicos.verify);
+  app.get('/armazem/recolhas/tecnicos/addItems/', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.recolhas.tecnicos.renderItemsBody);
+  app.put('/armazem/recolhas/tecnicos', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.armazem.recolhas.tecnicos.update);
 
- //New Feed+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/newFeed', isLoggedIn, hasPermission(["Admin", "Supervisão"]), controller.newFeed.find)
-  app.post('/newFeed', isLoggedIn, hasPermission(["Admin", "Supervisão"]), upload.array('datafile'), controller.newFeed.create)
-  app.post('/newFeed_read', isLoggedIn, controller.newsfeed.update)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  //News Feed +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/mainpage', isLoggedIn,controller.newsfeed.find)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // ARMAZEM ADMIN+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem_admin', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.find);
+  app.get('/armazem_admin_getCategory', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.findCategory);
+  app.get('/armazem_admin_getTec', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.findTec);
+  app.get('/armazem_admin_getItem', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.findItem);
+  app.get('/armazem_admin_getSerial', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.findSerial);
+  app.get('/armazem_admin_addSerial', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.addSerial);
+  app.get('/armazem_admin_validateItem', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.validateItem);
+  app.get('/armazem_admin_sendItemsDelivery', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.removeDelivery);
+  app.post('/armazem_admin_getTecItem', middlewares.isLoggedIn, middlewares.hasPermission(gestorGroup), controller.armazem.admin.findTecItem);
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  //Homepage+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/', isLoggedIn,controller.home)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   // ARMAZEM DELIVERY+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem_delivery', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.find);
+  app.get('/armazem_delivery_getCategory', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.findCategory);
+  app.get('/armazem_delivery_getTec', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.findTec);
+  app.post('/armazem_delivery_getTecItem', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.findTecItem);
+  app.get('/armazem_delivery_getItem', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.findItem);
+  app.get('/armazem_delivery_getSerial', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.findSerial);
+  app.get('/armazem_delivery_addSerial', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.addSerial);
+  app.get('/armazem_delivery_validateItem', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.validateItem);
+  app.get('/armazem_delivery_sendItems', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.insert);
+  app.get('/armazem_delivery_getGuia', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.getGuia);
+  app.get('/armazem_delivery_makePdf', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.delivery.makePdf);
 
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/firstLogIn', isLoggedIn, firstLogIn, hasPermission(["Admin", "Supervisão", "Segmento"]), controller.home)
-   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   
-  //ESCALA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/escala_create', hasPermission(["Admin"]), isLoggedIn, controller.escala.create);
-  app.get('/escala', isLoggedIn, controller.escala.find)
-  app.get('/escala:date', isLoggedIn, hasPermission(["Admin"]), controller.escala.find)
-  app.post('/escala_date', isLoggedIn, controller.escala.find)
-  app.get('/escala/folga/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn, controller.escala.update.folga)
-  app.get('/escala/ferias/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn, controller.escala.update.ferias)
-  app.get('/escala/faltas/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn, controller.escala.update.falta)
-  app.get('/escala/horario/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn,controller.escala.update.horario)
-  app.get('/escala/feriado/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn, controller.escala.update.feriado)
-  app.get('/escala/sabado/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn,  controller.escala.update.sabado)
-  app.get('/escala/clear/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn,  controller.escala.update.clear)
-  app.get('/escala/delete/:id-:date', hasPermission(["Admin"]), isLoggedIn,  controller.escala.clear)
-  app.get('/escala/formacao/:value-:id-:date', hasPermission(["Admin"]), isLoggedIn,  controller.escala.update.formacao)
-  app.post('/escala_blk_update', isLoggedIn, hasPermission(["Admin"]),  controller.escala.update.update)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  //WORK TASK +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/deadlinecontrol', isLoggedIn, controller.deadlinecontrol.find)
-  app.post('/deadlinecontrol_add', isLoggedIn, controller.deadlinecontrol.add)
-  app.post('/deadlinecontrol_addWT', isLoggedIn, controller.deadlinecontrol.addWT)
-  app.post('/deadlinecontrol_create', isLoggedIn, controller.deadlinecontrol.create)
-  app.post('/deadlinecontrol_createWT', isLoggedIn, controller.deadlinecontrol.createWT)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   //WORK TASK +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  app.get('/worktask', isLoggedIn, controller.worktask.find)
-  app.post('/worktask_filters', isLoggedIn, controller.worktask.find)
-  app.post('/worktask_create', isLoggedIn, controller.worktask.create)
-  app.post('/worktask_add', isLoggedIn, controller.worktask.add)
-  app.post('/worktask_delete', isLoggedIn, controller.worktask.del)
-  app.post('/worktask_picket', isLoggedIn, controller.worktask.picket)
-  app.post('/worktask_nowork', isLoggedIn, controller.worktask.nowork)
-  app.post('/worktask_reserve', isLoggedIn, controller.worktask.reserve)
-  app.get('/worktask_celula', isLoggedIn, controller.worktask.findCel)
-  app.post('/worktask_verify', isLoggedIn, controller.worktask.verify)
-  app.get('/worktask_findAvailableTec', isLoggedIn, controller.worktask.findAvailable)
-  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // ARMAZEM ENTRY+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem_entry', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.find);
+  app.get('/armazem_entry_serialCategory', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.findSerialCategory);
+  app.get('/armazem_entry_getCategory', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.findCategory);
+  app.get('/armazem_entry_submitSerial', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.insertSerial);
+  app.get('/armazem_entry_submitnoSerial', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.insertNoSerial);
+  app.post('/armazem_entry_allSerialModal', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.allSerialModal);
+  app.get('/armazem_entry_getItem', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.findItem);
+  app.get('/armazem_entry_addSerials', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.addSerials);
+  app.get('/armazem_entry_verifySerials', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.verifySerials);
+  app.post('/armazem_entry_getAllSerialsModal', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.entry.getSerialsModal);
 
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  // ARMAZEM CONSUME+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/armazem_consume', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.find);
+  app.get('/armazem_consume_getCategory', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.findCategory);
+  app.get('/armazem_consume_getTec', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.findTec);
+  app.post('/armazem_consume_getTecItem', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.findTecItem);
+  app.get('/armazem_consume_getItem', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.findItem);
+  app.get('/armazem_consume_getSerial', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.findSerial);
+  app.get('/armazem_consume_sendItems', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.insert);
+  app.get('/armazem_consume_getOT', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.findOT);
+  app.get('/armazem_consume_validateItem', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.validateItem);
+  app.get('/armazem_consume_addSerial', middlewares.isLoggedIn, middlewares.hasPermission(operadorGroup), controller.armazem.consume.addSerial);
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  // TECNICOS MANAGEMENT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  app.get('/tecnico', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.admin.tecnicos.find);
+  app.post('/tecnico_new', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.admin.tecnicos.create);
+  app.get('/tecnico_add', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.admin.tecnicos.add);
+  app.post('/tecnico_edit', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.admin.tecnicos.edit);
+  app.post('/tecnico_update', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.admin.tecnicos.update);
+  app.post('/tecnico_inactive', middlewares.isLoggedIn, middlewares.hasPermission(supervisorGroup), controller.admin.tecnicos.remove);
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   // =====================================
   // LOGIN ===============================
   // =====================================
   // show the login form
-  app.get('/login', function(req, res) {
-
+  app.get('/login', function (req, res) {
     // render the page and pass in any flash data if it exists
-    res.render('./pages/login.ejs', { message: req.flash('loginMessage') })
-  })
+    res.render('./pages/login', { message: req.flash('loginMessage') });
+  });
 
   // process the login form
   app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/firstLogIn', // redirect to the secure profile section
-            failureRedirect : '/login',   // redirect back to the signup page if there is an error
-            failureFlash : true          // allow flash messages
-    }),
-        function(req, res) {
-            console.log("hello")
-
-            if (req.body.remember) {
-              req.session.cookie.maxAge = 1000 * 60 * 60 * 4
-            } else {
-              req.session.cookie.expires = false
-            }
-        res.redirect('/')
-    })
-
+    successRedirect: '/firstLogIn', // redirect to the secure profile section
+    failureRedirect: '/login',   // redirect back to the signup page if there is an error
+    failureFlash: true          // allow flash messages
+  }),
+    function (req, res) {
+      if (req.body.remember) {
+        req.session.cookie.maxAge = 1000 * 60 * 60 * 4;
+      } else {
+        req.session.cookie.expires = false;
+      }
+      res.redirect('/');
+    });
 
   // =====================================
   // SIGNUP ==============================
   // =====================================
   // show the signup form
-  app.get('/signup', function(req, res) {
+  app.get('/signup', function (req, res) {
     // render the page and pass in any flash data if it exists
-    res.render('./pages/newPassword', { message: req.flash('signupMessage')})
-  })
+    res.render('./pages/newPassword', {message: req.flash('signupMessage')});
+  });
 
   // process the signup form
-  app.post('/signup', function(req,res,next)
-    { console.log(req.body.password+"\n"+req.body.username) 
-    next()},
+  app.post('/signup',
     passport.authenticate('local-signup', {
-    successRedirect : '/mainpage',  // redirect to the secure profile section
-    failureRedirect : '/login',  // redirect back to the signup page if there is an error
-    failureFlash : true          // allow flash messages
-  }))
-
-  // =====================================
-  // PROFILE SECTION =========================
-  // =====================================
-  // we will want this protected so you have to be logged in to visit
-  // we will use route middleware to verify this (the isLoggedIn function)
-  app.get('/profile', isLoggedIn, function(req, res) {
-    res.render('./pages/profile.ejs', {
-      user : req.user // get the user out of session and pass to template
-    })
-  })
+      successRedirect: '/mainpage',  // redirect to the secure profile section
+      failureRedirect: '/login',  // redirect back to the signup page if there is an error
+      failureFlash: true          // allow flash messages
+    }));
 
   // =====================================
   // LOGOUT ==============================
   // =====================================
-  app.get('/logout', function(req, res) {
-    req.logout()
-    res.redirect('/')
-  })
-}
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated())
-    return next()
-
-  res.redirect('/login')
-}
-
-function hasPermission(permissions){
-  return function checkPermission(req,res,next){
-    var hasP = false
-    async.each(permissions,function(permission,callback){
-      if(req.user.group_permission == permission)
-        hasP = true
-      callback()
-    },function(err,data){
-      console.log(req.user.username)
-      if(req.user.required == "true")
-        hasP = false
-      if(hasP) next()
-      else
-      res.redirect('/mainpage')  
-    })
-  }
-}
-
-function firstLogIn(req,res,next){
-  if((req.user.firstLogIn !== "True"))
-    return next()
-    res.render('./pages/newPassword', { message: req.flash('signupMessage'), username: req.user.username})
-}
-
-function hasRead(req,res,next){
-  if(req.body.readContent == "sim")
-    return next()
-  res.redirect('/mainpage')
-}
-
+  app.get('/logout', function (req, res) {
+    req.logout();
+    res.redirect('/');
+  });
+};

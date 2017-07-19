@@ -1,0 +1,168 @@
+<% const colName = ['Referencia', 'Item', 'Quantidade']%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Entrega items</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+  <script type="text/javascript" src="lib/bootstrap/js/transition.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/collapse.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>  
+
+  <link href="lib/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="lib/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+
+  <script src="/lib/selectize.js-master/dist/js/standalone/selectize.min.js"></script>
+  <link href="/lib/selectize.js-master/dist/css/selectize.default.css" rel="stylesheet">
+
+  <link href="/css/main/main.css" rel="stylesheet">
+  <link href="/css/table/table.css" rel="stylesheet">
+  <link href="/css/inc/inc.css" rel="stylesheet">
+  <style type="text/css">
+
+  	input.form-hidden.itemSelect {
+	    border-color: transparent;
+	    background: transparent;
+		}
+    .modal .modal-dialog {
+      width: 80%;
+    }
+    .modal .modal-body {
+      overflow-y: auto;
+    }
+    input.form-hidden {
+      border-color: transparent;
+      background: transparent;
+    }
+    .spinner{
+      position: absolute;
+      height: 100px;
+      width: 100px;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -50px;
+      background: url(/imgs/balls.gif);
+      background-size: 100%;
+      z-index: 999;
+    }
+  </style>
+
+  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>	
+	<% include ../../../partials/side_nav_bar%>
+  <div id="spinner" class="spinner" hidden></div>
+	<div class="container-fluid main">
+		<br>
+		<h5 class="text-center"> Items a assignar ao técnico</h5>
+    <br>
+		<div class="row">
+			<div class="col-sm-4">
+				<label>Armazem</label>
+				<br>
+        <label class="radio-inline"><input type="radio" name="cidade" value="Lisboa">Lisboa</label>
+        <label class="radio-inline"><input type="radio" name="cidade" value="Porto">Porto</label>
+        <label class="radio-inline"><input type="radio" name="cidade" value="Alverca">Alverca</label>
+      </div>
+      <div class="col-sm-3">
+        <label>Tecnicos Lisboa</label>
+				<select class="form-control tecSelect" name="tecLisboa" id="tecSelectLisboa">
+					<option></option>
+					<% for(let i in tecs) { %>
+            <% if (tecs[i].zona == 'Lisboa') {%>
+						  <option value="<%= tecs[i].name %>"><%= tecs[i].name%></option>
+            <% }%>
+					<% } %> 
+				</select>
+			</div>
+      <div class="col-sm-3">
+        <label>Tecnicos Porto</label>
+        <select class="form-control tecSelect" name="tecPorto" id="tecSelectPorto">
+          <option></option>
+          <% for(let i in tecs) { %>
+            <% if (tecs[i].zona == 'Porto') {%>
+              <option value="<%= tecs[i].name %>"><%= tecs[i].name%></option>
+            <% } %>
+          <% } %> 
+        </select>
+      </div>
+			<div class="col-sm-2">
+				<br>
+				<button class="btn btn-red" id="btnFinish">Confirmar</button>
+			</div>
+		</div>
+    <br>
+    <% include ./items %>
+		<br>
+		<div class="row" id="itemsTec" hidden>
+		</div>
+		<br>
+	</div>
+	<div class="contairner-fluid">
+    <div id= "addModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title text-center">Items para adicionar</h5>
+          </div>
+          <div class="modal-body">
+          	<% include ./add_items %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contairner-fluid">
+    <div id= "serialModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title text-center">Items para adicionar</h5>
+          </div>
+          <div class="modal-body">
+          	<% include ./add_withSerial %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contairner-fluid">
+    <div id= "itemModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title text-center">Info Items</h5>
+          </div>
+          <div class="modal-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contairner-fluid">
+    <div id= "guiaModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h5 class="modal-title text-center">Guia</h5>
+          </div>
+          <div class="modal-body" id="guiaBody">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<script src="/js/armazem/delivery/delivery.js"></script>

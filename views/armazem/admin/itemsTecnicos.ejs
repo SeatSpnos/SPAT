@@ -1,0 +1,17 @@
+<% const colName = ['Referencia', 'Item', 'Serial', 'Qtd', 'Observações', 'Stock']%>
+<div class="alert alert-danger errSize text-center" hidden>
+  <strong>Alerta!</strong>
+</div>
+<table class="table" id="tableItemsTecnicos">
+  <thead>
+    <tr>
+      <% for (let i in colName) { %>
+        <th><%= colName[i] %></th>
+      <% } %>
+      <th><a href="#" id="addSerialTecnicos" title="Adicionar Serial" data-toggle="tooltip_addSerial"><i class="fa fa-plus-square-o fa-lg" aria-hidden="true"></i></a></th>
+      <th><a href="#" id="addItemTecnicos" title="Adicionar Item" data-toggle="tooltip_add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a></th>
+    </tr>
+  </thead>      
+  <tbody class="itemsTecnicos">
+  </tbody>
+</table>

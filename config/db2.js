@@ -10,8 +10,7 @@ var connection = mysql.createConnection({
 
 module.exports = {
   single : single,
-  values : values,
-  noDbValues : noDbValues
+  values : values
 }
 
 function single(table, sql, callback){
@@ -41,16 +40,4 @@ function values(table, sql, val, callback){
     if(err) throw err
     callback(null, rows)
     })
-}
-
-function noDbValues( sql, val, callback){
-
-  connection.query(sql, val, function(err, rows){
-
-    if(err) throw err
-
-    callback(null, rows)
-
-    })
-  
 }

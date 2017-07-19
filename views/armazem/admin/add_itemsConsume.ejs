@@ -1,0 +1,44 @@
+<% const columName = ['Referencia', 'Item', 'Stock', 'Qtd','Select'] %>
+
+<h4 class="text-center"> Lista de items em Stock</h4>
+<br>
+<div class="alert alert-danger text-center" id="errItemsModal" hidden>
+</div>
+<div class="alert alert-success text-center" id="sucessItemsModal" hidden>
+</div>
+<div class="alert alert-danger errItemsDuplicate" hidden>   
+  <strong>Alerta!</strong> O Item que pretendes adicionar já está na lista.
+</div>
+<div class="row">
+	<div class="col-sm-2"></div>
+	<div class="col-sm-2">
+		<label>Categoria</label>
+	</div>
+	<div class="col-sm-6">
+		<select class="form-control" name="category" id="itemCategory">
+			<option></option>
+			<option>Todos</option>
+			<% for(let i in category) { %>
+				<option value="<%= category[i].tipo %>"><%= category[i].tipo %></option>
+			<% } %>
+		</select>
+	</div>
+</div>
+<br>
+<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+		<table class="table" id="addItems" hidden>
+			<thead>
+		  <tr>
+		    <% for (let i in columName) { %>
+		      <th><%= columName[i] %></th>
+		    <% } %>
+		  </tr>
+		</thead>
+		<tbody class="addItems">
+		</tbody>		
+		</table>
+	</div>
+</div>
+<script src="/js/armazem/consume/addItems.js"></script>
