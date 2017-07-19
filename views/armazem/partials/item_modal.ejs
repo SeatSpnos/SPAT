@@ -1,0 +1,22 @@
+<% const colName = ['Referencia', 'Item', 'Serial']%>
+<div class="modal-body">
+<label>Item info</label>
+<table class="table" id="itemsInfo">
+	  <thead>
+	    <tr>
+	      <% for (let i in colName) { %>
+	        <th><%= colName[i] %></th>
+	      <% } %>
+	    </tr>
+	  </thead>      
+	  <tbody class="serialItems">
+	  	<% for (let i in items) { %>
+	  		<tr>
+	  			<td><%= items[i].referencia %></td>
+	  			<td><%= items[i].nome %></td>
+	  			<td><%= items[i].serial %></td>
+	  		</tr>
+	  	<% } %>
+	  </tbody>
+	</table>
+</div>

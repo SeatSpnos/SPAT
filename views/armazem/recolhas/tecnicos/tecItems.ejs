@@ -1,0 +1,23 @@
+<% const colName = ['Data', 'OT', 'Serial', 'Marca', 'Modelo']%>
+<h5 class="text-center" style="font-size: 16px"><%=items[0].currentOwner%></h5>
+<br>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <% for (let i in colName) { %>
+        <th><%= colName[i] %></th>
+      <% } %>
+    </tr>
+  </thead>      
+  <tbody id="itemsTec">
+	  <%for (let i in items) { %>
+      <tr>
+        <td><%= items[i].DATA_INICIO_OT %></td>
+        <td><%= items[i].codigoOT %></td>
+        <td><%= items[i].serial %></td>	    
+		    <td><%= items[i].marca %></td>
+        <td><%= items[i].modelo %></td>		    
+      </tr>
+    <% } %>
+  </tbody>
+</table>

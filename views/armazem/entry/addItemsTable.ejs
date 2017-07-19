@@ -1,0 +1,8 @@
+<% for (let i in items) { %>
+	<tr>
+    <td><%= items[i].referencia %></td>
+    <td><%= items[i].nome %></td>
+    <td><input class="form-hidden itemQuantityTemp" type="number" name="<%= items[i].nome %>" ref="<%= items[i].referencia %>" value="0"></td>
+    <td><a href="" class="addItemsSubmit" ref="<%= items[i].referencia %>"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a></td>
+  </tr>
+<% } %>

@@ -1,0 +1,51 @@
+<% const keys = Object.keys(table[0]) %>
+<% const colName = ['Nome', 'Referencia', 'Serial', 'Qtd', 'Data', 'De', 'Para', 'Utilizador','Estado','Observações']%>
+
+<table class="table table-condensed" cellspacing="0" width="100%" id="table">
+  <thead>
+    <tr>
+      <% for (let i in colName){ %>
+        <th><%= colName[i] %></th>
+      <% } %>
+    </tr>
+  </thead>      
+  <tbody>       
+    <% for (let i in table) { %>
+      <tr id ="<%= table[i].id %>">
+      <% for (let j = 1; j < keys.length; j++) { %>
+        <td><p><%= table[i][keys[j]] %></p></td>
+      <% } %>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+  let table = $('table').DataTable({
+    responsive: {
+      breakpoints: [{ name: 'screen-xs',  width: 700 }]
+    },
+    columnDefs: [{ className: 'screen-xs', targets: [1,7,8,9] }],
+    order: [[ 4, "desc" ]],
+    autoWidth : true,
+    lengthMenu: [[25, 50, 100, 200, 500, -1 ],[ 25, 50, 100, 200, 500,"Todos"]],
+    select  : true,
+    dom: 'Bfrtip<"bottom"l>',
+    buttons: [
+      {
+      extend: 'excelHtml5',
+      text: 'excel',
+      exportOptions: {
+        modifier: {
+            page: 'all'
+        }
+      }
+    }]
+  });
+
+  $('a.toggle-vis').on('click', function (e) {
+    e.preventDefault();
+    var column = table.column($(this).attr('data-column'));
+    column.visible(!column.visible());
+  });
+</script>

@@ -1,0 +1,25 @@
+<div class="modal-body">
+	<label>Item Serials</label>
+	<br>
+	<table class="table table-condensed" id="tableNoSerial">
+	  <thead>
+	    <tr>
+	      <th>Ref</th>
+	      <th>Nome</th>
+	      <th>Serial</th>
+        <th>Remover</th>
+	    </tr>
+	  </thead>      
+	  <tbody class="tableAllSerials">
+	  <% for (let i in serials) { %>
+			<tr>
+				<td><%= item.referencia %></td>
+				<td><%= item.nome %></td>
+				<td><%= serials[i] %></td>
+				<td><a href="#" title="Remover Item" data-toggle="tooltip_removeItem" class="removeSerialModal"><i class="fa fa-minus" aria-hidden="true"></i></a></td>
+			</tr>     
+		<% } %>
+	  </tbody>
+	</table>
+</div>
+<script src="/js/armazem/entry/allSerials.js"></script>

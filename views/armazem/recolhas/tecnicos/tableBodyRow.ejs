@@ -1,0 +1,11 @@
+<% for (let i in items) { %>
+	<tr>
+    <td><%= items[i].DATA_INICIO_OT %></td>
+    <td><%= items[i].CODIGO_OT %></td>
+    <td><%= items[i].serial %></td>
+    <td><%= items[i].marca %></td>
+    <td><%= items[i].modelo %></td>
+    <td><%= items[i].currentOwner %></td>
+    <td><a href="#" title="Remover Item" data-toggle="tooltip_removeItem" class="removeItem"><i class="fa fa-minus" aria-hidden="true"></i></a></td>
+  </tr>
+<% } %>

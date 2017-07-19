@@ -1,0 +1,29 @@
+<% const columName = ['Nº Remessa', 'Nº Série', 'Material', 'Quantidade'] %>
+<div>
+	<br>	
+	<div class="row">
+		<div class="col-sm-3">
+			<label>Nº Remessa</label>
+		</div>
+		<div class="col-sm-5">
+			<input class="form-control" type="text" name="remessa">
+		</div>
+		<div class="col-sm-1"></div>
+		<div class="col-sm-1">
+			<a href="" id="exportBtn"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
+		</div>
+	</div>
+	<br>
+	<br>
+	<table class="table" id="exportItems">
+	  <thead>
+	    <tr>
+	      <% for (let i in columName) { %>
+	        <th><%= columName[i] %></th>
+	      <% } %>
+	    </tr>
+	  </thead>      
+	  <tbody class="exportItems">
+	  </tbody>
+	</table>
+</div>

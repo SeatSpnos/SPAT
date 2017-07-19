@@ -1,0 +1,142 @@
+<% const keys = Object.keys(table[0]) %>
+<% const colSize = keys.length %>
+<% const colName = ['Referencia', 'Nome', 'Fornecedor', 'Saida', 'Saida Quantidade', 'Comentários', 'Têm Serial', 'Tipo', 'Designação', 'Categoria']%>
+<html>
+  <head>
+    <title>Items</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/af-2.1.2/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/cr-1.3.2/fc-3.2.2/fh-3.1.2/kt-2.1.3/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/af-2.1.2/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/cr-1.3.2/fc-3.2.2/fh-3.1.2/kt-2.1.3/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="css/main/main.css">
+    <link rel="stylesheet" type="text/css" href="css/table/table.css">
+
+  </head>
+  <body>
+    <% include ../../../partials/side_nav_bar%>
+    <h1 class="text-center">Items</h1>
+    <div class="container-fluid">
+      <div class="page-header text-center">
+        <div class="container">
+          <table class="table" id="table">
+            <thead>
+              <tr>
+                <% for (let i in colName){ %>
+                  <th><%= colName[i] %></th>
+                <% } %>
+              </tr>
+            </thead>      
+            <tbody>       
+              <% for (let i in table) { %>
+                <tr id = <%= table[i].id%>>
+                <% for (let j = 1; j < keys.length; j++) { %>
+                  <td><p><%= table[i][keys[j]] %></p></td>
+                <% } %>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div id= "editModal" class= "modal fade" role="dialog">
+        <div class= "modal-dialog">
+          <div class = "modal-content">
+            <div class = "modal-header">
+              <button type= "button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Editar</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div id= "newModal" class= "modal fade" role="dialog">
+        <div class= "modal-dialog">
+          <div class = "modal-content">
+            <div class = "modal-header">
+              <button type= "button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Novo</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+
+$(document).ready(function () {  
+  $('body .dropdown-toggle').dropdown();
+  var table = $('table').DataTable({
+    responsive: {
+      breakpoints: [{ name: 'screen-xs',  width: 700 }]
+    },
+    autoWidth : true,
+    select  : true,
+    dom: 'Bfrtip<"bottom"l>',
+    buttons: [ {
+      text: 'Add',
+      action: function ( e, dt, node, config ) {
+        $('#newModal').find('.modal-body').load('/armazem_item_add',
+         function (responseText, textStatus) {
+          if ( textStatus === 'success' || textStatus === 'notmodified'){
+            $('#newModal').modal('show')
+          }
+        });
+      }
+    },
+    {
+      text: 'Remove',
+      action: function ( e, dt, node, config ) {
+        var row = table.row({ selected: true })
+        var id = row.id()
+        $.post('/armazem_item_inactive', id)
+      }
+    },
+    {
+      text: 'Edit',
+      action: function ( e, dt, node, config ) {
+        var row = table.row({ selected: true })
+        var id = row.id()
+        $('#editModal').find('.modal-body').load('/armazem_item_edit', { id: id },
+          function (responseText, textStatus) {
+            if ( textStatus === 'success' || textStatus === 'notmodified'){
+              $('#editModal').modal('show')
+            }
+          });
+      }
+    },
+    {
+      extend: 'excelHtml5',
+      text: 'excel',
+      exportOptions: {
+        modifier: {
+            page: 'all'
+        }
+      }
+    }]
+  });
+
+  $('a.toggle-vis').on('click', function (e) {
+    e.preventDefault();
+    var column = table.column($(this).attr('data-column'));
+    column.visible(!column.visible());
+  });    
+});
+
+</script>
+

@@ -1,0 +1,42 @@
+<% const colName = ['Data', 'OT', 'Serial', 'Marca', 'Modelo','Tecnico', 'Remover']%>
+<div>
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+      <label>Serials a Adicionar</label>
+      <br>
+      <input class="form-control" type="text" name="serial" id="serial">
+    </div>
+  </div>
+  <br>
+  <div class="alert alert-danger errTecnicos" hidden>   
+    <strong>Alerta!</strong>
+    <pre class="errMsg"></pre>
+  </div>
+  <br>
+  <div id="serialItems" hidden>
+    <h4 class="text-center">Lista de Equipamentos a adicionar</h4>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <% for (let i in colName) { %>
+            <th><%= colName[i] %></th>
+          <% } %>
+        </tr>
+      </thead>      
+      <tbody class="serialItems">     
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-10"></div>
+    <div class="col-sm-2">
+      <button class="btn btn-info" id="addSerialBtn">Okay</button>
+    </div>
+  </div>
+  <br>
+</div>
+<script src="/js/armazem/recolhas/addSerials.js"></script>

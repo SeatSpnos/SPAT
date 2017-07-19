@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-sm-6">
+    <label>Categorias</label>
+    <br>
+    <select class="form-control" name="serialCategories">
+      <option></option>
+      <option>Todos</option>
+      <% for (let i in serialCategories) { %>
+        <option ref="<%= serialCategories[i].categoria %>"><%= serialCategories[i].categoria %></option>
+      <% } %>         
+    </select>
+  </div>
+  <div class="col-sm-6">
+    <label>Equipamento</label>
+    <select class="form-control" name="equipment">
+      <option></option>
+    </select>
+  </div>  
+</div>
+<br>
+<div class="alert alert-danger errSerialNoEquipment" hidden>   
+  <strong>Alerta!</strong> Tens de escolher um equipamento primeiro.
+</div>
+<br>
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <label class="text-center">Observações</label>
+    <input type="text" name="obsSerial" class="form-control">
+  </div>
+  <div class="col-sm-1"></div>  
+</div>
+<br>
+<br>
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <label class="text-center">Serials</label>
+    <textarea class="form-control" name="serials" rows="5"></textarea>
+  </div>
+  <div class="col-sm-1"></div>  
+</div>
+<br>
+<div class="row">
+  <div class="col-sm-10"></div>
+  <div class="col-sm-1">
+    <a href="" id="addBtn"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
+  </div>
+  <div class="col-sm-1"></div>
+</div>
+<script src="/js/armazem/entry/addSerials.js"></script>

@@ -1,0 +1,91 @@
+<% const colName = ['Referencia', 'Nome', 'Fornecedor', 'Saida', 'Saida Quantidade', 'Comentários', 'Têm Serial', 'Tipo', 'Designação']%>  
+<div class="modal-body">
+  <h1><span class="fa fa-sign-in"></span>Novo Item</h1>
+
+    <form action="/armazem_item_new" method="post">
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Referencia</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="ref">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Nome</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="nome">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Fornecedor</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="fornecedor">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Saida</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="saida">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Saida Quantidade</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="saida_qtd">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Comentários</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="obs">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Têm Serial</label>
+        </div>        
+        <div class="col-sm-8">
+          <select class="form-control" name="hasSerial">
+            <option value="Não Seriado">Não Seriado</option>
+            <option value="Seriado">Seriado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Tipo</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="tipo">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Designação</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="designacao">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Categoria</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="categoria">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-warning btn-lg">Adicionar</button>
+    </form>
+</div>

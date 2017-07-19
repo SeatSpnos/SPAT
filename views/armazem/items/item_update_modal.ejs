@@ -1,0 +1,92 @@
+<% var item = rows[0]%>	
+<div class="modal-body">
+	<h1><span class="fa fa-sign-in"></span>Editar Item</h1>
+		<form action="/armazem_item_update" method="post">
+			      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Referencia</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="ref" value="<%= item.referencia%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Nome</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="nome" value="<%= item.nome%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Fornecedor</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="fornecedor" value="<%= item.fornecedor%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Saida</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="saida" value="<%= item.saida%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Saida Quantidade</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="saida_qtd" value="<%= item.saida_qtd%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Comentários</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="obs" value="<%= item.comentarios%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Têm Serial</label>
+        </div>        
+        <div class="col-sm-8">
+          <select class="form-control" name="hasSerial">
+            <option value="Não Seriado" <%= item.hasSerial == 'Não Seriado' ? "selected" :"" %> >Não Seriado</option>
+            <option value="Seriado" <%= item.hasSerial == 'Seriado' ? "selected" :"" %>>Seriado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Tipo</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="tipo" value="<%= item.tipo%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Designação</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="designacao" value="<%=item.designacao%>">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-4">
+          <label>Categoria</label>
+        </div>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="categoria" value="<%=item.categoria%>">
+        </div>
+      </div>
+      <input type="hidden" name="id" value="<%= item.id %>">
+			<button type="submit" class="btn btn-warning btn-lg">Editar</button>
+		</form>
+</div>
+				

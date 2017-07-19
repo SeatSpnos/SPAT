@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="col-sm-2"></div>
+  <div class="col-sm-3">
+    <label>Tecnicos Lisboa</label>
+    <select class="form-control tecSelect" name="tecLisboa" id="tecSelectLisboa">
+      <option></option>
+      <% for(let i in tecs) { %>
+        <% if (tecs[i].zona == 'Lisboa') {%>
+          <option value="<%= tecs[i].name %>"><%= tecs[i].name%></option>
+        <% }%>
+      <% } %> 
+    </select>
+  </div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-3">
+    <label>Tecnicos Porto</label>
+    <select class="form-control tecSelect" name="tecPorto" id="tecSelectPorto">
+      <option></option>
+      <% for(let i in tecs) { %>
+        <% if (tecs[i].zona == 'Porto') {%>
+          <option value="<%= tecs[i].name %>"><%= tecs[i].name%></option>
+        <% } %>
+      <% } %> 
+    </select>
+  </div>
+  <div class="col-sm-2"></div>
+</div>

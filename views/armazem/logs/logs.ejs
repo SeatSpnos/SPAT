@@ -1,0 +1,161 @@
+
+<html>
+  <head>
+    <title>Stock</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+    <script type="text/javascript" src="lib/bootstrap/js/transition.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/js/collapse.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/af-2.1.2/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/cr-1.3.2/fc-3.2.2/fh-3.1.2/kt-2.1.3/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/af-2.1.2/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/cr-1.3.2/fc-3.2.2/fh-3.1.2/kt-2.1.3/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css"/>
+
+    <link href="lib/bootstrap-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="lib/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>   
+
+    <link rel="stylesheet" type="text/css" href="css/main/main.css">
+    <link rel="stylesheet" type="text/css" href="css/table/table.css">
+
+  </head>
+  <body>
+    <% include ../../../partials/side_nav_bar%>
+    <h1 class="text-center">Logs</h1>
+    <div class="container-fluid main">
+      <div class="options">
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-2">
+            <label>Data Inicio</label>
+            <br>
+            <div class='input-group date' id='datetimepickerB'>
+              <input type='text' class="form-control" name ="dateBegin">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <label>Data Fim</label>
+            <br>
+            <div class='input-group date' id='datetimepickerE'>
+              <input type='text' class="form-control" name ="dateEnd">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <label>Referência</label>
+            <br>
+            <input type="text" name="ref" class="form-control">
+          </div>
+          <div class="col-sm-2">
+            <label>Serial</label>
+            <br>
+            <input type="text" name="serial" class="form-control">
+          </div>
+          <div class="col-sm-2">
+            <label>Estado</label>
+            <br>
+            <input type="text" name="state" class="form-control">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-2">
+            <label>De</label>
+            <br>
+            <input type='text' class="form-control" name ="from">
+          </div>
+          <div class="col-sm-2">
+            <label>Para</label>
+            <br>            
+            <input type='text' class="form-control" name ="to">
+          </div>
+          <div class="col-sm-2">
+            <label>Utilizador</label>
+            <br>
+            <select name="user" class="form-control">
+              <option></option>
+              <% for (let i in users) {%>              
+                <option><%= users[i].firstName + ' ' + users[i].lastName %></option>
+              <% } %>
+            </select>
+          </div>
+          <div class="col-sm-2">
+            <label>Nome</label>
+            <br>
+            <input type="text" name="name" class="form-control">
+          </div>
+          <div class="col-sm-2">
+            <label>Observações</label>
+            <br>
+            <input type="text" name="obs" class="form-control">
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+        <button class="btn btn-red btn-search">Pesquisar</button>
+      </div>
+      <div class="page-header text-center">
+        <div class="main-table" hidden>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+$(function () {
+    $('#datetimepickerB').datetimepicker({
+      locale: 'pt',
+      format: 'YYYY-MM-DD'
+    });
+  });
+  $(function () {
+    $('#datetimepickerE').datetimepicker({
+      locale: 'pt',
+      format: 'YYYY-MM-DD'
+    });
+  });
+
+$(document).ready(function () {  
+  $('body .dropdown-toggle').dropdown();  
+});
+
+$('.btn-search').on('click', function (e) {
+  let data = {
+    dateBegin: $('input[name="dateBegin"]').val(),
+    dateEnd: $('input[name="dateEnd"]').val(),
+    ref: $('input[name="ref"]').val(),
+    serial: $('input[name="serial"]').val(),
+    from: $('input[name="from"]').val(),
+    to: $('input[name="to"]').val(),
+    user: $('select[name="user"]').val(),
+    state: $('input[name="state"]').val(),
+    obs: $('input[name="obs"]').val(),
+    name: $('input[name="name"]').val()
+  }
+  
+  $('.main-table').hide();
+
+  $('.main-table').load('/armazem_logs_options', {data: data}, function (responseText, textStatus) {
+    if (textStatus === 'success' || textStatus === 'notmodified') {
+      $('.main-table').show();
+    } else {
+      alert('A pesquisa pretendida não têm resultados')
+    }
+  });
+})
+
+
+  
+
+</script>
+

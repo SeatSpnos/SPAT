@@ -1,0 +1,210 @@
+<% const colName = ['Referencia', 'Item', 'Qdt', 'Observações']%>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Entrega items</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">  
+  <script type="text/javascript" src="lib/bootstrap/js/transition.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/collapse.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>  
+
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/af-2.1.2/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/cr-1.3.2/fc-3.2.2/fh-3.1.2/kt-2.1.3/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.6/jq-2.2.3/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/af-2.1.2/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/cr-1.3.2/fc-3.2.2/fh-3.1.2/kt-2.1.3/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css"/>
+
+  <link href="/css/main/main.css" rel="stylesheet">
+  <link href="/css/table/table.css" rel="stylesheet">
+  <link href="/css/inc/inc.css" rel="stylesheet">
+  <style type="text/css">
+
+  	input.form-hidden {
+	    border-color: transparent;
+	    background: transparent;
+		}
+    .spinner{
+      position: absolute;
+      height: 100px;
+      width: 100px;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -50px;
+      background: url(/imgs/balls.gif);
+      background-size: 100%;
+      z-index: 999;
+    }
+
+    .modal .modal-dialog {
+      width: 80%;
+    }
+    .modal .modal-body {
+      overflow-y: auto;
+    }
+  </style>
+
+  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<% include ../../../partials/side_nav_bar%>
+  <div id="spinner" class="spinner" hidden></div>	
+	<div class="container-fluid main">
+    <br>
+    <h5 class="text-center"> Entrada de items</h5>
+    <br>
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-6">
+        <label>Armazem</label>
+        <br>
+        <label class="radio-inline"><input type="radio" name="cidade" value="Lisboa">Lisboa</label>
+        <label class="radio-inline"><input type="radio" name="cidade" value="Porto">Porto</label>
+        <label class="radio-inline"><input type="radio" name="cidade" value="Alverca">Alverca</label>
+      </div>    
+      <div class="col-sm-2">
+        <label class="btn btn-default" for="my-file-selector">
+          <input id="my-file-selector" type="file" style="display:none;" >
+           Import
+        </label>
+      </div>
+    </div>
+    <br>
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#home">Seriados</a></li>
+      <li><a data-toggle="tab" href="#menu1">Não seriados</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="home" class="tab-pane fade in active">
+        <br>
+        <h5 class="text-center">Items Seriados</h5>
+        <br>
+        <div class="alert alert-danger errDuplicatesSerialsStock" hidden>          
+        </div>
+        <div class="alert alert-danger errSerialDuplicate" hidden>   
+        </div>
+        <br>
+        <table class="table table-condensed" id="tableSerials">
+          <thead>
+            <tr>
+              <th>Refencia</th>
+              <th>Item</th>
+              <th>Qtd</th>
+              <th><a href="#" id="addSerial" title="Adicionar Serial" data-toggle="tooltip_addSerial"><i class="fa fa-plus-square-o fa-lg" aria-hidden="true"></i></a></th>
+            </tr>
+          </thead>      
+          <tbody class="itemsSerials">
+          </tbody>
+        </table>
+        <br>
+        <div class="row">
+          <div class="col-sm-10"></div>
+          <div class="col-sm-2">
+            <button class="btn btn-red" id="submitSerial">Submeter</button>
+          </div>
+        </div>
+        <br>
+      </div>
+
+      <div id="menu1" class="tab-pane fade">
+        <br>
+        <h5 class="text-center">Items não Seriados</h5>
+        <br>
+        <table class="table table-condensed" id="tableNoSerial">
+          <thead>
+            <tr>
+              <% for (let i in colName) { %>
+                <th><%= colName[i] %></th>
+              <% } %>
+              <th><a href="#" id="addItem" title="Adicionar Item" data-toggle="tooltip_add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a></th>
+            </tr>
+          </thead>      
+          <tbody class="items">
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-3">
+            <label> Observações para todos os items</label>
+          </div>
+          <div class="col-sm-6">            
+            <input type="text" name="obsAllItems" class="form-control">
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-red" id="submitNoSerial">Submeter</button>
+          </div>
+        </div> 
+      </div>
+      <br>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id= "addSerialModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-center">Serials para adicionar</h4>
+          </div>
+          <div class="modal-body">  
+            <% include ./addSerialsModal %>        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id= "addModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-center">Items para adicionar</h4>
+          </div>
+          <div class="modal-body">
+            <% include ./addItemsModal %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div id= "exportModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-center">Items SAP</h4>
+          </div>
+          <div class="modal-body">
+            <% include ./exportModal %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div id= "itemModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-center">Info Items</h4>
+          </div>
+          <div class="modal-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>	
+</html>
+<script src="/js/armazem/entry/entry.js"></script>

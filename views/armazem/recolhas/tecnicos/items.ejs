@@ -1,0 +1,16 @@
+<% const colName = ['Data', 'OT', 'Serial', 'Marca', 'Modelo', 'Tecnico'] %>
+<div class="alert alert-danger errSize text-center" hidden>
+  <strong>Alerta!</strong>
+</div>
+<table class="table" id="tableItems">
+  <thead>
+    <tr>
+      <% for (let i in colName) { %>
+        <th><%= colName[i] %></th>
+      <% } %>
+      <th><a href="#" id="addSerial" title="Adicionar Serial" data-toggle="tooltip_addSerial"><i class="fa fa-plus-square-o fa-lg" aria-hidden="true"></i></a></th>
+    </tr>
+  </thead>      
+  <tbody class="items">
+  </tbody>
+</table>
