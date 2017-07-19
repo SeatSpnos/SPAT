@@ -3,7 +3,7 @@ var mysql      = require('mysql')
 var connection = mysql.createConnection({
   'host'      : 'portal-dimc',
   'user'      : 'SEAT',
-  'password'  : 'segmento2017',
+  'password'  : '',
   'multipleStatements': true,
   'dateStrings': 'date'
 })
