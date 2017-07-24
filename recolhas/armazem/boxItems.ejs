@@ -1,0 +1,21 @@
+<% const colName = ['OT', 'Serial', 'Marca', 'Modelo'] %>
+<h5 class="text-center">Items na caixa nº <%= items[0].caixa%></h5>
+<table class="table">
+  <thead>
+    <tr>
+      <% for (let i in colName) { %>
+        <th><%= colName[i] %></th>
+      <% } %>
+    </tr>
+  </thead>      
+  <tbody>
+    <% for (let i in items) { %>
+      <tr>
+        <td><%= items[i].codigoOT %></td>
+        <td><%= items[i].serial %></td>
+        <td><%= items[i].marca %></td>
+        <td><%= items[i].modelo %></td>
+      </tr>
+      <% } %>
+  </tbody>
+</table>

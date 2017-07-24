@@ -1,0 +1,19 @@
+<% const colName = ['Palete nº', 'Total Caixas','Adicionar'] %>
+<table class="table">
+  <thead>
+    <tr>
+      <% for (let i in colName) { %>
+        <th><%= colName[i] %></th>
+      <% } %>
+    </tr>
+  </thead>      
+  <tbody>
+    <% for (let i in paletes) { %>
+      <tr>
+        <td><%= paletes[i].palete %></td>
+        <td><%= paletes[i].sumPalete %></td>
+        <td><input type="checkbox" value="" name="selecTedPalete" class="checkbox"></td>
+      </tr>
+      <% } %>
+  </tbody>
+</table>

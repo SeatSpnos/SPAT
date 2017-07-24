@@ -1,0 +1,13 @@
+  <div class="col-sm-3">
+    <label>Caixas</label>
+    <select class="form-control tecSelect" name="boxes" id="boxesSelect">
+      <option>Nova</option>
+      <% for(let i in boxes) { %>
+        <option value="<%= boxes[i].caixa %>"><%= boxes[i].caixa %></option>
+      <% } %> 
+    </select>
+  </div>
+  <div class="col-sm-3">
+    <label>Nova Caixa</label>
+    <input type="text" name="newBox" placeholder="Caixa" class="form-control">
+  </div>

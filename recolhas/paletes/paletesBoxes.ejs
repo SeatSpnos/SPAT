@@ -1,0 +1,18 @@
+<% const colName = ['Caixa nº', 'Total Items'] %>
+<table class="table">
+  <thead>
+    <tr>
+      <% for (let i in colName) { %>
+        <th><%= colName[i] %></th>
+      <% } %>
+    </tr>
+  </thead>      
+  <tbody>
+    <% for (let i in boxes) { %>
+      <tr>
+        <td><%= boxes[i].caixa %></td>
+        <td><%= boxes[i].sumCaixa %></td>
+      </tr>
+      <% } %>
+  </tbody>
+</table>

@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="col-sm-2"></div>
+  <div class="col-sm-3">
+    <label>Paletes</label>
+    <select class="form-control tecSelect" name="paletes" id="paleteSelect">
+      <option>Nova</option>
+      <% for(let i in paletes) { %>
+        <option value="<%= paletes[i].palete %>"><%= paletes[i].palete %></option>
+      <% } %> 
+    </select>
+  </div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-3">
+    <label>Nova Palete</label>
+    <input type="text" name="newPalete" placeholder="palete" class="form-control">
+  </div>
+  <div class="col-sm-2"></div>
+</div>

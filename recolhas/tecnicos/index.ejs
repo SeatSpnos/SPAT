@@ -1,0 +1,37 @@
+<div class="container-fluid tabDiv" id="tecnicosDiv" >
+	<h5 class="text-center">Tecnicos</h5>
+	<br>
+  <div class="row">
+    <% include ./tecSelect %>
+    <div id="boxesNames"></div>    
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-sm-10"></div>  
+    <div class="col-sm-2">
+      <button class="btn btn-red" id="tecSubmit" style="float: right">Confirmar</button>
+    </div>
+  </div>
+  <br>
+  <% include ./items %>
+  <div class="container-fluid row" id="itemsTec" hidden>
+  </div>
+  <br>
+  <div class="container-fluid">
+    <div id= "serialModal" class= "modal fade" role="dialog">
+      <div class= "modal-dialog">
+        <div class = "modal-content">
+          <div class = "modal-header">
+            <button type= "button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title text-center">Items para adicionar</h4>
+          </div>
+          <div class="modal-body">
+          	<% include ./addSerial %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/js/armazem/recolhas/tecnicos.js"></script>
