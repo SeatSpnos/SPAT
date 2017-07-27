@@ -1,5 +1,5 @@
 module.exports = {
  app: require('../../lib/server.js'),
- database: require('./db.js'),
+ db: require('./db.js'),
  login: require('./login.js')
 };
